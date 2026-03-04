@@ -1,0 +1,281 @@
+@import "tailwindcss";
+@config "../../../tailwind.config.ts";
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 153 34% 21%;
+    /* Dark Green #214842 */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 162 3% 37%;
+    /* Secondary Green #556260 */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 151 57% 36%;
+    /* Light Green #258F67 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 153 34% 21%;
+    --highlight: 43 79% 68%;
+    /* Yellow #EFC368 */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 153 34% 21%;
+    /* Dark Green #214842 */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 162 3% 37%;
+    /* Secondary Green #556260 */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 151 57% 36%;
+    /* Light Green #258F67 */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 151 57% 36%;
+    --highlight: 43 79% 68%;
+    /* Yellow #EFC368 */
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-montserrat), sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-nunito-sans), sans-serif;
+    @apply tracking-tight font-semibold;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl xl:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl xl:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl xl:text-4xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+
+  h6 {
+    @apply text-base md:text-lg;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply container mx-auto px-3 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .cta-primary {
+    @apply bg-[#EFC368] text-[#214842] hover:bg-[#214842] hover:text-white transition-colors duration-300 rounded-lg px-6 py-3 font-medium shadow-md;
+  }
+
+  .cta-secondary {
+    @apply bg-[#214842] text-white hover:bg-[#258F67] transition-colors duration-300 rounded-lg px-6 py-3 font-medium shadow-md;
+  }
+
+  .cta-outline {
+    @apply border-2 border-[#214842] text-[#214842] hover:bg-[#214842] hover:text-white transition-colors duration-300 rounded-lg px-6 py-3 font-medium;
+  }
+
+  .product-card {
+    @apply bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden;
+  }
+
+  .nav-link {
+    @apply text-[#214842] hover:text-[#258F67] font-medium text-base transition-colors duration-200;
+  }
+
+  /* White text for nav links in transparent header with hero */
+  header:not(.sticky-nav):not(.bg-white) .nav-link {
+    @apply text-white hover:text-[#EFC368];
+  }
+
+  .footer-link {
+    @apply text-white/80 hover:text-white transition-colors duration-200;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+/* For sticky navbar */
+.sticky-nav {
+  @apply fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 transition-all duration-300 shadow-md;
+}
+
+/* YouTube video background styles */
+.youtube-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.youtube-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.youtube-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.77vh;
+  /* 16:9 aspect ratio */
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  /* 16:9 aspect ratio */
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 0;
+}
+
+/* Mobile-specific styles that won't affect desktop */
+@media (max-width: 768px) {
+  .youtube-video iframe {
+    width: 300vw !important;
+    height: 300vh !important;
+  }
+}
+
+/* Medium mobile devices (iPhone 12/13/14, etc.) */
+@media (max-width: 428px) {
+  .youtube-video iframe {
+    width: 400vw !important;
+    height: 400vh !important;
+  }
+}
+
+/* Small mobile devices (iPhone SE, iPhone 8, etc.) */
+@media (max-width: 375px) {
+  .youtube-video iframe {
+    width: 500vw !important;
+    height: 500vh !important;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 320px) {
+  .youtube-video iframe {
+    width: 600vw !important;
+    height: 600vh !important;
+  }
+}
+
+/* Subtle gradient overlay that preserves video colors */
+.overlay {
+  @apply absolute inset-0 z-10;
+  background: linear-gradient(to right, rgba(33, 72, 66, 0.1), rgba(0, 0, 0, 0.05), rgba(33, 72, 66, 0.1));
+}
+
+/* Text shadow utilities for better readability on video backgrounds */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-md {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.3);
+}

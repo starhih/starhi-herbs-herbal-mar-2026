@@ -1,0 +1,9 @@
+This is a placeholder file to ensure the blog images directory exists.
+Please replace the following image files with actual images:
+
+1. /public/images/blog/blog-hero.jpg
+2. /public/images/blog/blog-category.jpg
+3. /public/images/blog/probiotics-manufacturing.jpg
+4. /public/images/blog/authors/rajesh-kumar.jpg
+5. /public/images/blog/authors/priya-sharma.jpg
+6. /public/images/blog/authors/amit-patel.jpg
