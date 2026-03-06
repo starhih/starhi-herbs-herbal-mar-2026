@@ -28,7 +28,7 @@ export default function ProductCategories({ categories }: ProductCategoriesProps
             >
               <div className="relative h-64 overflow-hidden rounded-t-2xl">
                 <Image
-                  src={category.homepageImage || category.image}
+                  src={category.homepageImage || category.image || (category.name.includes("Vitamins") ? "https://ik.imagekit.io/pon54xoks/images/vitamins-minerals.jpg" : category.name.includes("Bulk") ? "https://ik.imagekit.io/pon54xoks/Bulk%20Formulations%2001.jpg" : "") || "/images/hero/standardized-herbal-extracts.jpeg"}
                   alt={category.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

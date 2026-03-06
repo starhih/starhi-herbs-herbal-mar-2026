@@ -8,7 +8,7 @@ export default function InnovationPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/innovation-research.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/Innovation-&-Research-01.jpg"
           alt="Research and Development"
           fill
           className="object-cover"
@@ -16,7 +16,7 @@ export default function InnovationPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Innovation & Research</h1>
             <p className="text-xl text-white text-shadow-sm">
               Advancing herbal science through cutting-edge research and development.

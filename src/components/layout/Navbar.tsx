@@ -28,7 +28,13 @@ const pagesWithHero = [
   '/products',            // Products page
   '/innovation',          // Innovation page
   '/sustainability',      // Sustainability page
+  '/blog',                // Blog page
   '/contact',             // Contact page
+  '/careers',             // Careers page
+  '/request-quote',       // Request Quote page
+  '/request-sample',      // Request Sample page
+  '/download-catalogue',  // Download Catalogue page
+  '/request-meeting',     // Request Meeting page
 ];
 
 // Check if a path starts with any of the collection paths
@@ -116,7 +122,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-7">
+          <nav className="hidden lg:flex items-center space-x-7 text-lg">
             <Link href="/" className="nav-link">
               Home
             </Link>

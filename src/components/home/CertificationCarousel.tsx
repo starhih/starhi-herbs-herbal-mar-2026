@@ -172,7 +172,7 @@ export default function CertificationCarousel({ certifications }: CertificationC
                         alt={cert.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                        className="object-cover"
+                        className="object-contain p-4"
                       />
                     </div>
                     <div className="p-5">

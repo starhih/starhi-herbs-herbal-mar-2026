@@ -124,19 +124,19 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#214842]/80 via-[#214842]/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#214842]/90 via-[#214842]/60 to-transparent"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="ml-auto max-w-xl text-right">
+          <div className="max-w-xl">
             <div className="inline-block mb-3">
               <span className="bg-[#EFC368] text-[#214842] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
                 Collection
               </span>
             </div>
-            <h1 className="mb-4 font-bold leading-tight" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
+            <h1 className="mb-4 text-4xl md:text-5xl font-bold leading-tight">
               {category.name}
             </h1>
-            <div className="w-16 h-1 bg-[#EFC368] ml-auto mb-4 rounded-full"></div>
-            <p className="text-lg text-white/90 leading-relaxed" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.3)' }}>
+            <div className="w-16 h-1 bg-[#EFC368] mb-4 rounded-full"></div>
+            <p className="text-lg text-white/90 leading-relaxed">
               {category.description}
             </p>
           </div>
@@ -144,7 +144,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       </section>
 
       {/* Search and Filter */}
-      <section className="py-8 bg-gray-50 border-b">
+      <section className="py-4 bg-gray-50 border-b">
         <div className="container-custom">
           <Breadcrumbs
             items={[
@@ -157,7 +157,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       </section>
 
       {/* Products Grid */}
-      <section className="section-padding">
+      <section className="pt-12 pb-20">
         <div className="container-custom">
           {categorySlug === 'probiotics' && (
             <ProbioticsTable />
@@ -198,7 +198,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       </section>
 
       {/* Request Quote CTA */}
-      <section className="section-padding bg-[#214842] text-white">
+      <section className="section-padding bg-[#2A5A52] text-white">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">
             Interested in Our Products?

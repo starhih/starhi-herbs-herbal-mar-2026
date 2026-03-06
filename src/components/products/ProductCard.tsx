@@ -87,10 +87,6 @@ export default function ProductCard({
           <p className="text-gray-500 text-sm italic mb-3">{product.latinName}</p>
         )}
 
-        {product.moq && (
-          <p className="text-gray-500 text-xs mb-2">MOQ: {product.moq}</p>
-        )}
-
         {product.standardization && (
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-3 py-1 bg-[#214842]/10 text-[#214842] rounded-full text-sm">

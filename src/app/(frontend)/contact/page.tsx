@@ -6,6 +6,7 @@ import Image from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Phone, Mail, Clock, FileText, FlaskConical, CalendarDays, ShoppingBag, ShieldCheck, Users, Download, ChevronRight } from 'lucide-react';
 
@@ -62,7 +63,7 @@ export default function ContactPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/contact-us.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/Contact-Us-01.jpg"
           alt="Contact Us"
           fill
           className="object-cover"
@@ -70,12 +71,23 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Contact Us</h1>
             <p className="text-xl text-white text-shadow-sm">
               Get in touch with our team for inquiries, support, or partnership opportunities.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Breadcrumbs */}
+      <section className="border-b mb-8">
+        <div className="container-custom">
+          <Breadcrumbs
+            items={[
+              { label: 'Contact Us', href: '/contact', isCurrent: true }
+            ]}
+          />
         </div>
       </section>
 

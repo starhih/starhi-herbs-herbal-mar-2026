@@ -59,7 +59,7 @@ export default async function ProductsPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Our Products</h1>
             <p className="text-xl text-white text-shadow-sm">
               Discover our comprehensive range of high-quality herbal extracts and nutraceutical ingredients.

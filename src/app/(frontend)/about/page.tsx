@@ -15,7 +15,7 @@ export default function AboutPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/standardized-herbal-extracts.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"
           alt="Star Hi Herbs Manufacturing Facility"
           fill
           className="object-cover"
@@ -23,7 +23,7 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">About Star Hi Herbs</h1>
             <p className="text-xl text-white text-shadow-sm">
               Pioneering Natural Innovation Since 2004
@@ -635,7 +635,7 @@ export default function AboutPage() {
                 <Image src="/images/times-business-award-2020.jpg"
                   alt="Times Business Award 2020"
                   fill
-                  className="object-cover"
+                  className="object-contain p-4"
                 />
               </div>
               <div className="p-6">
@@ -650,7 +650,7 @@ export default function AboutPage() {
                 <Image src="/images/world-signature-award-2023.jpg"
                   alt="World Signature Award 2023"
                   fill
-                  className="object-cover"
+                  className="object-contain p-4"
                 />
               </div>
               <div className="p-6">
@@ -683,9 +683,9 @@ export default function AboutPage() {
       </section>
 
       {/* Collaboration CTA */}
-      <section className="section-padding">
+      <section className="section-padding bg-[#2A5A52] text-white">
         <div className="container-custom">
-          <div className="bg-[#214842] rounded-2xl p-8 md:p-12 text-white text-center">
+          <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Want to Collaborate?</h2>
             <p className="text-white/90 max-w-3xl mx-auto mb-8">
               Let's grow wellness together. Contact our global business team to explore formulation partnerships,
@@ -712,7 +712,7 @@ export default function AboutPage() {
                   <ArrowRight size={16} className="ml-2" />
                 </Link>
               </Button>
-              <Button asChild className="cta-secondary">
+              <Button asChild className="bg-white text-[#2A5A52] hover:bg-[#EFC368] hover:text-[#214842]">
                 <Link href="/request-quote" className="flex items-center">
                   Request a Quote
                   <ArrowRight size={16} className="ml-2" />

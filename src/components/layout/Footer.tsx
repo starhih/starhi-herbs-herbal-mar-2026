@@ -35,10 +35,10 @@ export default async function Footer() {
             <div className="mb-5 -ml-3">
               <Image src="https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg?updatedAt=1770631428126"
                 alt="Star Hi Herbs"
-                width={200}
-                height={50}
+                width={280}
+                height={70}
                 className="object-contain"
-                style={{ maxHeight: '50px', mixBlendMode: 'screen' }}
+                style={{ maxHeight: '75px', mixBlendMode: 'screen' }}
                 priority
               />
             </div>

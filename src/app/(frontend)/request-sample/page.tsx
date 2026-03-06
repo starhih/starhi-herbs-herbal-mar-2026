@@ -37,7 +37,7 @@ export default function RequestSamplePage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Request a Sample</h1>
             <p className="text-xl text-white text-shadow-sm">
               Fill out the form below and we&apos;ll process your sample request promptly.

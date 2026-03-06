@@ -37,7 +37,7 @@ export default async function BlogPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/knowledge-center.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/Knowledge-Center-01.jpg"
           alt="Knowledge Center"
           fill
           className="object-cover"
@@ -45,7 +45,7 @@ export default async function BlogPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Knowledge Center</h1>
             <p className="text-xl text-white text-shadow-sm">
               Latest insights, research, and industry news from Star Hi Herbs

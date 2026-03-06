@@ -44,7 +44,28 @@ export default async function Home() {
     pagination: false
   });
   // Filter for top level or specific ones if needed? For now all.
-  const categories = categoryDocs.map((c) => mapCategory(c as any)).filter((c): c is ProductCategory => c !== null);
+  let categories = categoryDocs.map((c) => mapCategory(c as any)).filter((c): c is ProductCategory => c !== null);
+
+  // Custom sort for categories: Standardized, Organic, Branded, Probiotics, Vitamins and Minerals, Bulk Formulations
+  const categoryOrder = [
+    'standardized',
+    'organic',
+    'branded',
+    'probiotics',
+    'vitamins',
+    'bulk'
+  ];
+  categories.sort((a, b) => {
+    const aIndex = categoryOrder.findIndex(keyword => a.name.toLowerCase().includes(keyword));
+    const bIndex = categoryOrder.findIndex(keyword => b.name.toLowerCase().includes(keyword));
+    // If both are found, sort by their position in the order array
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    // If only one is found, prioritize it
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    // Otherwise keep default
+    return 0;
+  });
 
   // 3. Fetch Latest Blog Posts
   const { docs: postDocs } = await payload.find({
@@ -110,7 +131,24 @@ export default async function Home() {
     collection: 'certifications',
     pagination: false,
   });
-  const certifications = certDocs.map(mapCertification).filter(Boolean);
+  let certifications = certDocs.map(mapCertification).filter(Boolean);
+
+  // Custom sort for certifications: ISO, FSSC, USDA, WHO GMP, EU Organic, etc
+  const certOrder = [
+    'iso',
+    'fssc',
+    'usda',
+    'who',
+    'eu',
+  ];
+  certifications.sort((a, b) => {
+    const aIndex = certOrder.findIndex(keyword => a.name.toLowerCase().includes(keyword));
+    const bIndex = certOrder.findIndex(keyword => b.name.toLowerCase().includes(keyword));
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return 0;
+  });
 
   // 8. Fetch Events
   const { docs: eventDocs } = await payload.find({

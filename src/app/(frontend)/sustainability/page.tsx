@@ -8,7 +8,7 @@ export default function SustainabilityPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/sustainibility.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/Sustainability-01.jpg"
           alt="Sustainable Farming"
           fill
           className="object-cover"
@@ -16,7 +16,7 @@ export default function SustainabilityPage() {
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Sustainability</h1>
             <p className="text-xl text-white text-shadow-sm">
               Our commitment to environmental stewardship and sustainable practices.

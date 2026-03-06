@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       {/* Product Hero */}
-      <section className="pt-8 lg:pt-12">
+      <section className="pt-2 lg:pt-4">
         <div className="container-custom">
           <Breadcrumbs
             items={[
@@ -205,12 +205,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                       Plant Part: {product.plantPart}
                     </p>
                   )}
-                  {product.moq && (
-                    <p className="text-gray-600 text-sm">
-                      MOQ: <span className="font-medium">{product.moq}</span>
-                    </p>
-                  )}
                 </div>
+                {product.moq && (
+                  <div className="mb-4">
+                    <span className="inline-flex text-[#214842] font-medium bg-[#214842]/10 px-3 py-1 rounded-md text-sm border border-[#214842]/20 shadow-sm">
+                      MOQ: {product.moq}
+                    </span>
+                  </div>
+                )}
 
                 {product.standardization && (
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -496,47 +498,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </section>
       )}
 
-      {/* Product Variants */}
-      {product.variants && product.variants.length > 0 && (
-        <section className="section-padding bg-gray-50">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Available Variants</h6>
-              <h2 className="text-[#214842] mb-4">Product Variants</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Choose from our available variants and download specifications.
-              </p>
-            </div>
-
-            <div className="space-y-4 max-w-4xl mx-auto">
-              {product.variants.map((variant, index) => (
-                <div key={index} className="bg-white p-5 rounded-xl shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <span className="w-2 h-2 bg-[#258F67] rounded-full flex-shrink-0"></span>
-                    <h4 className="font-medium text-[#214842]">{variant.name}</h4>
-                  </div>
-                  <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <Button asChild size="sm" className="cta-primary flex-1 sm:flex-none">
-                      <Link href="/request-quote" className="flex items-center justify-center gap-2">
-                        Request Quote
-                        <ArrowRight size={14} />
-                      </Link>
-                    </Button>
-                    {variant.specDocumentUrl && (
-                      <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
-                        <a href={variant.specDocumentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                          <Download size={14} />
-                          Download Spec
-                        </a>
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Related Products */}
       <section className="section-padding">

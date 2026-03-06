@@ -30,7 +30,7 @@ export default function Events({ description, image, className = '' }: EventsPro
             ))}
           </div>
         </div>
-        <div className="md:w-1/2 relative min-h-[300px]">
+        <div className="md:w-1/2 relative min-h-[400px] md:min-h-[450px]">
           <Image
             src={image}
             alt="Events and Exhibitions"

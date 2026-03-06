@@ -27,9 +27,6 @@ export default function CatalogueDownload() {
               Download Catalogue
             </Link>
           </Button>
-          <p className="mt-4 text-white/60 text-sm">
-            PDF format • 8.5 MB • Updated May 2025
-          </p>
         </div>
       </div>
     </section>

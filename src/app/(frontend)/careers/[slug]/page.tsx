@@ -52,7 +52,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
         />
         <div className="absolute inset-0 bg-[#214842]/30"></div>
         <div className="relative z-10 container-custom text-white">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">{job.title}</h1>
           </div>
         </div>
