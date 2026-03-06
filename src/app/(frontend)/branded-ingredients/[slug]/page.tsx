@@ -32,7 +32,7 @@ export async function generateStaticParams() {
   const { docs: products } = await payload.find({
     collection: 'products',
     where: {
-      category: { equals: 'branded-ingredients' }
+      productType: { equals: 'branded' }
     },
     pagination: false,
     select: { slug: true }
@@ -106,7 +106,7 @@ export default async function BrandedIngredientPage({ params }: { params: Promis
   const { docs: relatedDocs } = await payload.find({
     collection: 'products',
     where: {
-      category: { equals: 'branded-ingredients' },
+      productType: { equals: 'branded' },
       slug: { not_equals: slug },
     },
     limit: 3,

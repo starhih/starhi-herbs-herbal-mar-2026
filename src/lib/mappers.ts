@@ -293,6 +293,8 @@ export const mapJob = (j: any): any => {
         description: j.description || '',
         requirements: (j.requirements || []).map((r: any) => r.requirement || r),
         responsibilities: (j.responsibilities || []).map((r: any) => r.responsibility || r),
+        qualifications: (j.qualifications || []).map((q: any) => q.qualification || q),
+        benefits: (j.benefits || []).map((b: any) => b.benefit || b),
         postedAt: j.postedAt || j.createdAt
     };
 };

@@ -28,7 +28,7 @@ export async function generateStaticParams() {
   const { docs: products } = await payload.find({
     collection: 'products',
     where: {
-      category: { equals: 'vitamins-minerals' } // Assuming ID or Slug match
+      productType: { equals: 'vitamin-mineral' } // Assuming ID or Slug match
     },
     pagination: false,
     select: { slug: true }
@@ -114,7 +114,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
   const { docs: relatedDocs } = await payload.find({
     collection: 'products',
     where: {
-      category: { equals: 'vitamins-minerals' }, // Should use ID if category field is relationship ID
+      productType: { equals: 'vitamin-mineral' }, // Should use ID if category field is relationship ID
       slug: { not_equals: slug },
     },
     limit: 3,
