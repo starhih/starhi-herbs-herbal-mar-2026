@@ -23,14 +23,14 @@ export default async function SitemapPage() {
   // Fetch product categories
   const { docs: categoryDocs } = await payload.find({
     collection: 'categories',
-    pagination: false,
+    limit: 100,
   });
   const productCategories = categoryDocs.map((c) => mapCategory(c as any)).filter(Boolean) as any[];
 
   // Fetch blog categories
   const { docs: blogCategoryDocs } = await payload.find({
     collection: 'blog-categories',
-    pagination: false,
+    limit: 100,
   });
   const blogCategories = blogCategoryDocs.map(mapBlogCategory).filter(Boolean) as any[];
 

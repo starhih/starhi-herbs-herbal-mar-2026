@@ -412,7 +412,7 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
         {isSubmitting ? 'Submitting...' : 'Submit Meeting Request'}
       </Button>
 
-      <p className="text-xs text-gray-500 text-center mt-4">
+      <p className="text-xs text-gray-600 text-center mt-4">
         By submitting this form, you agree to our privacy policy. We will review your request and respond within 1-2 business days.
       </p>
     </form>

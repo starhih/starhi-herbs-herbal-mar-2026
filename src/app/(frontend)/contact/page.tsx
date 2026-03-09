@@ -226,7 +226,7 @@ export default function ContactPage() {
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
 
-                <p className="text-xs text-gray-500 text-center">
+                <p className="text-xs text-gray-600 text-center">
                   By submitting this form, you agree to our privacy policy. We respect your data and will never share it with third parties.
                 </p>
               </form>
@@ -253,7 +253,7 @@ export default function ContactPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-semibold text-[#214842]">{item.title}</h4>
-                        <p className="text-xs text-gray-500">{item.desc}</p>
+                        <p className="text-xs text-gray-600">{item.desc}</p>
                       </div>
                       <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-[#214842] transition-colors" />
                     </Link>

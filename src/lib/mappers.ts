@@ -107,6 +107,7 @@ export const mapProduct = (p: PayloadProduct): FrontendProduct | null => {
         createdAt: p.createdAt,
         productType: p.productType as any,
         // Vitamins & Minerals
+        indications: (p as any).productIndications ? ((p as any).productIndications.indications || []).map((i: any) => i.name) : undefined,
         productIndications: (p as any).productIndications ? {
             title: (p as any).productIndications.title || '',
             description: (p as any).productIndications.description || '',
@@ -115,6 +116,10 @@ export const mapProduct = (p: PayloadProduct): FrontendProduct | null => {
                 icon: getImageUrl(i.icon),
                 description: i.description || ''
             }))
+        } : undefined,
+        probioticDetails: (p as any).probioticDetails ? {
+            sporesPerGram: (p as any).probioticDetails.sporesPerGram || '',
+            method: (p as any).probioticDetails.method || 'Microscopy'
         } : undefined,
         productApplications: (p as any).productApplications ? {
             title: (p as any).productApplications.title || '',

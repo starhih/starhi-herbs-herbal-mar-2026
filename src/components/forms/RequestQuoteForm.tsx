@@ -320,7 +320,7 @@ export default function RequestQuoteForm() {
           placeholder='e.g. "20% Polyphenols"'
           className={errors.standardization ? 'border-red-300' : ''}
         />
-        <p className="text-xs text-gray-500">Please specify the exact standardization you need for this product.</p>
+        <p className="text-xs text-gray-600">Please specify the exact standardization you need for this product.</p>
         {errors.standardization && (
           <p className="text-red-500 text-xs mt-1">{errors.standardization.message}</p>
         )}
@@ -410,7 +410,7 @@ export default function RequestQuoteForm() {
         {isSubmitting ? 'Submitting...' : 'Submit Request'}
       </Button>
 
-      <p className="text-xs text-gray-500 text-center mt-4">
+      <p className="text-xs text-gray-600 text-center mt-4">
         By submitting this form, you agree to our Privacy Policy and Terms of Service.
         We'll use your information to process your request and contact you about our products.
       </p>

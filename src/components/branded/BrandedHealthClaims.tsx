@@ -27,7 +27,7 @@ export default function BrandedHealthClaims({ healthClaims }: BrandedHealthClaim
             </div>
           ))}
         </div>
-        <p className="text-sm text-gray-500 mt-6 text-center">
+        <p className="text-sm text-gray-600 mt-6 text-center">
           *These statements have not been evaluated by the Food and Drug Administration. 
           This product is not intended to diagnose, treat, cure, or prevent any disease.
         </p>

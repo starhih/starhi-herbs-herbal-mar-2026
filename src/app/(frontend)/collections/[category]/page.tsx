@@ -8,9 +8,7 @@ import { getPayloadClient } from '@/lib/payload';
 import { mapCategory, mapProduct } from '@/lib/mappers';
 import { Product } from '@/data/types';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import ProbioticsTable from '@/components/products/ProbioticsTable';
 import StorgProductFamily from '@/components/products/StorgProductFamily';
-import StorgIndicationsChart from '@/components/products/StorgIndicationsChart';
 import ProductListingClient from '@/components/products/ProductListingClient';
 
 // Generate static params for all categories
@@ -19,7 +17,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient();
   const { docs: categories } = await payload.find({
     collection: 'categories',
-    pagination: false,
+    limit: 100,
     select: { slug: true }
   });
 
@@ -159,10 +157,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       {/* Products Grid */}
       <section className="pt-12 pb-20">
         <div className="container-custom">
-          {categorySlug === 'probiotics' && (
-            <ProbioticsTable />
-          )}
-
           {categorySlug === 'vitamins-minerals' ? (
             <>
               {/* Storg Product Family */}
@@ -173,17 +167,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                   );
 
                   return (
-                    <>
-                      <StorgProductFamily
-                        mainProduct={mainProduct}
-                        childProducts={childProducts}
-                      />
-
-                      {/* Storg Indications Chart */}
-                      <div className="mt-16 w-full">
-                        <StorgIndicationsChart products={childProducts} />
-                      </div>
-                    </>
+                    <StorgProductFamily
+                      mainProduct={mainProduct}
+                      childProducts={childProducts}
+                    />
                   );
                 })()
               )}

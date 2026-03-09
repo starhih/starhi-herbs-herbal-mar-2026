@@ -41,7 +41,7 @@ export default async function Home() {
   // We want to fetch all categories that are "active" or just all
   const { docs: categoryDocs } = await payload.find({
     collection: 'categories',
-    pagination: false
+    limit: 100
   });
   // Filter for top level or specific ones if needed? For now all.
   let categories = categoryDocs.map((c) => mapCategory(c as any)).filter((c): c is ProductCategory => c !== null);
@@ -78,7 +78,7 @@ export default async function Home() {
   // 4. Fetch Blog Categories for insights
   const { docs: blogCategoryDocs } = await payload.find({
     collection: 'blog-categories',
-    pagination: false
+    limit: 100
   });
   const blogCategories = blogCategoryDocs.map(mapBlogCategory);
 
@@ -87,7 +87,7 @@ export default async function Home() {
     collection: 'news',
     where: { active: { equals: true } },
     sort: 'order',
-    pagination: false,
+    limit: 100,
   });
 
   const { docs: tickerBlogDocs } = await payload.find({
@@ -122,14 +122,14 @@ export default async function Home() {
   // 6. Fetch Awards
   const { docs: awardDocs } = await payload.find({
     collection: 'awards',
-    pagination: false,
+    limit: 100,
   });
   const awards = awardDocs.map(mapAward).filter(Boolean);
 
   // 7. Fetch Certifications (for homepage carousel)
   const { docs: certDocs } = await payload.find({
     collection: 'certifications',
-    pagination: false,
+    limit: 100,
   });
   let certifications = certDocs.map(mapCertification).filter(Boolean);
 
@@ -154,7 +154,7 @@ export default async function Home() {
   const { docs: eventDocs } = await payload.find({
     collection: 'events',
     where: { upcoming: { equals: true } },
-    pagination: false,
+    limit: 100,
   });
   const events = eventDocs.map(mapEvent).filter(Boolean);
 

@@ -197,7 +197,7 @@ export default function RequestSampleForm() {
           placeholder='e.g. "5% Withanolides"'
           className={errors.standardization ? 'border-red-300' : ''}
         />
-        <p className="text-xs text-gray-500">Please specify the exact standardization you need for this product.</p>
+        <p className="text-xs text-gray-600">Please specify the exact standardization you need for this product.</p>
         {errors.standardization && (
           <p className="text-red-500 text-xs mt-1">{errors.standardization.message}</p>
         )}
@@ -494,7 +494,7 @@ export default function RequestSampleForm() {
         {isSubmitting ? 'Submitting...' : 'Submit Sample Request'}
       </Button>
 
-      <p className="text-xs text-gray-500 text-center mt-4">
+      <p className="text-xs text-gray-600 text-center mt-4">
         By submitting this form, you agree to our Privacy Policy and Terms & Conditions. We&apos;ll respond within 24-48 hours.
       </p>
     </form>

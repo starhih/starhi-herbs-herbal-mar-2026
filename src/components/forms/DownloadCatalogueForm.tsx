@@ -283,7 +283,7 @@ export default function DownloadCatalogueForm() {
         )}
       </Button>
 
-      <p className="text-xs text-gray-500 text-center mt-4">
+      <p className="text-xs text-gray-600 text-center mt-4">
         By submitting this form, you agree to our Privacy Policy and Terms of Service.
         We'll use your information to process your download request and contact you about our products.
       </p>

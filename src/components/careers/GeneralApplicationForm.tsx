@@ -278,7 +278,7 @@ export default function GeneralApplicationForm() {
                 >
                   <Upload className="h-10 w-10 text-gray-400 mb-2" />
                   <span className="text-sm font-medium text-gray-900">Click to upload</span>
-                  <span className="text-xs text-gray-500 mt-1">PDF or Word (max 5MB)</span>
+                  <span className="text-xs text-gray-600 mt-1">PDF or Word (max 5MB)</span>
                 </label>
               </div>
             ) : (
@@ -289,13 +289,13 @@ export default function GeneralApplicationForm() {
                   </div>
                   <div className="ml-3 text-sm">
                     <p className="font-medium text-gray-900">{file.name}</p>
-                    <p className="text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <p className="text-gray-600">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={removeFile}
-                  className="text-gray-400 hover:text-gray-500"
+                  className="text-gray-400 hover:text-gray-600"
                 >
                   <X className="h-5 w-5" />
                 </button>

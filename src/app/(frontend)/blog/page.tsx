@@ -19,14 +19,14 @@ export default async function BlogPage() {
   const { docs: postDocs } = await payload.find({
     collection: 'blog-posts',
     sort: '-publishedAt',
-    pagination: false,
+    limit: 100,
   });
   const blogPosts = postDocs.map(mapBlogPost);
 
   // Fetch blog categories
   const { docs: categoryDocs } = await payload.find({
     collection: 'blog-categories',
-    pagination: false,
+    limit: 100,
   });
   const blogCategories = categoryDocs.map(mapBlogCategory);
 

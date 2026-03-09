@@ -161,7 +161,7 @@ export default function ProductsPageClient({
                       onClick={() => handleCategorySelect(category.slug)}
                     >
                       <h3 className="font-medium">{category.name}</h3>
-                      <p className="text-sm text-gray-500">{category.description}</p>
+                      <p className="text-sm text-gray-600">{category.description}</p>
                       <div className="mt-1 text-xs text-[#258F67]">
                         {category.count} products
                       </div>

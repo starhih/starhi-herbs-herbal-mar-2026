@@ -71,7 +71,7 @@ export default function WhyChooseUs() {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-transparent hover:border-[#258F67]"
             >
               <div className="relative h-48 w-full">
                 <Image

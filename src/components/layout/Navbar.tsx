@@ -177,6 +177,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
+            aria-label="Toggle menu"
             className={`lg:hidden ${isSticky || !hasHero ? 'text-[#214842]' : 'text-white'}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >

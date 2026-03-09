@@ -24,7 +24,7 @@ export default function ProductCategories({ categories }: ProductCategoriesProps
             <Link
               href={`/collections/${category.slug}`}
               key={category.id}
-              className="group product-card h-full flex flex-col"
+              className="group product-card h-full flex flex-col border border-transparent hover:border-[#258F67]"
             >
               <div className="relative h-64 overflow-hidden rounded-t-2xl">
                 <Image

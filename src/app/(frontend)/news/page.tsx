@@ -19,7 +19,7 @@ export default async function NewsPage() {
   // Fetch all news from Payload
   const { docs: newsDocs } = await payload.find({
     collection: 'news',
-    pagination: false,
+    limit: 100,
     sort: '-date',
   });
   const newsItems = newsDocs.map(mapNewsItem).filter(Boolean);

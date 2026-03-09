@@ -34,7 +34,7 @@ export default function AwardsSection({ awards }: AwardsSectionProps) {
           {awards.map((award) => (
             <motion.div
               key={award.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-transparent hover:border-[#258F67]"
               onMouseEnter={() => setHoveredAward(Number(award.id))}
               onMouseLeave={() => setHoveredAward(null)}
               initial={{ opacity: 0, y: 20 }}

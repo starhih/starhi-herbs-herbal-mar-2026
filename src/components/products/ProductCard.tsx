@@ -49,9 +49,9 @@ export default function ProductCard({
   return (
     <Link
       href={getProductUrl()}
-      className={`group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden ${className}`}
+      className={`group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-transparent hover:border-[#258F67] ${className}`}
     >
-      <div className="relative h-48">
+      <div className="relative h-64">
         {!imageError ? (
           <Image
             src={product.image}
@@ -72,9 +72,6 @@ export default function ProductCard({
         )}
       </div>
       <div className="p-6">
-        {product.categoryName && (
-          <div className="text-sm text-[#258F67] mb-2">{product.categoryName}</div>
-        )}
         <h3 className="text-xl font-semibold text-[#214842] mb-2 group-hover:text-[#258F67] transition-colors">
           {product.name}
         </h3>
@@ -84,7 +81,7 @@ export default function ProductCard({
         )}
 
         {product.latinName && (
-          <p className="text-gray-500 text-sm italic mb-3">{product.latinName}</p>
+          <p className="text-gray-600 text-sm italic mb-3">{product.latinName}</p>
         )}
 
         {product.standardization && (
@@ -99,7 +96,7 @@ export default function ProductCard({
         {product.certificationIcons && product.certificationIcons.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
             {product.certificationIcons.slice(0, 5).map((cert) => (
-              <div key={cert.name} className="relative h-8 w-8" title={cert.name}>
+              <div key={cert.name} className="relative h-8 w-8 group/tooltip" title={cert.name}>
                 <Image
                   src={cert.image}
                   alt={cert.name}
@@ -107,6 +104,11 @@ export default function ProductCard({
                   sizes="32px"
                   className="object-contain"
                 />
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-gray-900 text-white text-[10px] rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all whitespace-nowrap z-50 pointer-events-none">
+                  {cert.name}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 mt-[-1px]"></div>
+                </div>
               </div>
             ))}
           </div>

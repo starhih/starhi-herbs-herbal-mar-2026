@@ -10,7 +10,7 @@ export default async function CareersPage() {
   const { docs: jobDocs } = await payload.find({
     collection: 'jobs',
     where: { isActive: { equals: true } },
-    pagination: false,
+    limit: 100,
   });
   const jobOpenings = jobDocs.map(mapJob).filter(Boolean);
 

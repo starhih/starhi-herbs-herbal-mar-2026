@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient();
   const { docs: jobs } = await payload.find({
     collection: 'jobs',
-    pagination: false,
+    limit: 100,
     select: { slug: true }
   });
   return jobs.map((job) => ({

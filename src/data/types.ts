@@ -157,6 +157,10 @@ export interface Product extends BaseEntity {
       description?: string;
     }[];
   };
+  probioticDetails?: {
+    sporesPerGram: string;
+    method: string;
+  };
 }
 
 /**

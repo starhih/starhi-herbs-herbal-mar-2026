@@ -34,7 +34,7 @@ export async function generateStaticParams() {
     where: {
       productType: { equals: 'branded' }
     },
-    pagination: false,
+    limit: 100,
     select: { slug: true }
   });
 
@@ -370,7 +370,7 @@ export default async function BrandedIngredientPage({ params }: { params: Promis
                   </div>
                   <div className="flex-1">
                     <h4 className="font-medium text-[#214842] mb-1">{doc.name}</h4>
-                    <div className="text-sm text-gray-500 mb-3">PDF • {doc.size}</div>
+                    <div className="text-sm text-gray-600 mb-3">PDF • {doc.size}</div>
                     <Button variant="outline" size="sm" className="w-full">
                       <Download size={16} className="mr-2" />
                       Download

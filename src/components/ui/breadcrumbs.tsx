@@ -44,7 +44,7 @@ export default function Breadcrumbs({
       <ol className="flex flex-wrap items-center text-sm">
         {showHomeLink && (
           <li>
-            <Link href="/" className="text-gray-500 hover:text-[#258F67] flex items-center">
+            <Link href="/" className="text-gray-600 hover:text-[#258F67] flex items-center">
               <Home size={14} className="mr-1" />
               <span>Home</span>
             </Link>
@@ -59,7 +59,7 @@ export default function Breadcrumbs({
                 {item.label}
               </span>
             ) : (
-              <Link href={item.href} className="text-gray-500 hover:text-[#258F67]">
+              <Link href={item.href} className="text-gray-600 hover:text-[#258F67]">
                 {item.label}
               </Link>
             )}

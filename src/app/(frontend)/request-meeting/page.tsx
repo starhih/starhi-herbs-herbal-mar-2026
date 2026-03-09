@@ -33,7 +33,7 @@ export default async function RequestMeetingPage() {
   const { docs: eventDocs } = await payload.find({
     collection: 'events',
     where: { upcoming: { equals: true } },
-    pagination: false,
+    limit: 100,
   });
   const events = eventDocs.map(mapEvent).filter(Boolean);
 

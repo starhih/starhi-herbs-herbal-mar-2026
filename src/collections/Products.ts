@@ -59,6 +59,7 @@ export const Products: CollectionConfig = {
                 { label: 'Standard', value: 'standard' },
                 { label: 'Branded', value: 'branded' },
                 { label: 'Vitamin & Mineral', value: 'vitamin-mineral' },
+                { label: 'Probiotic', value: 'probiotic' },
             ],
             admin: {
                 position: 'sidebar',
@@ -344,6 +345,44 @@ export const Products: CollectionConfig = {
                     ]
                 }
             ]
+        },
+        {
+            name: 'probioticDetails',
+            type: 'group',
+            admin: {
+                condition: (data) => data.productType === 'probiotic'
+            },
+            fields: [
+                { name: 'sporesPerGram', type: 'text' },
+                { name: 'method', type: 'text', defaultValue: 'Microscopy' }
+            ]
+        },
+        {
+            name: 'isParentProduct',
+            type: 'checkbox',
+            defaultValue: false,
+            admin: {
+                position: 'sidebar'
+            }
+        },
+        {
+            name: 'parentProduct',
+            type: 'relationship',
+            relationTo: 'products',
+            admin: {
+                position: 'sidebar',
+                condition: (data) => !data.isParentProduct
+            }
+        },
+        {
+            name: 'childProducts',
+            type: 'relationship',
+            relationTo: 'products',
+            hasMany: true,
+            admin: {
+                position: 'sidebar',
+                condition: (data) => data.isParentProduct
+            }
         }
     ],
 }

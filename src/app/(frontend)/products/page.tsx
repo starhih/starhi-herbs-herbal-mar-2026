@@ -35,7 +35,7 @@ export default async function ProductsPage() {
   // Fetch categories from Payload
   const { docs: categoryDocs } = await payload.find({
     collection: 'categories',
-    pagination: false,
+    limit: 100,
   });
   const productCategories = categoryDocs.map((c) => mapCategory(c as any)).filter(Boolean) as any[];
 

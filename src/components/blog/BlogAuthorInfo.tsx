@@ -27,7 +27,7 @@ export default function BlogAuthorInfo({ author, isReviewer = false, className =
         )}
       </div>
       <div>
-        <div className="text-sm text-gray-500 mb-1">{isReviewer ? 'Reviewed by' : 'Written by'}</div>
+        <div className="text-sm text-gray-600 mb-1">{isReviewer ? 'Reviewed by' : 'Written by'}</div>
         <h4 className="text-lg font-semibold text-[#214842]">{author.name}</h4>
         <p className="text-sm text-gray-600 mb-2">{author.role}</p>
         <div className="flex flex-wrap gap-2">

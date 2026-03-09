@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch categories
   const { docs: categories } = await payload.find({
     collection: 'categories',
-    pagination: false,
+    limit: 100,
     select: { slug: true },
   });
   const categoryRoutes = categories.map((category) => ({
@@ -55,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch products
   const { docs: products } = await payload.find({
     collection: 'products',
-    pagination: false,
+    limit: 100,
     select: { slug: true },
   });
   const productRoutes = products.map((product) => ({
@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch blog categories
   const { docs: blogCategories } = await payload.find({
     collection: 'blog-categories',
-    pagination: false,
+    limit: 100,
     select: { slug: true },
   });
   const blogCategoryRoutes = blogCategories.map((category) => ({
@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch blog posts
   const { docs: blogPosts } = await payload.find({
     collection: 'blog-posts',
-    pagination: false,
+    limit: 100,
     select: { slug: true, updatedAt: true },
   });
   const blogPostRoutes = blogPosts.map((post) => ({

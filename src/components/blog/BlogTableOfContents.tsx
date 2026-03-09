@@ -12,6 +12,7 @@ interface BlogTableOfContentsProps {
 export default function BlogTableOfContents({ items = [], className = '' }: BlogTableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('');
   const [dynamicItems, setDynamicItems] = useState<TOCItem[]>(items);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     // If no items provided or empty, attempt to gather them dynamically
@@ -38,6 +39,7 @@ export default function BlogTableOfContents({ items = [], className = '' }: Blog
         });
 
         setDynamicItems(foundItems);
+        setIsInitializing(false);
       };
 
       // Slight delay to ensure ReactMarkdown/RichText has injected titles
@@ -45,6 +47,7 @@ export default function BlogTableOfContents({ items = [], className = '' }: Blog
       return () => clearTimeout(timeout);
     } else {
       setDynamicItems(items);
+      setIsInitializing(false);
     }
   }, [items]);
 
@@ -88,6 +91,23 @@ export default function BlogTableOfContents({ items = [], className = '' }: Blog
       });
     }
   };
+
+  if (isInitializing && dynamicItems.length === 0) {
+    return (
+      <div className={`bg-white rounded-xl shadow-sm p-6 min-h-[250px] animate-pulse ${className}`}>
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-5 w-5 bg-gray-200 rounded"></div>
+          <div className="h-6 w-32 bg-gray-200 rounded"></div>
+        </div>
+        <div className="space-y-4 mt-6">
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-200 rounded w-2/3 ml-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (dynamicItems.length === 0) {
     return null;

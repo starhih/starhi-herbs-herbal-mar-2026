@@ -36,7 +36,7 @@ export default function BlogInsights({ posts, categories }: BlogInsightsProps) {
             const category = categories.find(c => c.id === post.categoryId || c.slug === post.categoryId);
 
             return (
-              <Card key={post.id} className="group overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow duration-300">
+              <Card key={post.id} className="group overflow-hidden border border-transparent hover:border-[#258F67] shadow-md hover:shadow-lg transition-all duration-300">
                 <div className="relative h-52 overflow-hidden">
                   <Image
                     src={post.image}
@@ -50,7 +50,7 @@ export default function BlogInsights({ posts, categories }: BlogInsightsProps) {
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <div className="text-sm text-gray-500 mb-2">{formatDate(post.publishedAt)}</div>
+                  <div className="text-sm text-gray-600 mb-2">{formatDate(post.publishedAt)}</div>
                   <h3 className="text-xl font-semibold text-[#214842] mb-3 group-hover:text-[#258F67] transition-colors line-clamp-2">
                     <Link href={`/blog/${post.slug}`}>
                       {post.title}

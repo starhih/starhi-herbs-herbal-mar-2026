@@ -254,7 +254,7 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
-  productType?: ('standard' | 'branded' | 'vitamin-mineral') | null;
+  productType?: ('standard' | 'branded' | 'vitamin-mineral' | 'probiotic') | null;
   category: number | Category;
   standardization?: string | null;
   latinName?: string | null;
@@ -424,6 +424,13 @@ export interface Product {
         }[]
       | null;
   };
+  probioticDetails?: {
+    sporesPerGram?: string | null;
+    method?: string | null;
+  };
+  isParentProduct?: boolean | null;
+  parentProduct?: (number | null) | Product;
+  childProducts?: (number | Product)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -963,6 +970,15 @@ export interface ProductsSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  probioticDetails?:
+    | T
+    | {
+        sporesPerGram?: T;
+        method?: T;
+      };
+  isParentProduct?: T;
+  parentProduct?: T;
+  childProducts?: T;
   updatedAt?: T;
   createdAt?: T;
 }

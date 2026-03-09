@@ -17,7 +17,7 @@ export default function BlogCard({ post, category: categoryProp, className = '' 
   const category = categoryProp || post.category;
 
   return (
-    <Card className={`group overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow duration-300 ${className}`}>
+    <Card className={`group overflow-hidden border border-transparent shadow-md hover:shadow-lg hover:border-[#258F67] transition-all duration-300 ${className}`}>
       <div className="relative h-52 overflow-hidden bg-[#214842]/10">
         <div className="absolute top-4 left-4 bg-[#214842] text-white px-3 py-1 text-xs rounded-full z-10">
           {category?.name || 'Uncategorized'}
@@ -37,7 +37,7 @@ export default function BlogCard({ post, category: categoryProp, className = '' 
         )}
       </div>
       <CardContent className="p-6">
-        <div className="text-sm text-gray-500 mb-2">{formatDate(post.publishedAt)}</div>
+        <div className="text-sm text-gray-600 mb-2">{formatDate(post.publishedAt)}</div>
         <h3 className="text-xl font-semibold text-[#214842] mb-3 group-hover:text-[#258F67] transition-colors line-clamp-2">
           <Link href={`/blog/${post.slug}`}>
             {post.title}
@@ -54,7 +54,7 @@ export default function BlogCard({ post, category: categoryProp, className = '' 
             Read Article
             <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <span className="text-sm text-gray-500">{post.readTime} min read</span>
+          <span className="text-sm text-gray-600">{post.readTime} min read</span>
         </div>
       </CardContent>
     </Card>

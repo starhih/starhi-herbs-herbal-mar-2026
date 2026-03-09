@@ -25,7 +25,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient();
   const { docs: products } = await payload.find({
     collection: 'products',
-    pagination: false,
+    limit: 100,
     select: { slug: true }
   });
 
@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       {/* Product Hero */}
-      <section className="pt-2 lg:pt-4">
+      <section className="pt-24 md:pt-32 pb-8">
         <div className="container-custom">
           <Breadcrumbs
             items={[
@@ -208,7 +208,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 </div>
                 {product.moq && (
                   <div className="mb-4">
-                    <span className="inline-flex text-[#214842] font-medium bg-[#214842]/10 px-3 py-1 rounded-md text-sm border border-[#214842]/20 shadow-sm">
+                    <span className="inline-flex text-[#214842] font-medium bg-[#214842]/10 px-3 py-1 rounded-full text-sm border border-[#214842]/20 shadow-sm">
                       MOQ: {product.moq}
                     </span>
                   </div>
@@ -226,7 +226,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 {product.certificationIcons && product.certificationIcons.length > 0 && (
                   <div className="flex flex-wrap items-center gap-3 mb-6">
                     {product.certificationIcons.map((cert) => (
-                      <div key={cert.name} className="relative h-12 w-12" title={cert.name}>
+                      <div key={cert.name} className="relative h-12 w-12 group">
                         <Image
                           src={cert.image}
                           alt={cert.name}
@@ -234,6 +234,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                           sizes="48px"
                           className="object-contain"
                         />
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 pointer-events-none">
+                          {cert.name}
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -333,7 +338,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <div className="space-y-3">
                 {product.specifications && Object.entries(product.specifications).map(([key, value]) => (
                   <div key={key}>
-                    <div className="text-sm font-medium text-gray-500 capitalize">
+                    <div className="text-sm font-medium text-gray-600 capitalize">
                       {key.replace(/[_]/g, ' ')}
                     </div>
                     <div className="text-gray-600">{value}</div>

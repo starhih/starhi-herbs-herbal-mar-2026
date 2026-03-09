@@ -30,7 +30,7 @@ export default function BlogSearchBar({ className = '' }: BlogSearchBarProps) {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="border-gray-300 focus:border-[#258F67] focus:ring-[#258F67]"
       />
-      <Button type="submit" className="cta-primary">
+      <Button type="submit" className="cta-primary" aria-label="Search">
         <Search size={18} />
       </Button>
     </form>

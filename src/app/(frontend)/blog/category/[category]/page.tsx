@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient();
   const { docs: categories } = await payload.find({
     collection: 'blog-categories',
-    pagination: false,
+    limit: 100,
     select: { slug: true }
   });
   return categories.map((category) => ({
@@ -82,7 +82,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   // Fetch all categories for sidebar
   const { docs: allCategoryDocs } = await payload.find({
     collection: 'blog-categories',
-    pagination: false
+    limit: 100
   });
   const blogCategories = allCategoryDocs.map(mapBlogCategory);
 
