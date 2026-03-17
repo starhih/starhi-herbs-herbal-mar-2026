@@ -31,7 +31,7 @@ export default function AboutIntroSection() {
 
           {/* Right Column - Image */}
           <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg">
-            <Image src="/images/hassan-plant.jpg"
+            <Image src="https://starhiherbs-herbal.sfo3.cdn.digitaloceanspaces.com/media/starhi-herbs-group-pic.jpg"
               alt="Star Hi Herbs Manufacturing Facility"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
