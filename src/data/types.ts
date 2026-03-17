@@ -29,6 +29,8 @@ export interface ProductCategory extends BaseEntity {
   homepageImage?: string;
   homepageImageFallback?: string;
   count?: number;
+  longDescription?: any;
+  faqs?: ProductFAQ[];
   products?: Product[];
 }
 

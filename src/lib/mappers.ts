@@ -238,6 +238,12 @@ export const mapCategory = (c: PayloadCategory): FrontendCategory | null => {
         homepageImage: getImageUrl(c.homepageImage) || c.homepageImageUrl || '',
         homepageImageFallback: getImageUrl(c.homepageImage) ? (c.homepageImageUrl || '') : '',
         count: c.count || 0,
+        longDescription: c.longDescription,
+        faqs: (c.faqs || []).filter((f: any) => f.question && f.answer).map((f: any, idx: number) => ({
+            id: f.id || String(idx),
+            question: f.question,
+            answer: f.answer,
+        })),
         updatedAt: c.updatedAt,
         createdAt: c.createdAt,
         // Products would need to be populated if requested

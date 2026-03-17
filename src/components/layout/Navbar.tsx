@@ -42,6 +42,11 @@ const isCollectionPage = (path: string) => {
   return path.startsWith('/collections/');
 };
 
+// Check if a path starts with any career single page path
+const isCareerSinglePage = (path: string) => {
+  return path.startsWith('/careers/');
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,7 +55,7 @@ export default function Navbar() {
 
   // Determine if the current page has a hero banner
   useEffect(() => {
-    const pageHasHero = pagesWithHero.includes(pathname) || isCollectionPage(pathname);
+    const pageHasHero = pagesWithHero.includes(pathname) || isCollectionPage(pathname) || isCareerSinglePage(pathname);
     setHasHero(pageHasHero);
 
     // If page doesn't have a hero, set sticky immediately

@@ -19,7 +19,7 @@ export default async function Footer() {
   const copyrightText = settings?.general?.copyrightText || 'Star Hi Herbs Pvt Ltd. All rights reserved.';
   const address = settings?.contact?.address || 'Plot #50, 3rd Road, 1st Phase\nK.I.A.D.B. Industrial Area, Jigani\nBangalore - 560105, Karnataka, India';
   const phone = settings?.contact?.phone || '+91 98 8642 2452';
-  const email = settings?.contact?.email || 'info@starhiherbs.com';
+  const email = settings?.contact?.email || 'starhi@starhiherbs.com';
   const linkedinUrl = settings?.social?.linkedin || 'https://in.linkedin.com/company/star-hi-herbs-pvt-ltd';
   const facebookUrl = settings?.social?.facebook || 'https://www.facebook.com/StarHiHerbsNaturalExtracts/';
   const instagramUrl = settings?.social?.instagram || 'https://www.instagram.com/star.hi.herbs/';

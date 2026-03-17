@@ -68,7 +68,11 @@ export async function sendContactEmail(data: {
 
 // Request quote email
 export async function sendQuoteRequestEmail(data: Record<string, any>) {
+  const companyName = data.company || data.companyName || 'Unknown Company';
+  const country = data.country || data.countryRegion || 'Unknown Country';
+  
   return sendEmail('Quote Request', data, {
+    subject: `💰 [Quote Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Quotes <quote@starhiherbs.com>',
     cc: CC_EMAIL,
   });
@@ -76,7 +80,11 @@ export async function sendQuoteRequestEmail(data: Record<string, any>) {
 
 // Request sample email
 export async function sendSampleRequestEmail(data: Record<string, any>) {
+  const companyName = data.companyName || data.company || 'Unknown Company';
+  const country = data.country || data.countryRegion || 'Unknown Country';
+  
   return sendEmail('Sample Request', data, {
+    subject: `📦 [Sample Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Samples <sample@starhiherbs.com>',
     cc: CC_EMAIL,
   });
@@ -84,7 +92,11 @@ export async function sendSampleRequestEmail(data: Record<string, any>) {
 
 // Download catalogue email
 export async function sendCatalogueRequestEmail(data: Record<string, any>) {
+  const name = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Visitor');
+  const company = data.companyName || data.company || 'Unknown Company';
+  
   return sendEmail('Catalogue Download', data, {
+    subject: `📚 [Catalogue] ${name} - ${company}`,
     fromEmail: 'Star Hi Herbs Catalogue <catalogue@starhiherbs.com>',
     cc: CC_EMAIL,
   });
@@ -92,7 +104,11 @@ export async function sendCatalogueRequestEmail(data: Record<string, any>) {
 
 // Job application email
 export async function sendJobApplicationEmail(data: Record<string, any>) {
+  const applicantName = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Applicant');
+  const position = data.jobTitle || data.position || 'General Position';
+  
   return sendEmail('Job Application', data, {
+    subject: `💼 [Job App] ${applicantName} - ${position}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
     cc: CC_EMAIL,
   });
@@ -100,7 +116,11 @@ export async function sendJobApplicationEmail(data: Record<string, any>) {
 
 // General application email
 export async function sendGeneralApplicationEmail(data: Record<string, any>) {
+  const applicantName = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Applicant');
+  const department = data.department || data.jobTitle || data.position || 'General Application';
+  
   return sendEmail('General Application', data, {
+    subject: `📁 [General App] ${applicantName} - ${department}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
     cc: CC_EMAIL,
   });
@@ -108,7 +128,12 @@ export async function sendGeneralApplicationEmail(data: Record<string, any>) {
 
 // Meeting request email
 export async function sendMeetingRequestEmail(data: Record<string, any>) {
+  const name = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Visitor');
+  const eventName = data.eventName || data.event || data.meetingType || 'Meeting / Event';
+  const company = data.companyName || data.company || 'Unknown Company';
+  
   return sendEmail('Meeting Request', data, {
+    subject: `🤝 [Meeting] ${name} - ${eventName} - ${company}`,
     fromEmail: 'Star Hi Herbs Meetings <meeting@starhiherbs.com>',
     cc: CC_EMAIL,
   });

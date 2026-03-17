@@ -10,6 +10,7 @@ import { Product } from '@/data/types';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import StorgProductFamily from '@/components/products/StorgProductFamily';
 import ProductListingClient from '@/components/products/ProductListingClient';
+import CategoryDetails from '@/components/collections/CategoryDetails';
 
 // Generate static params for all categories
 // Generate static params for all categories
@@ -122,7 +123,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#214842]/90 via-[#214842]/60 to-transparent"></div>
         <div className="relative z-10 container-custom text-white">
           <div className="max-w-xl">
             <div className="inline-block mb-3">
@@ -183,6 +183,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           )}
         </div>
       </section>
+
+      {/* Category Details & FAQs */}
+      <CategoryDetails longDescription={category.longDescription} faqs={category.faqs} />
 
       {/* Request Quote CTA */}
       <section className="section-padding bg-[#2A5A52] text-white">

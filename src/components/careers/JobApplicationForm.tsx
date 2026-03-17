@@ -64,9 +64,13 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
     }
 
     // Check file type
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedTypes = [
+      'application/pdf', 
+      'application/msword', // .doc
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
+    ];
     if (!allowedTypes.includes(selectedFile.type)) {
-      setFileError('Please upload a PDF or Word document');
+      setFileError('Please upload a PDF or Word (.doc / .docx) document');
       return;
     }
 
@@ -244,8 +248,8 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
                   className="cursor-pointer flex flex-col items-center justify-center"
                 >
                   <Upload className="h-10 w-10 text-gray-400 mb-2" />
-                  <span className="text-sm font-medium text-gray-900">Click to upload</span>
-                  <span className="text-xs text-gray-600 mt-1">PDF or Word (max 5MB)</span>
+                  <span className="text-sm font-medium text-gray-900">Click to upload CV</span>
+                  <span className="text-xs text-gray-600 mt-1">.pdf, .doc, or .docx (max 5MB)</span>
                 </label>
               </div>
             ) : (

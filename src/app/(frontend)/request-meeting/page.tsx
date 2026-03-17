@@ -41,7 +41,7 @@ export default async function RequestMeetingPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/events/event-meeting.jpg"
+        <Image src="https://ik.imagekit.io/pon54xoks/request-meeting.jpg"
           alt="Request a Meeting"
           fill
           sizes="100vw"

@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Image from '@/components/ui/image';
 import { getPayloadClient } from '@/lib/payload';
 import { mapJob } from '@/lib/mappers';
 import { Briefcase, MapPin, Clock, Calendar } from 'lucide-react';
@@ -40,20 +39,34 @@ export default async function JobDetailPage({ params }: { params: Promise<{ slug
     notFound();
   }
 
+  // Map departments to specific colors
+  const getDepartmentColor = (dept: string) => {
+    const colors: Record<string, string> = {
+      'Research & Development': 'bg-[#1e40af]', // blue-800
+      'Production': 'bg-[#b45309]', // amber-700
+      'Quality Control': 'bg-[#0f766e]', // teal-700
+      'Sales & Marketing': 'bg-[#6d28d9]', // violet-700
+      'Supply Chain': 'bg-[#0369a1]', // sky-700
+      'Administration': 'bg-[#475569]', // slate-600
+    };
+    return colors[dept] || 'bg-[#214842]'; // Default Star Hi Green
+  };
+
+  const bgColorClass = getDepartmentColor(job.department);
+
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/standardized-herbal-extracts.jpeg"
-          alt={job.title}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-[#214842]/30"></div>
-        <div className="relative z-10 container-custom text-white">
-          <div className="max-w-2xl">
-            <h1 className="mb-4 text-shadow-sm">{job.title}</h1>
+      <section className={`${bgColorClass} pt-32 pb-16 md:pt-40 md:pb-24`}>
+        <div className="container-custom text-white">
+          <div className="max-w-3xl">
+            <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm font-medium mb-4 backdrop-blur-sm">
+              {job.department}
+            </span>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">{job.title}</h1>
+            <p className="text-lg text-white/90">
+              Join our {job.department.toLowerCase()} team and help us make a difference.
+            </p>
           </div>
         </div>
       </section>

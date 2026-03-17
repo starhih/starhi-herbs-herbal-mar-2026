@@ -35,40 +35,13 @@ export default function HeroSection() {
       <div className="relative z-20 h-full flex items-center">
         <div className="container-custom">
           <div className="max-w-3xl">
-            <h1
-              className={cn(
-                "mb-6 opacity-0 transition-opacity duration-1000 text-shadow-lg font-bold",
-                isLoaded && "opacity-100"
-              )}
-              style={{ color: 'white' }}
-            >
-              Innovating Herbal Solutions for a Healthier Tomorrow
-            </h1>
-            <p
-              className={cn(
-                "text-lg mb-8 max-w-2xl opacity-0 transition-opacity duration-1000 delay-300 text-shadow-md",
-                isLoaded && "opacity-100"
-              )}
-              style={{ color: 'white' }}
-            >
-              Globally acclaimed manufacturer of premium herbal extracts, probiotics, and nutraceutical ingredients with a commitment to quality and sustainability.
-            </p>
-            <div
-              className={cn(
-                "flex flex-col sm:flex-row gap-4 opacity-0 transition-opacity duration-1000 delay-500",
-                isLoaded && "opacity-100"
-              )}
-            >
-              <Button asChild className="cta-primary text-base font-semibold py-6">
-                <Link href="/request-quote">Request Quote</Link>
-              </Button>
-              <Button asChild className="bg-white text-[#214842] hover:bg-[#EFC368] hover:text-white py-6 text-base font-semibold">
-                <Link href="/request-sample">Request Sample</Link>
-              </Button>
+            <div className="hidden">
+              {/* Keeping empty divs for structural parity if needed, or removed text */}
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">

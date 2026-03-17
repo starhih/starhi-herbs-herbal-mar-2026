@@ -29,7 +29,7 @@ export default function RequestSamplePage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/standardized-herbal-extracts.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/request-sample.jpg"
           alt="Request a Sample"
           fill
           className="object-cover"
@@ -127,7 +127,7 @@ export default function RequestSamplePage() {
                     <Link href="/contact">Contact Our Team</Link>
                   </Button>
                   <Button asChild size="sm" variant="outline" className="border-[#214842] text-[#214842] hover:bg-[#214842]/5 w-full">
-                    <Link href="/collections">Browse Products</Link>
+                    <Link href="/products">Browse Products</Link>
                   </Button>
                 </div>
               </div>

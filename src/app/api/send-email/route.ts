@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { getPayloadClient } from '@/lib/payload';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -15,8 +16,48 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const recipientEmail = process.env.RESEND_TO_EMAIL || 'starhi@starhiherbs.com';
-    const fromEmail = customFrom || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    let recipientEmail = process.env.RESEND_TO_EMAIL || 'starhi@starhiherbs.com';
+    let fromEmail = customFrom || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    let ccList = cc ? (Array.isArray(cc) ? cc : [cc]) : [];
+
+    if (formType === 'Job Application' || formType === 'General Application') {
+      recipientEmail = 'hr@starhiherbs.com';
+      ccList = ['najish.n@starhiherbs.com', 'patil@starhiherbs.com'];
+    }
+
+    if (data.resumeFileBase64) {
+      try {
+        const base64Data = data.resumeFileBase64.split(';base64,').pop();
+        if (base64Data) {
+          const buffer = Buffer.from(base64Data, 'base64');
+          const payload = await getPayloadClient();
+          
+          const mediaDoc = await payload.create({
+            collection: 'media',
+            data: { alt: `Resume - ${data.firstName || data.name || 'Applicant'} - ${formType}` },
+            file: {
+              data: buffer,
+              mimetype: data.resumeFileType || 'application/pdf',
+              name: `${Date.now()}-${(data.resumeFileName || 'resume.pdf').replace(/\s+/g, '-')}`,
+              size: buffer.length,
+            },
+          });
+
+          // Ensure the resume download link is absolute
+          const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://starhiherbs.com';
+          data.resumeDownloadLink = mediaDoc.url?.startsWith('http') 
+            ? mediaDoc.url 
+            : `${baseUrl}${mediaDoc.url}`;
+            
+          delete data.resumeFileBase64;
+          delete data.resumeFileSize;
+          delete data.resumeFileType;
+        }
+      } catch (uploadError) {
+        console.error('Error uploading resume to Spaces:', uploadError);
+        data.resumeUploadError = 'Failed to upload resume to cloud storage.';
+      }
+    }
 
     // Build a clean HTML email body from the form data
     const htmlContent = buildEmailHtml(formType, data);
@@ -27,7 +68,7 @@ export async function POST(request: NextRequest) {
     const { error } = await resend.emails.send({
       from: fromEmail,
       to: [recipientEmail],
-      ...(cc ? { cc: Array.isArray(cc) ? cc : [cc] } : {}),
+      ...(ccList.length > 0 ? { cc: ccList } : {}),
       subject: emailSubject,
       replyTo: data.from_email || data.email || undefined,
       html: htmlContent,

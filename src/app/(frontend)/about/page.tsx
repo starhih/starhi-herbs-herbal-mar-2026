@@ -278,32 +278,33 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                icon: Beaker,
+                image: 'https://ik.imagekit.io/pon54xoks/Innovation.jpg',
                 title: 'Innovation',
                 description: 'We invest in R&D, product development, and clinical studies to create market-leading, high-efficacy products.',
               },
               {
-                icon: CheckCircle,
+                image: 'https://ik.imagekit.io/pon54xoks/Integrity.jpg',
                 title: 'Integrity',
                 description: 'We follow transparent, ethical, and responsible practices across sourcing, manufacturing, and business dealings.',
               },
               {
-                icon: Award,
+                image: 'https://ik.imagekit.io/pon54xoks/Quality.jpg',
                 title: 'Quality',
                 description: 'Our products meet the strictest global quality standards — ISO, WHO-GMP, FSSC, HACCP, Halal, Kosher, and AYUSH GMP certified.',
               },
               {
-                icon: Leaf,
+                image: 'https://ik.imagekit.io/pon54xoks/Sustainability.jpg',
                 title: 'Sustainability',
                 description: 'Through contract farming, GAP education, and organic clusters, we promote long-term agricultural sustainability and farmer welfare.',
               },
             ].map((value, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="bg-[#214842]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <value.icon className="h-6 w-6 text-[#214842]" />
+              <div key={index} className="relative rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group min-h-[300px] flex flex-col justify-end">
+                <Image src={value.image} alt={value.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#214842] via-[#214842]/60 to-transparent"></div>
+                <div className="relative z-10 p-6">
+                  <h3 className="text-xl font-semibold text-white mb-2">{value.title}</h3>
+                  <p className="text-white/90 text-sm">{value.description}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-[#214842] mb-2">{value.title}</h3>
-                <p className="text-gray-600 text-sm">{value.description}</p>
               </div>
             ))}
           </div>
@@ -694,8 +695,8 @@ export default function AboutPage() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
               <div className="flex items-center gap-2">
                 <Mail size={20} className="text-[#EFC368]" />
-                <a href="mailto:info@starhiherbs.com" className="text-white hover:text-[#EFC368] transition-colors">
-                  info@starhiherbs.com
+                <a href="mailto:starhi@starhiherbs.com" className="text-white hover:text-[#EFC368] transition-colors">
+                  starhi@starhiherbs.com
                 </a>
               </div>
               <div className="flex items-center gap-2">

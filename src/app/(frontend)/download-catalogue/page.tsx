@@ -27,7 +27,7 @@ export default function DownloadCataloguePage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/standardized-herbal-extracts.jpeg"
+        <Image src="https://ik.imagekit.io/pon54xoks/download-catalog.jpg"
           alt="Download Catalogue"
           fill
           className="object-cover"
@@ -93,19 +93,7 @@ export default function DownloadCataloguePage() {
                   </li>
                 </ul>
 
-                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                  <h3 className="font-bold text-[#214842] mb-4 text-lg">Available Formats</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center bg-white p-3 rounded-lg shadow-sm border border-gray-100">
-                      <FileText className="h-6 w-6 text-[#258F67] mr-3" />
-                      <span className="text-gray-700 font-medium">PDF (12.5 MB)</span>
-                    </div>
-                    <div className="flex items-center bg-white p-3 rounded-lg shadow-sm border border-gray-100">
-                      <FileText className="h-6 w-6 text-[#258F67] mr-3" />
-                      <span className="text-gray-700 font-medium">Digital Flipbook</span>
-                    </div>
-                  </div>
-                </div>
+ 
               </div>
 
               <div className="bg-gradient-to-br from-[#214842] to-[#122A26] text-white p-8 md:p-10 rounded-2xl shadow-xl">
@@ -117,7 +105,7 @@ export default function DownloadCataloguePage() {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-[#258F67]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <a href="mailto:info@starhiherbs.com" className="hover:text-[#258F67] transition-colors font-medium">info@starhiherbs.com</a>
+                  <a href="mailto:starhi@starhiherbs.com" className="hover:text-[#258F67] transition-colors font-medium">starhi@starhiherbs.com</a>
                 </div>
               </div>
             </div>

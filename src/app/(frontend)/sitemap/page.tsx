@@ -321,8 +321,8 @@ export default async function SitemapPage() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
               <div className="flex items-center gap-2">
                 <Mail size={20} className="text-[#258F67]" />
-                <a href="mailto:info@starhiherbs.com" className="text-[#214842] hover:text-[#258F67] transition-colors">
-                  info@starhiherbs.com
+                <a href="mailto:starhi@starhiherbs.com" className="text-[#214842] hover:text-[#258F67] transition-colors">
+                  starhi@starhiherbs.com
                 </a>
               </div>
               <div className="flex items-center gap-2">

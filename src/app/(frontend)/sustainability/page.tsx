@@ -2,8 +2,17 @@ import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Leaf, Recycle, Users, Globe } from 'lucide-react';
+import { getPayloadClient } from '@/lib/payload';
+import { mapCertification } from '@/lib/mappers';
 
-export default function SustainabilityPage() {
+export default async function SustainabilityPage() {
+  const payload = await getPayloadClient();
+  const { docs: certDocs } = await payload.find({
+    collection: 'certifications',
+    limit: 100,
+  });
+  const allCertifications = certDocs.map(mapCertification).filter(Boolean);
+
   return (
     <>
       {/* Hero Section */}
@@ -230,24 +239,7 @@ export default function SustainabilityPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              {
-                name: 'USDA Organic',
-                image: '/images/certifications/usda-organic.jpg',
-              },
-              {
-                name: 'Organic',
-                image: '/images/certifications/organic.jpg',
-              },
-              {
-                name: 'WHO GMP',
-                image: '/images/certifications/who-gmp.jpg',
-              },
-              {
-                name: 'Shefexil',
-                image: '/images/certifications/shefexil.jpg',
-              },
-            ].map((cert, index) => (
+            {allCertifications.map((cert: any, index: number) => (
               <div
                 key={index}
                 className="bg-white rounded-lg p-6 flex items-center justify-center shadow-md"
@@ -267,7 +259,7 @@ export default function SustainabilityPage() {
       </section>
 
       {/* Get Involved CTA */}
-      <section className="py-20 bg-[#214842] text-white">
+      <section className="py-20 bg-[#2A5A52] text-white">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">
             Join Us in Making a Difference

@@ -35,19 +35,15 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '64495ea578593bb65dace586d8d00e01.r2.cloudflarestorage.com',
+        hostname: 'starhiherbs-herbal.sfo3.digitaloceanspaces.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'starhiherbs-herbal.sfo3.cdn.digitaloceanspaces.com', // Added CDN hostname
       },
       {
         protocol: 'https',
         hostname: 'ik.imagekit.io',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
       },
     ],
   },

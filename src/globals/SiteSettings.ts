@@ -47,7 +47,7 @@ export const SiteSettings: GlobalConfig = {
                 {
                     name: 'email',
                     type: 'text',
-                    defaultValue: 'info@starhiherbs.com',
+                    defaultValue: 'starhi@starhiherbs.com',
                 },
             ],
         },

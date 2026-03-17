@@ -50,8 +50,8 @@ export default async function ProductsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="/images/hero/standardized-herbal-extracts.jpeg"
+      <section className="relative h-[40vh] min-h-[300px] flex items-center">
+        <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"
           alt="Our Products"
           fill
           className="object-cover"
@@ -111,7 +111,7 @@ export default async function ProductsPage() {
       </section>
 
       {/* Request Custom Solution */}
-      <section className="section-padding bg-[#214842] text-white">
+      <section className="section-padding bg-[#2A5A52] text-white">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">
             Need a Custom Solution?
