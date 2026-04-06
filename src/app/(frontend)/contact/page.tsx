@@ -304,6 +304,7 @@ export default function ContactPage() {
                 address: '#50, 3rd Road, 1st Phase, KIADB Industrial Area\nBangalore - 560105, Karnataka, India',
                 phone: '+91 98 8642 2452',
                 email: 'starhi@starhiherbs.com',
+                mapUrl: 'https://maps.google.com/maps?q=50,+3rd+Road,+1st+Phase,+KIADB+Industrial+Area,+Bangalore&t=&z=14&ie=UTF8&iwloc=&output=embed',
               },
               {
                 city: 'Hassan Unit',
@@ -311,15 +312,29 @@ export default function ContactPage() {
                 address: 'Plot No 105-B, Pharma SEZ KIADB Industrial Area Hassan\nHassan - 573201, Karnataka, India',
                 phone: '+91 93 4257 5028',
                 email: 'research@starhiherbs.com',
+                mapUrl: 'https://maps.google.com/maps?q=Plot+No+105-B,+Pharma+SEZ+KIADB+Industrial+Area+Hassan&t=&z=14&ie=UTF8&iwloc=&output=embed',
               },
             ].map((office, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold text-[#214842] mb-1">{office.city}</h3>
-                <div className="text-[#258F67] font-medium mb-4">{office.country}</div>
-                <div className="space-y-3 text-gray-600">
-                  <p className="whitespace-pre-line">{office.address}</p>
-                  <p>{office.phone}</p>
-                  <p>{office.email}</p>
+              <div key={index} className="bg-white p-6 rounded-xl shadow-md flex flex-col h-full">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-[#214842] mb-1">{office.city}</h3>
+                  <div className="text-[#258F67] font-medium mb-4">{office.country}</div>
+                  <div className="space-y-3 text-gray-600 mb-6">
+                    <p className="whitespace-pre-line">{office.address}</p>
+                    <p>{office.phone}</p>
+                    <p>{office.email}</p>
+                  </div>
+                </div>
+                <div className="w-full h-48 sm:h-64 mt-auto rounded-lg overflow-hidden border border-gray-100">
+                  <iframe 
+                    src={office.mapUrl} 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
                 </div>
               </div>
             ))}

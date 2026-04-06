@@ -92,10 +92,12 @@ export interface Product extends BaseEntity {
   certificationsSection?: {
     description: string;
     image: string;
+    images?: string[];
   };
   events?: {
     description: string;
     image: string;
+    images?: string[];
   };
   faqs?: ProductFAQ[];
   isParentProduct?: boolean;

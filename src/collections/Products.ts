@@ -35,6 +35,50 @@ export const Products: CollectionConfig = {
                 return data;
             },
         ],
+        afterChange: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/products');
+                    if (doc.slug) {
+                        revalidatePath(`/products/${doc.slug}`);
+                        if (doc.productType === 'branded') {
+                            revalidatePath(`/branded-ingredients`);
+                            revalidatePath(`/branded-ingredients/${doc.slug}`);
+                        } else if (doc.productType === 'vitamin-mineral') {
+                            revalidatePath(`/vitamins-minerals`);
+                            revalidatePath(`/vitamins-minerals/${doc.slug}`);
+                        }
+                    }
+                    revalidatePath('/');
+                } catch (err) {
+                    req.payload.logger.error('Error revalidating path for product ' + doc.id);
+                }
+                return doc;
+            }
+        ],
+        afterDelete: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/products');
+                    if (doc.slug) {
+                        revalidatePath(`/products/${doc.slug}`);
+                        if (doc.productType === 'branded') {
+                            revalidatePath(`/branded-ingredients`);
+                            revalidatePath(`/branded-ingredients/${doc.slug}`);
+                        } else if (doc.productType === 'vitamin-mineral') {
+                            revalidatePath(`/vitamins-minerals`);
+                            revalidatePath(`/vitamins-minerals/${doc.slug}`);
+                        }
+                    }
+                    revalidatePath('/');
+                } catch (err) {
+                    req.payload.logger.error('Error revalidating path for product ' + doc.id);
+                }
+                return doc;
+            }
+        ],
     },
     fields: [
         {
@@ -237,15 +281,32 @@ export const Products: CollectionConfig = {
                 { name: 'description', type: 'textarea' },
                 { name: 'image', type: 'upload', relationTo: 'media' },
                 { name: 'imageUrl', type: 'text' },
+                {
+                    name: 'images',
+                    type: 'array',
+                    fields: [
+                        { name: 'image', type: 'upload', relationTo: 'media' },
+                        { name: 'imageUrl', type: 'text' },
+                    ]
+                }
             ],
         },
         {
             name: 'events',
             type: 'array',
+            maxRows: 1,
             fields: [
                 { name: 'description', type: 'textarea' },
                 { name: 'image', type: 'upload', relationTo: 'media' },
                 { name: 'imageUrl', type: 'text' },
+                {
+                    name: 'images',
+                    type: 'array',
+                    fields: [
+                        { name: 'image', type: 'upload', relationTo: 'media' },
+                        { name: 'imageUrl', type: 'text' },
+                    ]
+                }
             ],
         },
         {

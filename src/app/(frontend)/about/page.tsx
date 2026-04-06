@@ -355,8 +355,8 @@ export default function AboutPage() {
             {[
               {
                 name: 'Najish N Nadaf',
-                position: 'Global Marketing Head',
-                image: '/images/najish-n-nadaf.png',
+                position: 'Vice President Global Marketing',
+                image: 'https://ik.imagekit.io/pon54xoks/najish-n-nadaf%20.jpg',
                 bio: 'MBA – Karnataka University. 20+ years in B2B marketing, international sales, and strategic partnerships.',
               },
               {
@@ -367,26 +367,26 @@ export default function AboutPage() {
               },
               {
                 name: 'Radhakrishna Patil',
-                position: 'General Manager QA & QC & Unit Head 1',
-                image: '/images/radhakrishna-patil.jpg',
+                position: 'Vice President Operations & Unit Head',
+                image: 'https://ik.imagekit.io/pon54xoks/radhakrishna-patil.jpg',
                 bio: 'MSc in Chemistry – Mangalore University. 20+ years in Quality Assurance and Regulatory Affairs.',
               },
               {
                 name: 'Dr. Sadashiv CT',
-                position: 'General Manager R&D & Unit Head 2',
-                image: '/images/dr-sadashiva.jpg',
+                position: 'Vice President R&D & Unit Head',
+                image: 'https://ik.imagekit.io/pon54xoks/dr-sadashiva.jpg',
                 bio: 'PhD – Mysore University, Postdoc – University of Kwa Zulunatal, South Africa. 25+ years in herbal R&D and clinical research.',
               },
               {
                 name: 'Youhan Hussain',
-                position: 'International Business Manager',
-                image: '/images/youhan-hussain.png',
+                position: 'Global Business Head',
+                image: 'https://ik.imagekit.io/pon54xoks/youhan-hussain.jpg',
                 bio: 'MBA in Marketing – University of Liverpool. 5+ years in international client development and channel management.',
               },
               {
                 name: 'Chetan Bhasin',
                 position: 'Financial Advisor',
-                image: '/images/chetan-bhasin.png',
+                image: 'https://ik.imagekit.io/pon54xoks/chetan-bhasin.jpg',
                 bio: 'Chartered Accountant & PGDBA (IIM). 20+ years in finance, operations, and business strategy.',
               },
             ].map((member, index) => (
@@ -426,7 +426,7 @@ export default function AboutPage() {
             {/* Jigani Unit */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="relative h-64">
-                <Image src="/images/jigani-plant.jpg"
+                <Image src="https://ik.imagekit.io/pon54xoks/Jigani%2001.jpg"
                   alt="Jigani Manufacturing Unit"
                   fill
                   className="object-cover"
@@ -458,7 +458,7 @@ export default function AboutPage() {
             {/* Hassan SEZ Unit */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="relative h-64">
-                <Image src="/images/hassan-plant.jpg"
+                <Image src="https://ik.imagekit.io/pon54xoks/Hassan%2001.jpg"
                   alt="Hassan SEZ Manufacturing Unit"
                   fill
                   className="object-cover"
@@ -559,8 +559,8 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="p-4 text-center">
-                  <h3 className="text-[#214842] font-medium">{cert.name}</h3>
-                  <p className="text-gray-600 text-sm">{cert.description}</p>
+                  <h3 className="text-lg font-semibold text-[#214842] mb-1">{cert.name}</h3>
+                  <p className="text-gray-600 text-sm font-medium">{cert.description}</p>
                 </div>
               </div>
             ))}
@@ -629,34 +629,42 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Times Business Award */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="relative h-64">
-                <Image src="/images/times-business-award-2020.jpg"
-                  alt="Times Business Award 2020"
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#214842] mb-2">Times Business Award 2020</h3>
-                <p className="text-gray-600">Excellence in Herbal Extract Manufacturing</p>
+            <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67] group">
+              <div className="relative h-full min-h-[250px] flex items-stretch overflow-hidden">
+                <div className="absolute inset-0">
+                  <Image src="https://ik.imagekit.io/pon54xoks/times-business-award-2020.jpg"
+                    alt="Times Business Award 2020"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-black/60 to-black/90 md:from-transparent md:via-black/70 md:to-black/95"></div>
+                </div>
+                <div className="hidden md:block md:w-1/3 object-cover"></div>
+                <div className="relative w-full md:w-2/3 p-6 z-10 flex flex-col justify-center">
+                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">Times Business Award 2020</h3>
+                  <p className="text-white/90 drop-shadow-md leading-relaxed">Excellence in Herbal Extract Manufacturing</p>
+                </div>
               </div>
             </div>
 
             {/* World Signature Award */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="relative h-64">
-                <Image src="/images/world-signature-award-2023.jpg"
-                  alt="World Signature Award 2023"
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#214842] mb-2">World Signature Award 2023</h3>
-                <p className="text-gray-600">Innovation in Standardization and R&D</p>
+            <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67] group">
+              <div className="relative h-full min-h-[250px] flex items-stretch overflow-hidden">
+                <div className="absolute inset-0">
+                  <Image src="https://ik.imagekit.io/pon54xoks/world-signature-award-2023.jpg"
+                    alt="World Signature Award 2023"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-black/60 to-black/90 md:from-transparent md:via-black/70 md:to-black/95"></div>
+                </div>
+                <div className="hidden md:block md:w-1/3 object-cover"></div>
+                <div className="relative w-full md:w-2/3 p-6 z-10 flex flex-col justify-center">
+                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">World Signature Award 2023</h3>
+                  <p className="text-white/90 drop-shadow-md leading-relaxed">Innovation in Standardization and R&D</p>
+                </div>
               </div>
             </div>
           </div>

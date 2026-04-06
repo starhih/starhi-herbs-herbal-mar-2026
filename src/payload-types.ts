@@ -199,6 +199,10 @@ export interface Certification {
    * External image URL (e.g. ImageKit)
    */
   imageUrl?: string | null;
+  /**
+   * Upload the certificate in PDF format
+   */
+  certificatePdf?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -361,12 +365,26 @@ export interface Product {
     description?: string | null;
     image?: (number | null) | Media;
     imageUrl?: string | null;
+    images?:
+      | {
+          image?: (number | null) | Media;
+          imageUrl?: string | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   events?:
     | {
         description?: string | null;
         image?: (number | null) | Media;
         imageUrl?: string | null;
+        images?:
+          | {
+              image?: (number | null) | Media;
+              imageUrl?: string | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -800,6 +818,7 @@ export interface CertificationsSelect<T extends boolean = true> {
   description?: T;
   image?: T;
   imageUrl?: T;
+  certificatePdf?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -915,6 +934,13 @@ export interface ProductsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
         imageUrl?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              imageUrl?: T;
+              id?: T;
+            };
       };
   events?:
     | T
@@ -922,6 +948,13 @@ export interface ProductsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
         imageUrl?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              imageUrl?: T;
+              id?: T;
+            };
         id?: T;
       };
   faqs?:

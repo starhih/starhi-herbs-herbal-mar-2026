@@ -459,6 +459,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <CertificationsSection
               description={product.certificationsSection.description}
               image={product.certificationsSection.image}
+              images={product.certificationsSection.images}
               certifications={product.certifications}
             />
           </div>
@@ -472,6 +473,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <Events
               description={product.events.description}
               image={product.events.image}
+              images={product.events.images}
             />
           </div>
         </section>

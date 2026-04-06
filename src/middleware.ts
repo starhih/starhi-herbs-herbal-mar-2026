@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'self';
-    frame-src 'self' https://www.youtube.com https://*.youtube.com;
+    frame-src 'self' https://www.youtube.com https://*.youtube.com https://maps.google.com https://www.google.com;
     connect-src 'self' https://www.google-analytics.com https://*.clarity.ms wss://*.clarity.ms;
   `.replace(/\s{2,}/g, ' ').trim();
 

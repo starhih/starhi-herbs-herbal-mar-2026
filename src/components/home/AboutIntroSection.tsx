@@ -62,7 +62,7 @@ export default function AboutIntroSection() {
 
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
-              <Counter end={27} duration={2.5} fontSize={48} suffix="+" className="text-[#258F67] font-bold" />
+              <Counter end={28} duration={2.5} fontSize={48} suffix="+" className="text-[#258F67] font-bold" />
             </div>
             <h3 className="text-base font-medium text-[#214842] mb-1">Patents</h3>
             <p className="text-gray-600 text-sm">Registered Globally</p>

@@ -8,6 +8,40 @@ export const Categories: CollectionConfig = {
     access: {
         read: () => true,
     },
+    hooks: {
+        afterChange: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/collections');
+                    if (doc.slug) {
+                        revalidatePath(`/collections/${doc.slug}`);
+                    }
+                    revalidatePath('/products');
+                    revalidatePath('/');
+                } catch (err) {
+                    req.payload.logger.error('Error revalidating path for category ' + doc.id);
+                }
+                return doc;
+            }
+        ],
+        afterDelete: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/collections');
+                    if (doc.slug) {
+                        revalidatePath(`/collections/${doc.slug}`);
+                    }
+                    revalidatePath('/products');
+                    revalidatePath('/');
+                } catch (err) {
+                    req.payload.logger.error('Error revalidating path for category ' + doc.id);
+                }
+                return doc;
+            }
+        ],
+    },
     fields: [
         {
             name: 'name',

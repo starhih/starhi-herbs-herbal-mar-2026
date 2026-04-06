@@ -3,17 +3,23 @@
 import { BaseComponentProps } from '@/types/component';
 import Image from '@/components/ui/image';
 import { Award } from 'lucide-react';
+import { ShuffleGrid } from '@/components/ui/ShuffleGrid';
 
 interface CertificationsSectionProps extends BaseComponentProps {
   description: string;
   image: string;
+  images?: string[];
   certifications?: string[];
 }
 
-export default function CertificationsSection({ description, image, certifications = [], className = '' }: CertificationsSectionProps) {
+export default function CertificationsSection({ description, image, images = [], certifications = [], className = '' }: CertificationsSectionProps) {
   if (!description) {
     return null;
   }
+
+  // Use the images array for ShuffleGrid if available and has more than 0 items, 
+  // otherwise fallback to the single image.
+  const hasMultipleImages = images && images.length > 0;
 
   return (
     <div className={`bg-white rounded-xl shadow-sm overflow-hidden ${className}`}>
@@ -48,13 +54,19 @@ export default function CertificationsSection({ description, image, certificatio
           )}
         </div>
         <div className="md:w-1/2 relative min-h-[400px] md:min-h-[450px]">
-          <Image
-            src={image}
-            alt="Certifications"
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-          />
+          {hasMultipleImages ? (
+            <div className="p-4 h-full w-full">
+              <ShuffleGrid images={images} />
+            </div>
+          ) : (
+            <Image
+              src={image}
+              alt="Certifications"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          )}
         </div>
       </div>
     </div>

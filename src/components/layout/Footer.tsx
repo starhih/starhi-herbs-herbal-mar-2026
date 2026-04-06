@@ -118,6 +118,9 @@ export default async function Footer() {
               <li>
                 <Link href="/careers" className="footer-link">Careers</Link>
               </li>
+              <li>
+                <Link href="/certifications" className="footer-link">Certifications</Link>
+              </li>
             </ul>
           </div>
 

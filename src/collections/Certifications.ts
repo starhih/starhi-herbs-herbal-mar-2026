@@ -30,5 +30,13 @@ export const Certifications: CollectionConfig = {
         description: 'External image URL (e.g. ImageKit)',
       },
     },
+    {
+      name: 'certificatePdf',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Upload the certificate in PDF format',
+      },
+    },
   ],
 }

@@ -6,6 +6,7 @@ import BlogCard from '@/components/blog/BlogCard';
 import BlogCategoryList from '@/components/blog/BlogCategoryList';
 import BlogSearchBar from '@/components/blog/BlogSearchBar';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
+import SubscribeForm from '@/components/blog/SubscribeForm';
 
 export const metadata: Metadata = {
   title: 'Knowledge Center | Star Hi Herbs Blog',
@@ -68,21 +69,15 @@ export default async function BlogPage() {
       {/* Blog Content Section */}
       <section className="py-16">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
-              <BlogSearchBar className="mb-6" />
-              <BlogCategoryList categories={blogCategories} />
-            </div>
-
+          <div className="w-full">
             {/* Main Content */}
-            <div className="lg:col-span-2">
+            <div className="w-full">
               <h2 className="text-2xl font-semibold text-[#214842] mb-8">
-                All Articles
+                Latest Articles
               </h2>
 
               {blogPosts.length > 0 ? (
-                <div className="grid md:grid-cols-2 gap-6 mb-10">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                   {blogPosts.map((post: any) => (
                     <BlogCard key={post.id} post={post} />
                   ))}
@@ -100,26 +95,20 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {/* Featured Posts Section */}
-      {featuredPosts.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Featured</h6>
-              <h2 className="text-[#214842] mb-4">Latest Research & Insights</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Explore our most recent publications and technical guides
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredPosts.map((post) => (
-                <BlogCard key={post.id} post={post} />
-              ))}
-            </div>
+      {/* Subscribe Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container-custom">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl font-semibold text-[#214842] mb-4">
+              Subscribe to Our Newsletter
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Stay updated with our latest research, insights, and industry news.
+            </p>
+            <SubscribeForm />
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </>
   );
 }

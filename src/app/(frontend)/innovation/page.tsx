@@ -8,7 +8,7 @@ export default function InnovationPage() {
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="https://ik.imagekit.io/pon54xoks/Innovation-&-Research-01.jpg"
+        <Image src="https://ik.imagekit.io/pon54xoks/innovation-research.jpg"
           alt="Research and Development"
           fill
           className="object-cover"
@@ -216,110 +216,60 @@ export default function InnovationPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Flask className="h-7 w-7 text-[#214842]" />
+            {[
+              {
+                icon: Flask,
+                title: 'High Performance Liquid Chromatography (HPLC)',
+                description: 'For precise quantification of active compounds and impurities',
+                image: 'https://ik.imagekit.io/pon54xoks/hplc-lab-.jpg',
+              },
+              {
+                icon: Flask,
+                title: 'Gas Chromatography (GC)',
+                description: 'Analysis of volatile compounds and essential oils',
+                image: 'https://ik.imagekit.io/pon54xoks/GC%20Equipment.jpg',
+              },
+              {
+                icon: Flask,
+                title: 'UV Spectrophotometry',
+                description: 'Rapid screening and quantification of active constituents',
+                image: 'https://ik.imagekit.io/pon54xoks/UV%20Spectrophotometry.jpeg',
+              },
+              {
+                icon: Microscope,
+                title: 'LC-MS-MS',
+                description: 'Advanced structural identification and trace analysis',
+                image: 'https://ik.imagekit.io/pon54xoks/LC%20MS%20-MS%2001.jpg',
+              },
+              {
+                icon: Microscope,
+                title: 'Microbiology Testing Lab',
+                description: 'For quality and safety testing of probiotic products',
+                image: '/images/probiotics-testing-lab.png',
+              },
+              {
+                icon: Flask,
+                title: 'Stability Chambers',
+                description: 'Long-term and accelerated stability testing under controlled conditions',
+                image: 'https://ik.imagekit.io/pon54xoks/Stability%20Chambers%2001.jpeg',
+              },
+            ].map((equipment, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden flex flex-col">
+                <div className="relative h-48 w-full">
+                  <Image src={equipment.image} alt={equipment.title} fill className="object-cover" />
+                </div>
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6 mt-[-56px] relative z-10 bg-white border-4 border-white shadow-sm">
+                    <equipment.icon className="h-7 w-7 text-[#214842]" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-[#214842] mb-3">{equipment.title}</h3>
+                  <p className="text-gray-600 flex-1">{equipment.description}</p>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">High Performance Liquid Chromatography (HPLC)</h3>
-              <p className="text-gray-600">For precise quantification of active compounds and impurities</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Flask className="h-7 w-7 text-[#214842]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">Gas Chromatography (GC)</h3>
-              <p className="text-gray-600">Analysis of volatile compounds and essential oils</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Flask className="h-7 w-7 text-[#214842]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">UV Spectrophotometry</h3>
-              <p className="text-gray-600">Rapid screening and quantification of active constituents</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Microscope className="h-7 w-7 text-[#214842]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">LC-MS-MS</h3>
-              <p className="text-gray-600">Advanced structural identification and trace analysis</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Microscope className="h-7 w-7 text-[#214842]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">Microbiology Testing Lab</h3>
-              <p className="text-gray-600">For quality and safety testing of probiotic products</p>
-            </div>
-
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6">
-                <Flask className="h-7 w-7 text-[#214842]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#214842] mb-3">Stability Chambers</h3>
-              <p className="text-gray-600">Long-term and accelerated stability testing under controlled conditions</p>
-            </div>
+            ))}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center">
-                  <Flask className="h-7 w-7 text-[#214842]" />
-                </div>
-                <h3 className="text-xl font-semibold text-[#214842]">Extract Development</h3>
-              </div>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Optimization of extraction processes for maximum yield</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Standardization of active compounds</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Development of analytical methods for quality control</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Formulation for enhanced stability and bioavailability</span>
-                </li>
-              </ul>
-            </div>
 
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center">
-                  <Microscope className="h-7 w-7 text-[#214842]" />
-                </div>
-                <h3 className="text-xl font-semibold text-[#214842]">Research & Validation</h3>
-              </div>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>In vitro studies for mechanism of action</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Clinical trials for efficacy validation</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Safety and toxicity assessment</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
-                  <span>Documentation and patent application support</span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -501,8 +451,8 @@ export default function InnovationPage() {
               <h3 className="text-xl font-semibold text-[#214842] mb-4">Supplier Qualification Checklist</h3>
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-medium text-[#214842] mb-2">Organic Suppliers Must Provide:</h4>
-                  <ul className="space-y-2">
+                  <h4 className="font-semibold text-[#214842] mb-2">Organic Suppliers Must Provide:</h4>
+                  <ul className="space-y-3 text-gray-600">
                     <li className="flex items-start">
                       <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
                       <span>USDA/EU organic certification with transaction certificates</span>
@@ -518,8 +468,8 @@ export default function InnovationPage() {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-medium text-[#214842] mb-2">Standardized Suppliers Must Demonstrate:</h4>
-                  <ul className="space-y-2">
+                  <h4 className="font-semibold text-[#214842] mb-2">Standardized Suppliers Must Demonstrate:</h4>
+                  <ul className="space-y-3 text-gray-600">
                     <li className="flex items-start">
                       <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-2 mt-2"></span>
                       <span>ISO 17025 accredited HPLC/GC-MS capabilities</span>

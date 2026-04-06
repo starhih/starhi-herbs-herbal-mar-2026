@@ -3,16 +3,20 @@
 import { BaseComponentProps } from '@/types/component';
 import Image from '@/components/ui/image';
 import { Calendar } from 'lucide-react';
+import { ShuffleGrid } from '@/components/ui/ShuffleGrid';
 
 interface EventsProps extends BaseComponentProps {
   description: string;
   image: string;
+  images?: string[];
 }
 
-export default function Events({ description, image, className = '' }: EventsProps) {
+export default function Events({ description, image, images = [], className = '' }: EventsProps) {
   if (!description) {
     return null;
   }
+
+  const hasMultipleImages = images && images.length > 0;
 
   return (
     <div className={`bg-white rounded-xl shadow-sm overflow-hidden ${className}`}>
@@ -31,13 +35,19 @@ export default function Events({ description, image, className = '' }: EventsPro
           </div>
         </div>
         <div className="md:w-1/2 relative min-h-[400px] md:min-h-[450px]">
-          <Image
-            src={image}
-            alt="Events and Exhibitions"
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-          />
+          {hasMultipleImages ? (
+            <div className="p-4 h-full w-full">
+               <ShuffleGrid images={images} />
+            </div>
+          ) : (
+            <Image
+              src={image}
+              alt="Events and Exhibitions"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          )}
         </div>
       </div>
     </div>

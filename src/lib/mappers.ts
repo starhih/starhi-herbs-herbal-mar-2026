@@ -200,11 +200,13 @@ export const mapProduct = (p: PayloadProduct): FrontendProduct | null => {
         certificationsSection: p.certificationsSection?.description ? {
             description: p.certificationsSection.description || '',
             image: getImageUrl(p.certificationsSection.image) || (p.certificationsSection as any).imageUrl || '',
+            images: (p.certificationsSection as any).images?.map((img: any) => getImageUrl(img.image) || img.imageUrl || '').filter(Boolean) || [],
         } : undefined,
 
         events: (p.events && p.events.length > 0) ? {
             description: p.events[0]?.description || '',
             image: getImageUrl(p.events[0]?.image) || (p.events[0] as any)?.imageUrl || '',
+            images: (p.events[0] as any)?.images?.map((img: any) => getImageUrl(img.image) || img.imageUrl || '').filter(Boolean) || [],
         } : undefined,
 
         faqs: (p.faqs || []).filter((f: any) => f.question && f.answer).map((f: any, idx: number) => ({
