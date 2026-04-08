@@ -8,6 +8,26 @@ export const Events: CollectionConfig = {
     access: {
         read: () => true,
     },
+    hooks: {
+        afterChange: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/', 'layout');
+                } catch (err) {}
+                return doc;
+            }
+        ],
+        afterDelete: [
+            async ({ doc, req }) => {
+                try {
+                    const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/', 'layout');
+                } catch (err) {}
+                return doc;
+            }
+        ],
+    },
     fields: [
         {
             name: 'name',

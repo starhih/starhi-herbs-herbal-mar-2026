@@ -13,12 +13,7 @@ export const Categories: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
-                    revalidatePath('/collections');
-                    if (doc.slug) {
-                        revalidatePath(`/collections/${doc.slug}`);
-                    }
-                    revalidatePath('/products');
-                    revalidatePath('/');
+                    revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for category ' + doc.id);
                 }
@@ -29,12 +24,7 @@ export const Categories: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
-                    revalidatePath('/collections');
-                    if (doc.slug) {
-                        revalidatePath(`/collections/${doc.slug}`);
-                    }
-                    revalidatePath('/products');
-                    revalidatePath('/');
+                    revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for category ' + doc.id);
                 }

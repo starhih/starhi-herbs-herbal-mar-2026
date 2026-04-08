@@ -39,18 +39,7 @@ export const Products: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
-                    revalidatePath('/products');
-                    if (doc.slug) {
-                        revalidatePath(`/products/${doc.slug}`);
-                        if (doc.productType === 'branded') {
-                            revalidatePath(`/branded-ingredients`);
-                            revalidatePath(`/branded-ingredients/${doc.slug}`);
-                        } else if (doc.productType === 'vitamin-mineral') {
-                            revalidatePath(`/vitamins-minerals`);
-                            revalidatePath(`/vitamins-minerals/${doc.slug}`);
-                        }
-                    }
-                    revalidatePath('/');
+                    revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
                 }
@@ -61,18 +50,7 @@ export const Products: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
-                    revalidatePath('/products');
-                    if (doc.slug) {
-                        revalidatePath(`/products/${doc.slug}`);
-                        if (doc.productType === 'branded') {
-                            revalidatePath(`/branded-ingredients`);
-                            revalidatePath(`/branded-ingredients/${doc.slug}`);
-                        } else if (doc.productType === 'vitamin-mineral') {
-                            revalidatePath(`/vitamins-minerals`);
-                            revalidatePath(`/vitamins-minerals/${doc.slug}`);
-                        }
-                    }
-                    revalidatePath('/');
+                    revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
                 }
