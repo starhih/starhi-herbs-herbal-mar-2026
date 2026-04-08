@@ -38,7 +38,7 @@ export const ShuffleGrid = ({ images }: ShuffleGridProps) => {
         transition={{ duration: 1.2, type: "spring" }}
         className="w-full h-full rounded-xl overflow-hidden bg-gray-100"
         style={{
-          backgroundImage: `url(${sq.src})`,
+          backgroundImage: `url('${sq.src}')`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

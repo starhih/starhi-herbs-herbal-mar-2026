@@ -62,7 +62,7 @@ export default function RootLayout({
       <body className="font-sans" suppressHydrationWarning>
         <Analytics
           googleAnalyticsId={process.env.NEXT_PUBLIC_GA_ID}
-          microsoftClarityId={process.env.NEXT_PUBLIC_CLARITY_ID}
+          microsoftClarityId={process.env.NEXT_PUBLIC_CLARITY_ID || "sc218vcedl"}
         />
         <ThemeProvider attribute="class" defaultTheme="light">
           <Navbar />

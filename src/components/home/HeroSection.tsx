@@ -36,7 +36,7 @@ export default function HeroSection() {
         <div className="container-custom">
           <div className="max-w-3xl">
             <div className="hidden">
-              {/* Keeping empty divs for structural parity if needed, or removed text */}
+              <h1 className="sr-only">Star Hi Herbs - Premium Herbal Extracts and Bulk Formulations</h1>
             </div>
           </div>
         </div>

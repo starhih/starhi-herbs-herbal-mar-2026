@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Script from 'next/script';
+import Clarity from '@microsoft/clarity';
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ export default function Analytics({
 }: AnalyticsProps) {
   const [consent, setConsent] = useState<string | null>(null);
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
+  const clarityInitialized = useRef(false);
 
   useEffect(() => {
     // Check consent status on mount and when it changes
@@ -53,7 +55,7 @@ export default function Analytics({
 
   // Update analytics consent when consent changes
   useEffect(() => {
-    if (!scriptsLoaded) return;
+    if (!scriptsLoaded && !clarityInitialized.current) return;
 
     if (consent === 'accepted') {
       // Enable analytics
@@ -62,6 +64,15 @@ export default function Analytics({
           analytics_storage: 'granted'
         });
       }
+      
+      // Update Clarity consent
+      if (typeof window !== 'undefined' && clarityInitialized.current) {
+        try {
+          Clarity.consent();
+        } catch (e) {
+          console.error("Failed to update Clarity consent", e);
+        }
+      }
     } else if (consent === 'declined') {
       // Disable analytics
       if (window.gtag) {
@@ -69,11 +80,42 @@ export default function Analytics({
           analytics_storage: 'denied'
         });
       }
+      
+      // Update Clarity consent
+      if (typeof window !== 'undefined' && clarityInitialized.current) {
+        try {
+          Clarity.consent(false);
+        } catch (e) {
+          console.error("Failed to update Clarity consent", e);
+        }
+      }
     }
   }, [consent, scriptsLoaded, googleAnalyticsId]);
 
-  // Don't render anything if no IDs provided
-  if (!googleAnalyticsId && !microsoftClarityId) {
+  // Initialize Microsoft Clarity using NPM package
+  useEffect(() => {
+    if (microsoftClarityId && typeof window !== 'undefined') {
+      try {
+        if (!clarityInitialized.current) {
+          Clarity.init(microsoftClarityId);
+          clarityInitialized.current = true;
+          console.log(`Microsoft Clarity initialized with ID: ${microsoftClarityId}`);
+          
+          // Set initial consent if already defined
+          if (consent === 'accepted') {
+            Clarity.consent();
+          } else if (consent === 'declined') {
+            Clarity.consent(false);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to initialize Microsoft Clarity:', error);
+      }
+    }
+  }, [microsoftClarityId, consent]);
+
+  // Don't render anything if no Google Analytics ID provided since Clarity handles its own loading
+  if (!googleAnalyticsId) {
     return null;
   }
 
@@ -108,21 +150,6 @@ export default function Analytics({
             `}
           </Script>
         </>
-      )}
-
-      {/* Microsoft Clarity */}
-      {microsoftClarityId && (
-        <Script id="microsoft-clarity" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "${microsoftClarityId}");
-
-            console.log('Microsoft Clarity initialized with ID: ${microsoftClarityId}');
-          `}
-        </Script>
       )}
     </>
   );

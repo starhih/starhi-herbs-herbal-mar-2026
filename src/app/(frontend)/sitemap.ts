@@ -5,39 +5,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://starhiherbs.com';
   const payload = await getPayloadClient();
 
-  // Base routes
-  const routes = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/products`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
+  // Base routes - add any new static page here
+  const staticPaths = [
+    '',
+    '/about',
+    '/blog',
+    '/branded-ingredients',
+    '/careers',
+    '/certifications',
+    '/collections',
+    '/contact',
+    '/download-catalogue',
+    '/innovation',
+    '/news',
+    '/privacy-policy',
+    '/products',
+    '/request-meeting',
+    '/request-quote',
+    '/request-sample',
+    '/sustainability',
+    '/terms-conditions',
+    '/vitamins-minerals'
   ];
+
+  const routes = staticPaths.map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: new Date(),
+    changeFrequency: (path === '' || path === '/products' || path === '/blog' ? 'daily' : 'monthly') as 'daily' | 'monthly' | 'weekly',
+    priority: path === '' ? 1 : path === '/products' || path === '/blog' ? 0.8 : 0.7,
+  }));
 
   // Fetch categories
   const { docs: categories } = await payload.find({

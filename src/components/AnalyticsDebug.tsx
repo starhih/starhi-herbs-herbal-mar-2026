@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { analytics } from '@/lib/analytics';
+import Clarity from '@microsoft/clarity';
 
 export default function AnalyticsDebug() {
   const [consent, setConsent] = useState<string | null>(null);
@@ -21,8 +22,11 @@ export default function AnalyticsDebug() {
       setGaLoaded(!!gaStatus);
       
       // Check if Clarity is loaded
-      const clarityStatus = typeof window !== 'undefined' && window.clarity;
-      setClarityLoaded(!!clarityStatus);
+      let clarityStatus = false;
+      try {
+        clarityStatus = (Clarity as any).hasStarted();
+      } catch (e) {}
+      setClarityLoaded(clarityStatus);
       
       // Get debug info
       setDebugInfo({
@@ -55,8 +59,13 @@ export default function AnalyticsDebug() {
   };
 
   const testClarity = () => {
-    if (window.clarity) {
-      window.clarity('event', 'debug_test', { source: 'manual_test' });
+    let started = false;
+    try {
+      started = (Clarity as any).hasStarted();
+    } catch (e) {}
+
+    if (started) {
+      Clarity.event('debug_test');
       alert('Microsoft Clarity test event sent!');
     } else {
       alert('Microsoft Clarity not loaded yet!');

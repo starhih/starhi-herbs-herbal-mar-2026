@@ -1,4 +1,5 @@
 // Analytics utility functions for Google Analytics and Microsoft Clarity
+import Clarity from '@microsoft/clarity';
 
 declare global {
   interface Window {
@@ -60,8 +61,14 @@ export const analytics = {
     trackEvent('download', 'engagement', fileName, undefined);
     
     // Also track with Clarity if available
-    if (hasAnalyticsConsent() && typeof window !== 'undefined' && window.clarity) {
-      window.clarity('event', 'download', { file: fileName, type: fileType });
+    if (hasAnalyticsConsent() && typeof window !== 'undefined') {
+      try {
+        if ((Clarity as any).hasStarted()) {
+          Clarity.event('download');
+        }
+      } catch (e) {
+        console.error("Clarity event error:", e);
+      }
     }
   },
 
@@ -93,11 +100,17 @@ export const analytics = {
 
 // Microsoft Clarity specific tracking
 export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
-  if (!hasAnalyticsConsent() || typeof window === 'undefined' || !window.clarity) {
+  if (!hasAnalyticsConsent() || typeof window === 'undefined') {
     return;
   }
 
-  window.clarity('event', eventName, data);
+  try {
+    if ((Clarity as any).hasStarted()) {
+      Clarity.event(eventName);
+    }
+  } catch (e) {
+    console.error("Clarity event error:", e);
+  }
 };
 
 // Initialize analytics consent
@@ -110,6 +123,11 @@ export const initializeAnalytics = () => {
       window.gtag('consent', 'update', {
         analytics_storage: 'granted'
       });
+      if (typeof window !== 'undefined') {
+        try {
+          if ((Clarity as any).hasStarted()) Clarity.consent();
+        } catch (e) {}
+      }
     }
   } else if (consent === 'declined') {
     // Disable analytics
@@ -117,6 +135,11 @@ export const initializeAnalytics = () => {
       window.gtag('consent', 'update', {
         analytics_storage: 'denied'
       });
+      if (typeof window !== 'undefined') {
+        try {
+          if ((Clarity as any).hasStarted()) Clarity.consent(false);
+        } catch (e) {}
+      }
     }
   }
 };
@@ -130,6 +153,12 @@ export const updateAnalyticsConsent = (granted: boolean) => {
       analytics_storage: granted ? 'granted' : 'denied'
     });
   }
+
+  try {
+    if ((Clarity as any).hasStarted()) {
+      Clarity.consent(granted);
+    }
+  } catch (e) {}
 
   // Reload page to apply changes if consent was granted
   if (granted) {
