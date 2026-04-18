@@ -9,7 +9,6 @@ import { getPayloadClient } from '@/lib/payload';
 import { mapProduct } from '@/lib/mappers';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import ProductCard from '@/components/products/ProductCard';
-import SupplierInfo from '@/components/products/SupplierInfo';
 import ProductionDetails from '@/components/products/ProductionDetails';
 import Packaging from '@/components/products/Packaging';
 import Factory from '@/components/products/Factory';
