@@ -2,6 +2,7 @@ import HeroSection from '@/components/home/HeroSection';
 import AboutIntroSection from '@/components/home/AboutIntroSection';
 import StatisticsSection from '@/components/home/StatisticsSection';
 import FeaturedHighlights from '@/components/home/FeaturedHighlights';
+import BrandedIngredientsHighlight from '@/components/home/BrandedIngredientsHighlight';
 import CertificationCarousel from '@/components/home/CertificationCarousel';
 import ProductCategories from '@/components/home/ProductCategories';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
@@ -10,7 +11,7 @@ import EventsSection from '@/components/home/EventsSection';
 import VideoStory from '@/components/home/VideoStory';
 import BlogInsights from '@/components/home/BlogInsights';
 import CatalogueDownload from '@/components/home/CatalogueDownload';
-
+import SustainabilityImpact from '@/components/shared/SustainabilityImpact';
 import { getPayloadClient } from '@/lib/payload';
 import { mapProduct, mapCategory, mapBlogPost, mapBlogCategory, mapEvent, mapAward, mapCertification, getImageUrl } from '@/lib/mappers';
 import { ProductCategory } from '@/data/types';
@@ -169,6 +170,8 @@ export default async function Home() {
           newsItems={newsItems}
         />
       )}
+      <BrandedIngredientsHighlight />
+      <SustainabilityImpact />
       <CertificationCarousel certifications={certifications} />
       <ProductCategories categories={categories} />
       <WhyChooseUs />

@@ -28,10 +28,16 @@ const nextConfig = {
     ];
   },
   images: {
+    minimumCacheTTL: 31536000,
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'starhiherbs.com',
       },
       {
         protocol: 'https',

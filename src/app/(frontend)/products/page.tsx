@@ -8,15 +8,19 @@ import { mapCategory, mapProduct } from '@/lib/mappers';
 import ProductCard from '@/components/products/ProductCard';
 import CategoryCard from '@/components/products/CategoryCard';
 import ProductsPageClient from '@/components/products/ProductsPageClient';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Define metadata for the products page
 export const metadata: Metadata = {
-  title: 'Products | Star Hi Herbs',
-  description: 'Explore our comprehensive range of high-quality herbal extracts and nutraceutical ingredients for health and wellness products.',
-  keywords: 'herbal extracts, organic extracts, nutraceutical ingredients, standardized extracts, probiotics',
+  title: 'Our Products | Herbal Extracts Manufacturer in India',
+  description: 'Explore our comprehensive range of high-quality herbal extracts, probiotics, and nutraceuticals. Premium B2B botanical ingredients from Star Hi Herbs.',
+  keywords: 'herbal extracts, organic extracts, nutraceutical ingredients, standardized extracts, probiotics, herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, b2b herbs',
+  alternates: {
+    canonical: '/products',
+  },
   openGraph: {
-    title: 'Products | Star Hi Herbs',
-    description: 'Explore our comprehensive range of high-quality herbal extracts and nutraceutical ingredients for health and wellness products.',
+    title: 'Our Products | Herbal Extracts Manufacturer in India',
+    description: 'Explore our comprehensive range of high-quality herbal extracts, probiotics, and nutraceuticals. Premium B2B botanical ingredients from Star Hi Herbs.',
     images: [
       {
         url: '/images/hero/standardized-herbal-extracts.jpeg',
@@ -49,6 +53,22 @@ export default async function ProductsPage() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": "https://starhiherbs.com/products"
+          },
+          url: "https://starhiherbs.com/products",
+          name: "Star Hi Herbs Botanical Extract Products",
+          description: "Browse our full collection of standardized herbal extracts, branded ingredients, and vitamin solutions.",
+          publisher: {
+            "@id": "https://starhiherbs.com/#organization"
+          }
+        }}
+      />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[300px] flex items-center">
         <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"

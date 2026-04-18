@@ -35,6 +35,7 @@ const pagesWithHero = [
   '/request-sample',      // Request Sample page
   '/download-catalogue',  // Download Catalogue page
   '/request-meeting',     // Request Meeting page
+  '/certifications',      // Certifications page
 ];
 
 // Check if a path starts with any of the collection paths

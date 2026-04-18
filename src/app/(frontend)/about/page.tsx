@@ -4,15 +4,36 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Award, Users, Globe, Leaf, CheckCircle, Building, Beaker, FileCheck, FileText, Mail, PhoneCall } from 'lucide-react';
 import { Metadata } from 'next';
 
+import JsonLd from '@/components/seo/JsonLd';
+
 export const metadata: Metadata = {
-  title: 'About Us | Star Hi Herbs Pvt Ltd',
-  description: 'Learn about Star Hi Herbs, a leading manufacturer and exporter of standardized herbal extracts, branded nutraceutical ingredients, and probiotics since 2004.',
-  keywords: 'herbal extracts, nutraceutical ingredients, probiotics, Star Hi Herbs, Bangalore, India, Firoz Hussain',
+  title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+  description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
+  keywords: 'herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, Coleus manufacturer in india, Sesamin extract manufacturer in the world, b2b herbal extracts, nutraceutical ingredients, probiotics, Star Hi Herbs, Firoz Hussain',
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": "https://starhiherbs.com/about"
+          },
+          url: "https://starhiherbs.com/about",
+          name: "About Star Hi Herbs Pvt Ltd",
+          description: "Star Hi Herbs Pvt Ltd is a leading manufacturer and exporter of standardized herbal extracts, branded nutraceutical ingredients, and probiotics.",
+          publisher: {
+            "@id": "https://starhiherbs.com/#organization"
+          }
+        }}
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
         <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"

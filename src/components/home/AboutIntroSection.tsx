@@ -15,6 +15,9 @@ export default function AboutIntroSection() {
             <p className="text-xl font-medium text-[#258F67] italic">
               "Extracting Nature's Best—Backed by Science, Delivered with Integrity."
             </p>
+            <p className="text-gray-600 leading-relaxed font-semibold">
+              Recognized as a top herbal extract manufacturer in Bangalore, India, we are proud to be the largest manufacturer of Coleus extract and Sesamin extract in the world.
+            </p>
             <p className="text-gray-600 leading-relaxed">
               Star Hi Herbs is a leading manufacturer and global supplier of high-quality herbal extracts,
               active ingredients, and botanical solutions for the nutraceutical, cosmetic, personal care,

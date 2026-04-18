@@ -9,7 +9,7 @@ import { getPayloadClient } from '@/lib/payload';
 import { mapProduct } from '@/lib/mappers';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import ProductCard from '@/components/products/ProductCard';
-import SupplierInfo from '@/components/products/SupplierInfo';
+
 import ProductionDetails from '@/components/products/ProductionDetails';
 import Packaging from '@/components/products/Packaging';
 import Factory from '@/components/products/Factory';
@@ -19,6 +19,7 @@ import Research from '@/components/products/Research';
 import ProductFAQs from '@/components/products/ProductFAQs';
 import StorgChildProducts from '@/components/products/StorgChildProducts';
 import StorgIndications from '@/components/products/StorgIndications';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -58,9 +59,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} | ${product.categoryName} | Star Hi Herbs`,
-    description: product.description || `${product.name} - ${product.standardization} - High-quality herbal extract by Star Hi Herbs.`,
-    keywords: [product.name, product.categoryName, product.standardization, 'herbal extract', 'nutraceutical', ...product.certifications].join(', '),
+    title: `${product.name} | Top ${product.name} Manufacturer in India | Star Hi Herbs`,
+    description: `Leading ${product.name} manufacturer in Bangalore, India. ${product.description || product.shortDescription || 'High-quality herbal extract by Star Hi Herbs.'}`,
+    keywords: [
+      `${product.name} manufacturer in india`, 
+      `${product.name} manufacturer in bangalore`, 
+      `top ${product.name} manufacturer`,
+      product.name, 
+      product.categoryName, 
+      product.standardization, 
+      'herbal extract manufacturer in india', 
+      'nutraceuticals', 
+      ...product.certifications
+    ].join(', '),
+    alternates: {
+      canonical: `/products/${product.slug}`,
+    },
     openGraph: {
       title: `${product.name} | ${product.categoryName}`,
       description: product.description || `${product.name} - ${product.standardization} - High-quality herbal extract by Star Hi Herbs.`,
@@ -149,8 +163,48 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     parentProduct = parentDocs[0] ? mapProduct(parentDocs[0]) : null;
   }
 
+  // Generate Product JSON-LD Schema
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.image,
+    description: product.description || product.shortDescription,
+    category: product.categoryName,
+    brand: {
+      '@type': 'Brand',
+      name: 'Star Hi Herbs'
+    },
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      price: '0',
+      priceCurrency: 'USD',
+      url: `https://starhiherbs.com/products/${product.slug}`
+    }
+  };
+
+  // Generate FAQ JSON-LD Schema
+  let faqSchema = null;
+  if (product.faqs && product.faqs.length > 0) {
+    faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: product.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    };
+  }
+
   return (
     <>
+      <JsonLd data={productSchema} />
+      {faqSchema && <JsonLd data={faqSchema} />}
       {/* Product Hero */}
       <section className="pt-24 md:pt-32 pb-8">
         <div className="container-custom">
@@ -479,18 +533,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </section>
       )}
 
-      {/* Supplier Info Section (if available) */}
-      {product.supplierInfo && (
-        <section className="section-padding bg-gray-50">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Supplier Guidelines</h6>
-              <h2 className="text-[#214842] mb-4">Sourcing Recommendations</h2>
-            </div>
-            <SupplierInfo points={product.supplierInfo.points} />
-          </div>
-        </section>
-      )}
+
 
       {/* FAQs Section (if available) */}
       {product.faqs && product.faqs.length > 0 && (

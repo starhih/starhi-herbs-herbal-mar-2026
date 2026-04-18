@@ -87,6 +87,51 @@ export default function ProductListingClient({
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialProducts);
   const [isFiltering, setIsFiltering] = useState(false);
 
+  const isBrandedIngredients = category.slug === 'branded-ingredients';
+
+  const brandedIngredientsData = [
+    {
+      name: 'Turmimax',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/turmimax.jpg',
+      url: 'https://turmimax.com/',
+    },
+    {
+      name: 'Turmesac',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/turmesac.jpg',
+      url: 'https://turmesac.in/',
+    },
+    {
+      name: 'Forcslim',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/forcslim.jpg',
+      url: 'https://forcslim.in/',
+    },
+    {
+      name: 'Bacosane',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/bacosane.jpg',
+      url: 'https://bacosane.com/',
+    },
+    {
+      name: 'Cissuslean',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/cissusiean.jpg',
+      url: 'https://cissuslean.com/',
+    },
+    {
+      name: 'Curkolin',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/curkolin.jpg',
+      url: 'https://curkolin.com/',
+    },
+    {
+      name: 'Bacospore',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/bacospore.jpg',
+      url: 'https://bacospore.com/',
+    },
+    {
+      name: 'Salislim',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/salislim.jpg',
+      url: 'https://salislim.com/',
+    }
+  ];
+
   // Get all unique certifications from products
   const allCertifications = Array.from(
     new Set(
@@ -308,6 +353,46 @@ export default function ProductListingClient({
       <div className="mt-8">
         {isFiltering ? (
           <div className="text-center py-8">Loading...</div>
+        ) : isBrandedIngredients ? (
+          // Custom render for branded ingredients always shown
+          <div className="py-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 items-center place-items-center">
+              {brandedIngredientsData.map((item) => (
+                <a 
+                  key={item.name}
+                  href={item.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="relative w-full block rounded-2xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300 hover:shadow-xl"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="w-full h-auto object-cover"
+                  />
+                </a>
+              ))}
+            </div>
+            
+            {filteredProducts.length > 0 && (
+              <div className="mt-16">
+                <hr className="mb-10" />
+                <h2 className="text-2xl font-bold text-[#214842] mb-6">Other Branded Ingredients</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="mt-12 text-center">
+              <Button asChild size="lg" className="px-8 py-6 text-lg rounded-full">
+                <a href="/contact">Request more info about it</a>
+              </Button>
+            </div>
+          </div>
         ) : filteredProducts.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (

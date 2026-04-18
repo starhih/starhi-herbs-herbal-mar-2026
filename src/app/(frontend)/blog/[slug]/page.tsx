@@ -9,6 +9,7 @@ import SimpleBlogContent from '@/components/blog/SimpleBlogContent';
 import BlogTableOfContents from '@/components/blog/BlogTableOfContents';
 import BlogTags from '@/components/blog/BlogTags';
 import BlogRelatedPosts from '@/components/blog/BlogRelatedPosts';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Generate static params for all blog posts
 // Generate static params for all blog posts
@@ -46,6 +47,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Star Hi Herbs Blog`,
     description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -96,8 +100,32 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   });
   const relatedPosts = relatedDocs.map(mapBlogPost);
 
+  // Generate Article schema
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    image: post.image,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Star Hi Herbs Expert'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Star Hi Herbs',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg'
+      }
+    },
+    description: post.excerpt
+  };
+
   return (
     <>
+      <JsonLd data={articleSchema} />
       <section className="pt-8 lg:pt-12">
         <div className="container-custom">
           <Breadcrumbs

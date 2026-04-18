@@ -215,17 +215,6 @@ export const Products: CollectionConfig = {
         },
         // Sections from products.ts
         {
-            name: 'supplierInfo',
-            type: 'group',
-            fields: [
-                {
-                    name: 'points',
-                    type: 'array',
-                    fields: [{ name: 'point', type: 'text' }],
-                },
-            ],
-        },
-        {
             name: 'productionDetails',
             type: 'group',
             fields: [

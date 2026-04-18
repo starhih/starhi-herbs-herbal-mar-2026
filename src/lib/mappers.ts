@@ -176,11 +176,6 @@ export const mapProduct = (p: PayloadProduct): FrontendProduct | null => {
             image: getImageUrl((p as any).whyChoose.image) || (p as any).whyChoose.imageUrl || ''
         } : undefined,
 
-        // Supplier Info
-        supplierInfo: p.supplierInfo && (p.supplierInfo.points || []).length > 0
-            ? { points: (p.supplierInfo.points || []).map((P: any) => P.point || '').filter(Boolean) }
-            : undefined,
-
         // Production sections
         productionDetails: p.productionDetails?.description ? {
             description: p.productionDetails.description || '',

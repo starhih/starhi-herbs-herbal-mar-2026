@@ -71,6 +71,8 @@ function raceImageUrls(urls: string[], signal?: AbortSignal): Promise<string> {
   });
 }
 
+
+
 export interface ImageProps extends Omit<NextImageProps, 'src'> {
   src: string;
   /** Optional second image source — whichever loads first will be displayed */
@@ -82,6 +84,7 @@ export interface ImageProps extends Omit<NextImageProps, 'src'> {
  * - If both `src` and `fallbackSrc` are provided, races them — fastest wins.
  * - If only `src` is provided but it's a relative path, auto-generates an ImageKit URL as alternate.
  * - External URLs skip the Next.js image optimizer to avoid server-side fetch timeouts.
+ * - Automatically falls back to unoptimized image loading if Next.js image optimization fails.
  */
 export default function Image({
   src,
@@ -94,6 +97,7 @@ export default function Image({
 
   const [imageSrc, setImageSrc] = useState<string>(src);
   const [failed, setFailed] = useState(false);
+  const [autoUnoptimized, setAutoUnoptimized] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -106,6 +110,7 @@ export default function Image({
     if (sources.length === 1) {
       setImageSrc(sources[0]);
       setFailed(false);
+      setAutoUnoptimized(false);
       return;
     }
 
@@ -118,12 +123,14 @@ export default function Image({
         if (!controller.signal.aborted) {
           setImageSrc(winner);
           setFailed(false);
+          setAutoUnoptimized(false);
         }
       })
       .catch(() => {
         if (!controller.signal.aborted) {
           setImageSrc(src);
           setFailed(true);
+          setAutoUnoptimized(false);
         }
       });
 
@@ -131,12 +138,22 @@ export default function Image({
   }, [src, effectiveFallback]);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const isUnoptimizedDisabled = props.unoptimized !== undefined ? props.unoptimized : false;
+    
+    // First fallback: If Next.js Image Optimization fails, try rendering it unoptimized directly
+    if (!autoUnoptimized && !isUnoptimizedDisabled && isExternalUrl(imageSrc)) {
+      setAutoUnoptimized(true);
+      return; // Stop here, try unoptimized
+    }
+
     if (!failed && effectiveFallback && imageSrc !== effectiveFallback) {
       setImageSrc(effectiveFallback);
       setFailed(true);
+      setAutoUnoptimized(false);
     } else if (!failed && effectiveFallback && imageSrc !== src) {
       setImageSrc(src);
       setFailed(true);
+      setAutoUnoptimized(false);
     }
 
     if (onError) {
@@ -146,8 +163,9 @@ export default function Image({
 
   if (!imageSrc) return null;
 
-  // Skip Next.js image optimizer for external URLs to avoid server-side fetch timeouts
-  const useUnoptimized = isExternalUrl(imageSrc);
+  // Let Next.js optimize most external URLs now that it's configured in next.config.mjs.
+  // We bypass if explicitly set or if the initial optimization failed (autoUnoptimized).
+  const useUnoptimized = props.unoptimized !== undefined ? props.unoptimized : autoUnoptimized;
 
   return (
     <NextImage

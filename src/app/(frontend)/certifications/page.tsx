@@ -6,8 +6,12 @@ import { Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-  title: 'Certifications | Star Hi Herbs Pvt Ltd',
-  description: 'View our international certifications including ISO, FSSC 22000, WHO GMP, Organic, Halal, Kosher, and more.',
+  title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
+  description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
+  keywords: 'herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, organic extracts, WHO GMP certified manufacturer india, ISO certified herbal extracts, halal herbal extracts, Star Hi Herbs certifications',
+  alternates: {
+    canonical: '/certifications',
+  },
 };
 
 export default async function CertificationsPage() {
@@ -18,23 +22,23 @@ export default async function CertificationsPage() {
     depth: 1, // To populate media relationships like the PDF
     overrideAccess: true, // We are on backend
   });
-  const certifications = certsResponse.docs;
+  const certifications = certsResponse.docs; // original display order
 
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] flex items-center">
+      <section className="relative h-[60vh] min-h-[400px] flex items-center">
         <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"
           alt="Certifications banner"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-[#214842]/80"></div>
-        <div className="relative z-10 container-custom text-white pt-20">
-          <div className="max-w-2xl text-center mx-auto">
-            <h1 className="mb-4 text-shadow-sm text-4xl md:text-5xl font-bold">Certifications & Accreditations</h1>
-            <p className="text-xl text-white/90">
+        <div className="absolute inset-0 bg-[#214842]/30"></div>
+        <div className="relative z-10 container-custom text-white">
+          <div className="max-w-2xl">
+            <h1 className="mb-4 text-shadow-sm">Certifications & Accreditations</h1>
+            <p className="text-xl text-white text-shadow-sm">
               Our commitment to the highest international standards in safety, traceability, and quality.
             </p>
           </div>

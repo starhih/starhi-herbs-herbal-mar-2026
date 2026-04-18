@@ -74,9 +74,6 @@ export interface Product extends BaseEntity {
   variants?: { name: string; specDocumentUrl?: string }[];
   research?: string;
   featured?: boolean;
-  supplierInfo?: {
-    points: string[];
-  };
   productionDetails?: {
     description: string;
     image: string;

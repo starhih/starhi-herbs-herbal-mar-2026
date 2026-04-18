@@ -9,8 +9,12 @@ import { formatDate } from '@/utils/date';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'News & Updates | Star Hi Herbs',
-  description: 'Latest news, product launches, and company updates from Star Hi Herbs.',
+  title: 'News & Updates | Star Hi Herbs Corporate Announcements',
+  description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
+  keywords: 'Star Hi Herbs news, corporate announcements, herbal extract manufacturer updates, india nutraceutical news, botanical extract launches',
+  alternates: {
+    canonical: '/news',
+  },
 };
 
 export default async function NewsPage() {

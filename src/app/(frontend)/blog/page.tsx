@@ -10,7 +10,11 @@ import SubscribeForm from '@/components/blog/SubscribeForm';
 
 export const metadata: Metadata = {
   title: 'Knowledge Center | Star Hi Herbs Blog',
-  description: 'Latest insights, research, and industry news from Star Hi Herbs.',
+  description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
+  keywords: 'herbal extract knowledge, nutraceutical articles, probiotics research, top herbal extract manufacturer in india, b2b herbal extracts news',
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default async function BlogPage() {

@@ -338,14 +338,6 @@ export interface Product {
    * Custom tagline shown on homepage (e.g. "Trending Now")
    */
   productOfTheMonthTagline?: string | null;
-  supplierInfo?: {
-    points?:
-      | {
-          point?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
   productionDetails?: {
     description?: string | null;
     image?: (number | null) | Media;
@@ -897,16 +889,6 @@ export interface ProductsSelect<T extends boolean = true> {
   featured?: T;
   productOfTheMonth?: T;
   productOfTheMonthTagline?: T;
-  supplierInfo?:
-    | T
-    | {
-        points?:
-          | T
-          | {
-              point?: T;
-              id?: T;
-            };
-      };
   productionDetails?:
     | T
     | {

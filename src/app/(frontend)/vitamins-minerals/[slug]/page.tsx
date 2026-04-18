@@ -20,6 +20,7 @@ import ProductFAQs from '@/components/products/ProductFAQs';
 import VitaminProductIndications from '@/components/vitamins/VitaminProductIndications';
 import VitaminProductApplications from '@/components/vitamins/VitaminProductApplications';
 import ContactButtons from '@/components/branded/ContactButtons';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Generate static params for vitamins and minerals
 // Generate static params for vitamins and minerals
@@ -62,9 +63,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} | Vitamins & Minerals | Star Hi Herbs`,
-    description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
-    keywords: [product.name, 'Vitamins & Minerals', product.standardization, 'plant-based', ...product.certifications].join(', '),
+    title: `${product.name} | Top ${product.name} Manufacturer in India | Star Hi Herbs`,
+    description: `Leading ${product.name} manufacturer in Bangalore, India. ${product.description || product.shortDescription || 'Premium plant-based vitamin/mineral by Star Hi Herbs.'}`,
+    keywords: [
+      `${product.name} manufacturer in india`,
+      `${product.name} manufacturer in bangalore`,
+      `top ${product.name} manufacturer`,
+      product.name, 
+      'Vitamins & Minerals', 
+      product.standardization, 
+      'plant-based manufacturer in india', 
+      ...product.certifications
+    ].join(', '),
+    alternates: {
+      canonical: `/vitamins-minerals/${product.slug}`,
+    },
     openGraph: {
       title: `${product.name} | Vitamins & Minerals`,
       description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
@@ -122,8 +135,48 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
 
   const relatedProducts = relatedDocs.map(mapProduct).filter(Boolean) as Product[];
 
+  // Generate Product JSON-LD Schema
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.image,
+    description: product.description || product.shortDescription,
+    category: 'Vitamins & Minerals',
+    brand: {
+      '@type': 'Brand',
+      name: 'Star Hi Herbs'
+    },
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      price: '0',
+      priceCurrency: 'USD',
+      url: `https://starhiherbs.com/vitamins-minerals/${product.slug}`
+    }
+  };
+
+  // Generate FAQ JSON-LD Schema
+  let faqSchema = null;
+  if (product.faqs && product.faqs.length > 0) {
+    faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: product.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    };
+  }
+
   return (
     <>
+      <JsonLd data={productSchema} />
+      {faqSchema && <JsonLd data={faqSchema} />}
       {/* Hero Section */}
       <section className="pt-8 lg:pt-12 pb-16 lg:pb-24 bg-gradient-to-b from-[#f8f9fa] to-white">
         <div className="container-custom">
