@@ -10,7 +10,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '',
     '/about',
     '/blog',
-    '/branded-ingredients',
     '/careers',
     '/certifications',
     '/collections',
@@ -24,8 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/request-quote',
     '/request-sample',
     '/sustainability',
-    '/terms-conditions',
-    '/vitamins-minerals'
+    '/terms-conditions'
   ];
 
   const routes = staticPaths.map((path) => ({
@@ -52,14 +50,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { docs: products } = await payload.find({
     collection: 'products',
     limit: 100,
-    select: { slug: true },
+    select: { slug: true, productType: true },
   });
-  const productRoutes = products.map((product) => ({
-    url: `${baseUrl}/products/${product.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }));
+  const productRoutes = products.map((product) => {
+    let urlPath = `/products/${product.slug}`;
+    if (product.productType === 'branded') urlPath = `/branded-ingredients/${product.slug}`;
+    if (product.productType === 'vitamin-mineral') urlPath = `/vitamins-minerals/${product.slug}`;
+    
+    return {
+      url: `${baseUrl}${urlPath}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    };
+  });
 
   // Fetch blog categories
   const { docs: blogCategories } = await payload.find({

@@ -593,8 +593,8 @@ export default function InnovationPage() {
                   the bioavailability of a natural supplement (Storg HIMmax) against cyclophosphamide-
                   induced immunosuppression models and its effect on in vivo immunomodulation and in vitro
                   antioxidant capacity. Journal of Medicinal Plants Research 2024,18(6): 85-94.
-                  <a href="https://doi.org/10.5897/JMPR2024.7338" className="text-[#258F67] ml-1 hover:underline" target="_blank" rel="noopener noreferrer">
-                    https://doi.org/10.5897/JMPR2024.7338
+                  <a href="https://scholar.google.com/scholar?q=10.5897%2FJMPR2024.7338" className="text-[#258F67] ml-1 hover:underline" target="_blank" rel="noopener noreferrer">
+                    DOI: 10.5897/JMPR2024.7338
                   </a>
                 </p>
               </div>

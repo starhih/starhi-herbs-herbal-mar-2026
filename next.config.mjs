@@ -27,6 +27,21 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.starhiherbs.com',
+          },
+        ],
+        destination: 'https://starhiherbs.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     minimumCacheTTL: 31536000,
     formats: ['image/avif', 'image/webp'],

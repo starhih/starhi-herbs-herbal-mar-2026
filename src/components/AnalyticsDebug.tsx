@@ -32,7 +32,7 @@ export default function AnalyticsDebug() {
       setDebugInfo({
         gaId: process.env.NEXT_PUBLIC_GA_ID,
         clarityId: process.env.NEXT_PUBLIC_CLARITY_ID,
-        dataLayer: typeof window !== 'undefined' ? window.dataLayer?.length || 0 : 0,
+        dataLayer: typeof window !== 'undefined' ? (window as any).dataLayer?.length || 0 : 0,
         userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'N/A'
       });
     };

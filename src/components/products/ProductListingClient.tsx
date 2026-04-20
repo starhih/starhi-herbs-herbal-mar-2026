@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Product, ProductCategory } from '@/data/types';
 import { Input } from '@/components/ui/input';
@@ -84,8 +84,6 @@ export default function ProductListingClient({
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [sortOption, setSortOption] = useState(initialSortOption);
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>(initialCertifications);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialProducts);
-  const [isFiltering, setIsFiltering] = useState(false);
 
   const isBrandedIngredients = category.slug === 'branded-ingredients';
 
@@ -139,10 +137,8 @@ export default function ProductListingClient({
     )
   ).sort();
 
-  // Apply filters and sorting
-  useEffect(() => {
-    setIsFiltering(true);
-
+  // Apply filters and sorting synchronously
+  const filteredProducts = useMemo(() => {
     let filtered = [...initialProducts];
 
     // Apply search filter
@@ -161,7 +157,7 @@ export default function ProductListingClient({
     if (selectedCertifications.length > 0) {
       filtered = filtered.filter(product =>
         selectedCertifications.every(cert =>
-          product.certifications.includes(cert as string)
+          product.certifications?.includes(cert as string)
         )
       );
     }
@@ -172,19 +168,25 @@ export default function ProductListingClient({
       filtered.sort(selectedSortOption.sortFn);
     }
 
-    setFilteredProducts(filtered);
-    setIsFiltering(false);
+    return filtered;
+  }, [initialProducts, searchQuery, selectedCertifications, sortOption]);
 
-    // Update URL with filters
+  // Update URL string when states change (client-side only)
+  useEffect(() => {
     const params = new URLSearchParams();
     if (searchQuery) params.set('search', searchQuery);
     if (sortOption !== 'name-asc') params.set('sort', sortOption);
     if (selectedCertifications.length > 0) params.set('certifications', selectedCertifications.join(','));
 
-    const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    window.history.replaceState({}, '', newUrl);
-
-  }, [searchQuery, sortOption, selectedCertifications, initialProducts]);
+    // Prevent excessive history replacement by checking if it changed
+    const newQueryString = params.toString();
+    const currentQueryString = window.location.search.replace('?', '');
+    
+    if (newQueryString !== currentQueryString) {
+      const newUrl = `${window.location.pathname}${newQueryString ? '?' + newQueryString : ''}`;
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, [searchQuery, sortOption, selectedCertifications]);
 
   // Handle search input
   const handleSearch = (e: React.FormEvent) => {
@@ -351,9 +353,7 @@ export default function ProductListingClient({
 
       {/* Products Grid */}
       <div className="mt-8">
-        {isFiltering ? (
-          <div className="text-center py-8">Loading...</div>
-        ) : isBrandedIngredients ? (
+        {isBrandedIngredients ? (
           // Custom render for branded ingredients always shown
           <div className="py-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 items-center place-items-center">
