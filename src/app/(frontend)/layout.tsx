@@ -80,9 +80,6 @@ export default function RootLayout({
         <link rel="icon" href="/images/starhiherbs-favicon.jpg" />
         <link rel="apple-touch-icon" href="/images/starhiherbs-favicon.jpg" />
         <JsonLd data={organizationSchema} />
-        
-        {/* Ahrefs Analytics */}
-        <script src="https://analytics.ahrefs.com/analytics.js" data-key="fJ5uoYkEvvPkQ+BgDzWUyg" async></script>
       </head>
       <body className="font-sans" suppressHydrationWarning>
         <Analytics

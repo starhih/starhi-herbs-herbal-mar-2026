@@ -8,12 +8,6 @@ declare global {
   }
 }
 
-// Check if user has consented to analytics cookies
-export const hasAnalyticsConsent = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return localStorage.getItem('cookie-consent') === 'accepted';
-};
-
 // Google Analytics Event Tracking
 export const trackEvent = (
   action: string,
@@ -21,7 +15,7 @@ export const trackEvent = (
   label?: string,
   value?: number
 ) => {
-  if (!hasAnalyticsConsent() || typeof window === 'undefined' || !window.gtag) {
+  if (typeof window === 'undefined' || !window.gtag) {
     return;
   }
 
@@ -34,7 +28,7 @@ export const trackEvent = (
 
 // Track page views (useful for SPA navigation)
 export const trackPageView = (url: string, title?: string) => {
-  if (!hasAnalyticsConsent() || typeof window === 'undefined' || !window.gtag) {
+  if (typeof window === 'undefined' || !window.gtag) {
     return;
   }
 
@@ -61,7 +55,7 @@ export const analytics = {
     trackEvent('download', 'engagement', fileName, undefined);
     
     // Also track with Clarity if available
-    if (hasAnalyticsConsent() && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       try {
         if ((Clarity as any).hasStarted()) {
           Clarity.event('download');
@@ -100,7 +94,7 @@ export const analytics = {
 
 // Microsoft Clarity specific tracking
 export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
-  if (!hasAnalyticsConsent() || typeof window === 'undefined') {
+  if (typeof window === 'undefined') {
     return;
   }
 
@@ -113,55 +107,11 @@ export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
   }
 };
 
-// Initialize analytics consent
+// These functions remain for compatibility with CookieConsent.tsx but have no effect on blocking tracking
 export const initializeAnalytics = () => {
-  const consent = localStorage.getItem('cookie-consent');
-  
-  if (consent === 'accepted') {
-    // Enable analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        analytics_storage: 'granted'
-      });
-      if (typeof window !== 'undefined') {
-        try {
-          if ((Clarity as any).hasStarted()) Clarity.consent();
-        } catch (e) {}
-      }
-    }
-  } else if (consent === 'declined') {
-    // Disable analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        analytics_storage: 'denied'
-      });
-      if (typeof window !== 'undefined') {
-        try {
-          if ((Clarity as any).hasStarted()) Clarity.consent(false);
-        } catch (e) {}
-      }
-    }
-  }
+  // Tracking runs unconditionally now
 };
 
-// Update consent status
 export const updateAnalyticsConsent = (granted: boolean) => {
-  if (typeof window === 'undefined') return;
-
-  if (window.gtag) {
-    window.gtag('consent', 'update', {
-      analytics_storage: granted ? 'granted' : 'denied'
-    });
-  }
-
-  try {
-    if ((Clarity as any).hasStarted()) {
-      Clarity.consent(granted);
-    }
-  } catch (e) {}
-
-  // Reload page to apply changes if consent was granted
-  if (granted) {
-    window.location.reload();
-  }
+  // Tracking runs unconditionally now
 };
