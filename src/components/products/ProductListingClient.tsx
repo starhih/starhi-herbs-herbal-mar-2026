@@ -101,7 +101,7 @@ export default function ProductListingClient({
     {
       name: 'Forcslim',
       imageUrl: 'https://ik.imagekit.io/pon54xoks/forcslim.jpg',
-      url: 'https://forcslim.in/',
+      url: 'https://forcslim.com/',
     },
     {
       name: 'Bacosane',

@@ -13,7 +13,7 @@ export const getImageUrl = (media: number | Media | null | undefined): string =>
 /**
  * Extract plain text from Payload Lexical rich text JSON
  */
-const richTextToPlainText = (content: any): string => {
+export const richTextToPlainText = (content: any): string => {
     if (!content || !content.root || !content.root.children) return '';
     const extractText = (nodes: any[]): string => {
         return nodes.map((node: any) => {

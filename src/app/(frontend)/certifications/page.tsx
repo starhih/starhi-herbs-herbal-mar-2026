@@ -22,13 +22,13 @@ export default async function CertificationsPage() {
     depth: 1, // To populate media relationships like the PDF
     overrideAccess: true, // We are on backend
   });
-  const certifications = certsResponse.docs; // original display order
+  const certifications = [...certsResponse.docs].reverse(); // reversed display order
 
   return (
     <>
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
-        <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"
+        <Image src="https://ik.imagekit.io/pon54xoks/certifications-hero.jpg"
           alt="Certifications banner"
           fill
           className="object-cover"

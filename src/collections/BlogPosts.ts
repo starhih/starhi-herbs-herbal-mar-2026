@@ -13,8 +13,12 @@ export const BlogPosts: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (err) {
+                    console.error('Error revalidating BlogPosts:', err);
+                }
                 return doc;
             }
         ],
@@ -22,8 +26,12 @@ export const BlogPosts: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (err) {
+                    console.error('Error revalidating BlogPosts deletion:', err);
+                }
                 return doc;
             }
         ],

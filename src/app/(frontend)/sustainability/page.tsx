@@ -96,7 +96,7 @@ export default async function SustainabilityPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-2 md:order-1">
               <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg">
-                <Image src="https://ik.imagekit.io/pon54xoks/Organic%20&%20Regenerative%20Agriculture%2001.jpg"
+                <Image src="https://ik.imagekit.io/pon54xoks/contract-farming.jpg"
                   alt="Organic Farming"
                   fill
                   className="object-cover"

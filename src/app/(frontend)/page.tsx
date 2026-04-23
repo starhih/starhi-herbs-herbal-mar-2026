@@ -13,7 +13,7 @@ import BlogInsights from '@/components/home/BlogInsights';
 import CatalogueDownload from '@/components/home/CatalogueDownload';
 import SustainabilityImpact from '@/components/shared/SustainabilityImpact';
 import { getPayloadClient } from '@/lib/payload';
-import { mapProduct, mapCategory, mapBlogPost, mapBlogCategory, mapEvent, mapAward, mapCertification, getImageUrl } from '@/lib/mappers';
+import { mapProduct, mapCategory, mapBlogPost, mapBlogCategory, mapEvent, mapAward, mapCertification, getImageUrl, richTextToPlainText } from '@/lib/mappers';
 import { ProductCategory } from '@/data/types';
 
 // Force static generation unless we want dynamic updates on every request
@@ -89,6 +89,7 @@ export default async function Home() {
     where: { active: { equals: true } },
     sort: 'order',
     limit: 100,
+    depth: 2,
   });
 
   const { docs: tickerBlogDocs } = await payload.find({
@@ -96,6 +97,7 @@ export default async function Home() {
     where: { showInNewsTicker: { equals: true } },
     sort: '-publishedAt',
     limit: 10,
+    depth: 2,
   });
 
   const newsFromCollection = newsDocs.map((n: any) => ({
@@ -111,7 +113,7 @@ export default async function Home() {
   const newsFromBlog = tickerBlogDocs.map((b: any) => ({
     id: `blog-${b.id}`,
     title: b.title,
-    excerpt: b.excerpt || '',
+    excerpt: b.excerpt || (b.content ? richTextToPlainText(b.content) : ''),
     date: b.publishedAt || '',
     category: 'Blog',
     image: getImageUrl(b.image) || b.imageUrl || '',

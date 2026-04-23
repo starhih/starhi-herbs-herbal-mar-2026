@@ -13,8 +13,12 @@ export const News: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (err) {
+                    console.error('Error revalidating News:', err);
+                }
                 return doc;
             }
         ],
@@ -22,8 +26,12 @@ export const News: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (err) {
+                    console.error('Error revalidating News deletion:', err);
+                }
                 return doc;
             }
         ],

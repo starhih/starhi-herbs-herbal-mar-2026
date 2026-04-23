@@ -4,7 +4,7 @@ import Link from 'next/link';
 const brandedIngredients = [
   { name: 'Turmimax', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmimax.svg', url: 'https://turmimax.com/' },
   { name: 'Turmesac', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmesac.svg', url: 'https://turmesac.in' },
-  { name: 'Forcslim', imageUrl: 'https://ik.imagekit.io/pon54xoks/Forcslim.svg', url: 'https://forcslim.in' },
+  { name: 'Forcslim', imageUrl: 'https://ik.imagekit.io/pon54xoks/Forcslim.svg', url: 'https://forcslim.com' },
   { name: 'Bacosane', imageUrl: 'https://ik.imagekit.io/pon54xoks/bacosane.svg', url: 'https://bacosane.com' },
   { name: 'Cissuslean', imageUrl: 'https://ik.imagekit.io/pon54xoks/CISSUSLEAN.svg', url: 'https://cissuslean.com' },
   { name: 'Curkolin', imageUrl: 'https://ik.imagekit.io/pon54xoks/Curkolin.svg', url: 'https://curkolin.com' },

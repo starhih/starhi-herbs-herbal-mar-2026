@@ -39,6 +39,8 @@ export const Products: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
@@ -50,6 +52,8 @@ export const Products: CollectionConfig = {
             async ({ doc, req }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
+                    revalidatePath('/');
+                    revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
