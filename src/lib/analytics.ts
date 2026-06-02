@@ -1,5 +1,4 @@
 // Analytics utility functions for Google Analytics and Microsoft Clarity
-import Clarity from '@microsoft/clarity';
 
 declare global {
   interface Window {
@@ -58,8 +57,8 @@ export const analytics = {
     // Also track with Clarity if available
     if (typeof window !== 'undefined') {
       try {
-        if ((Clarity as any).hasStarted()) {
-          Clarity.event('download');
+        if (typeof window.clarity === 'function') {
+          window.clarity('event', 'download');
         }
       } catch (e) {
         console.error("Clarity event error:", e);
@@ -100,8 +99,8 @@ export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
   }
 
   try {
-    if ((Clarity as any).hasStarted()) {
-      Clarity.event(eventName);
+    if (typeof window.clarity === 'function') {
+      window.clarity('event', eventName);
     }
   } catch (e) {
     console.error("Clarity event error:", e);
