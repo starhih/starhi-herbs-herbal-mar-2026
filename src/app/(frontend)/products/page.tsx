@@ -51,6 +51,34 @@ export default async function ProductsPage() {
   });
   const featuredProducts = featuredDocs.map(mapProduct).filter(Boolean) as any[];
 
+  // Fetch all products for the A-Z Ingredient Directory to eliminate orphan pages
+  const { docs: allProductDocs } = await payload.find({
+    collection: 'products',
+    limit: 500,
+  });
+  const allProducts = allProductDocs.map(mapProduct).filter(Boolean) as any[];
+
+  // Group products alphabetically
+  const alphabetGroups: { [key: string]: any[] } = {};
+  allProducts.forEach((product) => {
+    const firstLetter = product.name.trim().charAt(0).toUpperCase();
+    const groupKey = /^[A-Z]/.test(firstLetter) ? firstLetter : '#';
+    if (!alphabetGroups[groupKey]) {
+      alphabetGroups[groupKey] = [];
+    }
+    alphabetGroups[groupKey].push(product);
+  });
+
+  const sortedGroupKeys = Object.keys(alphabetGroups).sort((a, b) => {
+    if (a === '#') return 1;
+    if (b === '#') return -1;
+    return a.localeCompare(b);
+  });
+
+  sortedGroupKeys.forEach((key) => {
+    alphabetGroups[key].sort((a, b) => a.name.localeCompare(b.name));
+  });
+
   return (
     <>
       <JsonLd
@@ -126,6 +154,51 @@ export default async function ProductsPage() {
             {featuredProducts.map((product: any) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Alphabetical Ingredient Directory */}
+      <section className="section-padding bg-white border-t border-b">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">A-Z Directory</h6>
+            <h2 className="text-[#214842] mb-4">Ingredient Directory</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Browse our complete list of botanical extracts, vitamins, minerals, and probiotic strains.
+            </p>
+          </div>
+
+          <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {sortedGroupKeys.map((key) => (
+                <div key={key} className="space-y-3">
+                  <div className="text-2xl font-bold text-[#258F67] border-b pb-2 border-gray-200">
+                    {key}
+                  </div>
+                  <ul className="space-y-2">
+                    {alphabetGroups[key].map((product) => {
+                      const url = product.productType === 'branded'
+                        ? `/branded-ingredients/${product.slug}`
+                        : product.productType === 'vitamin-mineral'
+                        ? `/vitamins-minerals/${product.slug}`
+                        : `/products/${product.slug}`;
+
+                      return (
+                        <li key={product.id}>
+                          <Link
+                            href={url}
+                            className="text-gray-700 hover:text-[#258F67] text-sm transition-colors duration-150 inline-block py-0.5"
+                          >
+                            {product.name}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

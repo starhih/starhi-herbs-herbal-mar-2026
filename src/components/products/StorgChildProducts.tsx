@@ -25,7 +25,7 @@ export default function StorgChildProducts({ childProducts }: StorgChildProducts
         {childProducts.map((product) => (
           <Link
             key={product.id}
-            href={`/products/${product.slug}`}
+            href={`/vitamins-minerals/${product.slug}`}
             className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col h-full"
           >
             <div className="relative h-48">

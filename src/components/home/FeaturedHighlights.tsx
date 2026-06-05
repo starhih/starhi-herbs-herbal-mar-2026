@@ -33,6 +33,17 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
   // Extract key product details
   const { name, standardization, shortDescription, slug, image } = product;
 
+  // Determine the correct URL based on product type
+  const getProductUrl = () => {
+    if (product.productType === 'branded') {
+      return `/branded-ingredients/${slug}`;
+    }
+    if (product.productType === 'vitamin-mineral') {
+      return `/vitamins-minerals/${slug}`;
+    }
+    return `/products/${slug}`;
+  };
+
   // Handle mouse enter/leave for pausing the ticker
   const handleMouseEnter = () => {
     setIsPaused(true);
@@ -80,7 +91,7 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
                 {shortDescription}
               </p>
               <Link
-                href={`/products/${slug}`}
+                href={getProductUrl()}
                 className="inline-flex items-center text-[#258F67] font-medium hover:text-[#214842] transition-colors"
               >
                 Read More
