@@ -162,6 +162,7 @@ export interface Product extends BaseEntity {
     sporesPerGram: string;
     method: string;
   };
+  relatedProducts?: string[];
 }
 
 /**

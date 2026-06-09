@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
+import { analytics } from '@/lib/analytics';
 import { MapPin, Phone, Mail, Clock, FileText, FlaskConical, CalendarDays, ShoppingBag, ShieldCheck, Users, Download, ChevronRight } from 'lucide-react';
 
 export default function ContactPage() {
@@ -37,6 +38,7 @@ export default function ContactPage() {
       const result = await sendContactEmail(formValues);
 
       if (result.success) {
+        analytics.trackContactSubmit();
         toast({
           title: "Message Sent",
           description: "Thank you for your message. We'll get back to you soon!",

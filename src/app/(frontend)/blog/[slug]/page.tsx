@@ -1,14 +1,15 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayloadClient } from '@/lib/payload';
-import { mapBlogPost } from '@/lib/mappers';
-import { BlogPost } from '@/data/types';
+import { mapBlogPost, mapProduct } from '@/lib/mappers';
+import { BlogPost, Product } from '@/data/types';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import BlogHeader from '@/components/blog/BlogHeader';
 import SimpleBlogContent from '@/components/blog/SimpleBlogContent';
 import BlogTableOfContents from '@/components/blog/BlogTableOfContents';
 import BlogTags from '@/components/blog/BlogTags';
 import BlogRelatedPosts from '@/components/blog/BlogRelatedPosts';
+import ProductCard from '@/components/products/ProductCard';
 import JsonLd from '@/components/seo/JsonLd';
 
 // Generate static params for all blog posts
@@ -100,6 +101,36 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   });
   const relatedPosts = relatedDocs.map(mapBlogPost);
 
+  // Fetch products to find contextual matches in the blog post content
+  const { docs: allProductsDocs } = await payload.find({
+    collection: 'products',
+    limit: 100,
+  });
+
+  const matchedProducts = allProductsDocs
+    .map(mapProduct)
+    .filter(Boolean)
+    .filter((product: any) => {
+      const name = product.name.toLowerCase();
+      // Remove common suffixes like "extract", "oil", etc.
+      const baseName = name.replace(/\s+(extract|oil|powder|granules)\s*$/g, '').trim();
+      
+      const textToSearch = (post.title + ' ' + post.excerpt + ' ' + post.content).toLowerCase();
+      return textToSearch.includes(name) || (baseName.length > 3 && textToSearch.includes(baseName));
+    })
+    .slice(0, 3) as Product[];
+
+  // Fallback to featured products if no specific mentions are found
+  let blogRelatedProducts = matchedProducts;
+  if (blogRelatedProducts.length === 0) {
+    const { docs: featuredDocs } = await payload.find({
+      collection: 'products',
+      where: { featured: { equals: true } },
+      limit: 3,
+    });
+    blogRelatedProducts = featuredDocs.map(mapProduct).filter(Boolean) as Product[];
+  }
+
   // Generate Article schema
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -154,6 +185,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <SimpleBlogContent content={post.content} className="mb-12" />
 
               <BlogTags tags={tags} className="mb-16" />
+
+              {blogRelatedProducts.length > 0 && (
+                <div className="mb-16 border-t pt-8">
+                  <h3 className="text-2xl font-bold text-[#214842] mb-6">Related Ingredients</h3>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {blogRelatedProducts.map((p) => (
+                      <ProductCard key={p.id} product={p} />
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {relatedPosts.length > 0 && (
                 <BlogRelatedPosts posts={relatedPosts} className="mt-16" />

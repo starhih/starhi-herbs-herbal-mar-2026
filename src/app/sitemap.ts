@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch products
   const { docs: products } = await payload.find({
     collection: 'products',
-    limit: 100,
+    limit: 1000,
     select: { slug: true, productType: true },
   });
   const productRoutes = products.map((product) => {
@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch blog posts
   const { docs: blogPosts } = await payload.find({
     collection: 'blog-posts',
-    limit: 100,
+    limit: 1000,
     select: { slug: true, updatedAt: true },
   });
   const blogPostRoutes = blogPosts.map((post) => ({

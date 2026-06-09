@@ -144,6 +144,14 @@ export default function Navbar() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-60 bg-white py-2">
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/products"
+                    className="px-4 py-2 hover:bg-gray-100 text-[#214842] hover:text-[#258F67] font-semibold transition-colors duration-200 w-full text-left border-b border-gray-100"
+                  >
+                    All Products
+                  </Link>
+                </DropdownMenuItem>
                 {productCategories.map((category) => (
                   <DropdownMenuItem key={category.name} asChild>
                     <Link
@@ -227,6 +235,13 @@ export default function Navbar() {
                 <ChevronDown size={16} />
               </button>
               <div id="products-submenu" className="hidden pl-4 space-y-2 mt-2">
+                <Link
+                  href="/products"
+                  className="block text-[#214842] font-semibold hover:text-[#258F67] py-1 border-b border-gray-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  All Products
+                </Link>
                 {productCategories.map((category) => (
                   <Link
                     key={category.name}

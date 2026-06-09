@@ -129,17 +129,34 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     );
   }
 
-  // Get related products
-  const { docs: relatedDocs } = await payload.find({
-    collection: 'products',
-    where: {
-      category: { equals: product.categoryId },
-      slug: { not_equals: slug },
-    },
-    limit: 3,
-  });
+  // Get related products (either manual relation or fallback to same category)
+  let relatedProducts: Product[] = [];
+  if (product.relatedProducts && product.relatedProducts.length > 0) {
+    const { docs: manualRelatedDocs } = await payload.find({
+      collection: 'products',
+      where: {
+        id: { in: product.relatedProducts },
+      },
+      limit: 10,
+    });
+    relatedProducts = manualRelatedDocs.map(mapProduct).filter(Boolean) as Product[];
+  }
 
-  const relatedProducts = relatedDocs.map(mapProduct).filter(Boolean) as Product[];
+  // Fallback to same category if we don't have enough manual related products
+  if (relatedProducts.length < 3) {
+    const needed = 3 - relatedProducts.length;
+    const { docs: fallbackDocs } = await payload.find({
+      collection: 'products',
+      where: {
+        category: { equals: product.categoryId },
+        slug: { not_equals: slug },
+        ...(relatedProducts.length > 0 ? { id: { not_in: relatedProducts.map(p => p.id) } } : {}),
+      },
+      limit: needed,
+    });
+    const fallbackProducts = fallbackDocs.map(mapProduct).filter(Boolean) as Product[];
+    relatedProducts = [...relatedProducts, ...fallbackProducts];
+  }
 
   // Fetch child products if this is a parent product
   let childProductsList: Product[] = [];

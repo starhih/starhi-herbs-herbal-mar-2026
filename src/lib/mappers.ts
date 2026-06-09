@@ -135,6 +135,7 @@ export const mapProduct = (p: PayloadProduct): FrontendProduct | null => {
         isParentProduct: (p as any).isParentProduct || false,
         parentProductId: (p as any).parentProduct ? (typeof (p as any).parentProduct === 'object' ? String((p as any).parentProduct.id) : String((p as any).parentProduct)) : undefined,
         childProducts: ((p as any).childProducts || []).map((cp: any) => typeof cp === 'object' ? String(cp.id) : String(cp)),
+        relatedProducts: ((p as any).relatedProducts || []).map((rp: any) => typeof rp === 'object' ? String(rp.id) : String(rp)),
 
         // Branded Ingredients
         brandLogo: getImageUrl((p as any).brandLogo) || (p as any).brandLogoUrl || '',

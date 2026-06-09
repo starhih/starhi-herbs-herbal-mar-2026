@@ -114,17 +114,34 @@ export default async function BrandedIngredientPage({ params }: { params: Promis
     notFound();
   }
 
-  // Get related products (other branded ingredients)
-  const { docs: relatedDocs } = await payload.find({
-    collection: 'products',
-    where: {
-      productType: { equals: 'branded' },
-      slug: { not_equals: slug },
-    },
-    limit: 3,
-  });
+  // Get related products (either manual relation or fallback to other branded ingredients)
+  let relatedProducts: Product[] = [];
+  if (product.relatedProducts && product.relatedProducts.length > 0) {
+    const { docs: manualRelatedDocs } = await payload.find({
+      collection: 'products',
+      where: {
+        id: { in: product.relatedProducts },
+      },
+      limit: 10,
+    });
+    relatedProducts = manualRelatedDocs.map(mapProduct).filter(Boolean) as Product[];
+  }
 
-  const relatedProducts = relatedDocs.map(mapProduct).filter(Boolean) as Product[];
+  // Fallback to other branded ingredients if we don't have enough manual related products
+  if (relatedProducts.length < 3) {
+    const needed = 3 - relatedProducts.length;
+    const { docs: fallbackDocs } = await payload.find({
+      collection: 'products',
+      where: {
+        productType: { equals: 'branded' },
+        slug: { not_equals: slug },
+        ...(relatedProducts.length > 0 ? { id: { not_in: relatedProducts.map(p => p.id) } } : {}),
+      },
+      limit: needed,
+    });
+    const fallbackProducts = fallbackDocs.map(mapProduct).filter(Boolean) as Product[];
+    relatedProducts = [...relatedProducts, ...fallbackProducts];
+  }
 
   // Generate Product JSON-LD Schema
   const productSchema = {

@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleError, logError } from '@/utils/error-handling';
+import { analytics } from '@/lib/analytics';
 
 interface MeetingEvent {
   id: string | number;
@@ -111,6 +112,7 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
       const result = await sendMeetingRequestEmail(emailData);
 
       if (result.success) {
+        analytics.trackMeetingSubmit();
         setSubmitSuccess(true);
         reset();
         setSelectedEvent('');

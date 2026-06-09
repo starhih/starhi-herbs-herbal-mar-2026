@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleError, logError } from '@/utils/error-handling';
 import { Download } from 'lucide-react';
+import { analytics } from '@/lib/analytics';
 
 // Form validation schema
 const formSchema = z.object({
@@ -63,6 +64,7 @@ export default function DownloadCatalogueForm() {
 
       if (result.success) {
         // Success
+        analytics.trackCatalogueSubmit();
         setSubmitSuccess(true);
 
         // In a real application, you would redirect to the download or trigger the download here

@@ -13,7 +13,8 @@ export const trackEvent = (
   action: string,
   category: string,
   label?: string,
-  value?: number
+  value?: number,
+  params?: Record<string, any>
 ) => {
   if (typeof window === 'undefined' || !window.gtag) {
     return;
@@ -23,6 +24,8 @@ export const trackEvent = (
     event_category: category,
     event_label: label,
     value: value,
+    form_location: typeof window !== 'undefined' ? window.location.pathname : undefined,
+    ...params,
   });
 };
 
@@ -43,6 +46,26 @@ export const analytics = {
   // Track form submissions
   trackFormSubmission: (formName: string) => {
     trackEvent('form_submit', 'engagement', formName);
+  },
+
+  trackQuoteSubmit: () => {
+    trackEvent('request_quote_submit', 'lead', 'Request Quote Form');
+  },
+
+  trackSampleSubmit: () => {
+    trackEvent('request_sample_submit', 'lead', 'Request Sample Form');
+  },
+
+  trackContactSubmit: () => {
+    trackEvent('contact_form_submit', 'lead', 'Contact Form');
+  },
+
+  trackMeetingSubmit: () => {
+    trackEvent('request_meeting_submit', 'lead', 'Request Meeting Form');
+  },
+
+  trackCatalogueSubmit: () => {
+    trackEvent('catalogue_download_submit', 'lead_magnet', 'Catalogue Download');
   },
 
   // Track button clicks

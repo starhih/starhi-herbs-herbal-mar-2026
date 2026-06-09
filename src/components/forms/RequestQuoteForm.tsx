@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { navCategories as productCategories } from '@/data/nav-categories';
 import { handleError, logError } from '@/utils/error-handling';
+import { analytics } from '@/lib/analytics';
 
 // Form validation schema
 const formSchema = z.object({
@@ -78,6 +79,7 @@ export default function RequestQuoteForm() {
 
       if (result.success) {
         // Success
+        analytics.trackQuoteSubmit();
         setSubmitSuccess(true);
         reset();
 
