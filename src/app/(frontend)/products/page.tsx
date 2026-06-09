@@ -43,13 +43,60 @@ export default async function ProductsPage() {
   });
   const productCategories = categoryDocs.map((c) => mapCategory(c as any)).filter(Boolean) as any[];
 
-  // Fetch featured products from Payload
-  const { docs: featuredDocs } = await payload.find({
-    collection: 'products',
-    where: { featured: { equals: true } },
-    limit: 3,
+  // Custom sort for categories: Standardized, Organic, Branded, Probiotics, Vitamins and Minerals, Bulk Formulations
+  const categoryOrder = [
+    'standardized',
+    'organic',
+    'branded',
+    'probiotics',
+    'vitamins',
+    'bulk'
+  ];
+  productCategories.sort((a: any, b: any) => {
+    const aIndex = categoryOrder.findIndex(keyword => a.name.toLowerCase().includes(keyword));
+    const bIndex = categoryOrder.findIndex(keyword => b.name.toLowerCase().includes(keyword));
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return 0;
   });
-  const featuredProducts = featuredDocs.map(mapProduct).filter(Boolean) as any[];
+
+  // Fetch specific popular/featured ingredients requested by their exact slugs: Coleus, Sesamin, Turmeric
+  const { docs: targetFeaturedDocs } = await payload.find({
+    collection: 'products',
+    where: {
+      or: [
+        { slug: { equals: 'coleus-forskohlii-extract' } },
+        { slug: { equals: 'sesamin-extract' } },
+        { slug: { equals: 'turmeric' } }
+      ]
+    },
+    limit: 10,
+  });
+
+  const featuredMapped = targetFeaturedDocs.map(mapProduct).filter(Boolean) as any[];
+
+  // Sort them in the exact order requested: Coleus first, Sesamin second, Turmeric third
+  const orderSlug = ['coleus-forskohlii-extract', 'sesamin-extract', 'turmeric'];
+  let featuredProducts = featuredMapped.sort((a, b) => {
+    return orderSlug.indexOf(a.slug) - orderSlug.indexOf(b.slug);
+  });
+
+  // Fallback to general featured products if any are missing to ensure we always show 3
+  if (featuredProducts.length < 3) {
+    const { docs: fallbackFeaturedDocs } = await payload.find({
+      collection: 'products',
+      where: { featured: { equals: true } },
+      limit: 5,
+    });
+    const fallbackProducts = fallbackFeaturedDocs.map(mapProduct).filter(Boolean) as any[];
+    for (const fb of fallbackProducts) {
+      if (featuredProducts.length >= 3) break;
+      if (!featuredProducts.some(p => p.id === fb.id)) {
+        featuredProducts.push(fb);
+      }
+    }
+  }
 
   // Fetch all products for the A-Z Ingredient Directory to eliminate orphan pages
   const { docs: allProductDocs } = await payload.find({
