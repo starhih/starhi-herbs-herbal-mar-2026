@@ -39,33 +39,73 @@ export default function Breadcrumbs({
     return null;
   }
 
-  return (
-    <nav aria-label="Breadcrumb" className={`py-4 ${className}`}>
-      <ol className="flex flex-wrap items-center text-sm">
-        {showHomeLink && (
-          <li>
-            <Link href="/" className="text-gray-600 hover:text-[#258F67] flex items-center">
-              <Home size={14} className="mr-1" />
-              <span>Home</span>
-            </Link>
-          </li>
-        )}
+  const baseUrl = 'https://starhiherbs.com';
+  const itemListElements = [];
 
-        {items.map((item, index) => (
-          <li key={`breadcrumb-${index}-${item.label}`} className="flex items-center">
-            <ChevronRight size={14} className="mx-2 text-gray-400" />
-            {item.isCurrent ? (
-              <span aria-current="page" className="text-[#214842] font-medium">
-                {item.label}
-              </span>
-            ) : (
-              <Link href={item.href} className="text-gray-600 hover:text-[#258F67]">
-                {item.label}
+  if (showHomeLink) {
+    itemListElements.push({
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: baseUrl,
+    });
+  }
+
+  items.forEach((item, index) => {
+    const position = showHomeLink ? index + 2 : index + 1;
+    // Build absolute URL for item.item
+    const cleanHref = item.href === '#' ? '' : item.href;
+    const absoluteUrl = cleanHref.startsWith('http')
+      ? cleanHref
+      : `${baseUrl}${cleanHref.startsWith('/') ? '' : '/'}${cleanHref}`;
+
+    itemListElements.push({
+      '@type': 'ListItem',
+      position: position,
+      name: item.label,
+      item: absoluteUrl,
+    });
+  });
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: itemListElements,
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <nav aria-label="Breadcrumb" className={`py-4 ${className}`}>
+        <ol className="flex flex-wrap items-center text-sm">
+          {showHomeLink && (
+            <li>
+              <Link href="/" className="text-gray-600 hover:text-[#258F67] flex items-center">
+                <Home size={14} className="mr-1" />
+                <span>Home</span>
               </Link>
-            )}
-          </li>
-        ))}
-      </ol>
-    </nav>
+            </li>
+          )}
+
+          {items.map((item, index) => (
+            <li key={`breadcrumb-${index}-${item.label}`} className="flex items-center">
+              <ChevronRight size={14} className="mx-2 text-gray-400" />
+              {item.isCurrent ? (
+                <span aria-current="page" className="text-[#214842] font-medium">
+                  {item.label}
+                </span>
+              ) : (
+                <Link href={item.href} className="text-gray-600 hover:text-[#258F67]">
+                  {item.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </>
   );
 }

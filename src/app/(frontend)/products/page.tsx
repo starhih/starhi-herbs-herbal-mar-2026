@@ -126,24 +126,46 @@ export default async function ProductsPage() {
     alphabetGroups[key].sort((a, b) => a.name.localeCompare(b.name));
   });
 
+  // Generate products schema with ItemList
+  const productsPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://starhiherbs.com/products"
+    },
+    "url": "https://starhiherbs.com/products",
+    "name": "Star Hi Herbs Botanical Extract Products",
+    "description": "Browse our full collection of standardized herbal extracts, branded ingredients, and vitamin solutions.",
+    "publisher": {
+      "@id": "https://starhiherbs.com/#organization"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": allProducts.length,
+      "itemListElement": allProducts.map((p, index) => {
+        let productUrl = `/products/${p.slug}`;
+        if (p.productType === 'branded') productUrl = `/branded-ingredients/${p.slug}`;
+        if (p.productType === 'vitamin-mineral') productUrl = `/vitamins-minerals/${p.slug}`;
+        
+        return {
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "Product",
+            "name": p.name,
+            "image": p.image,
+            "description": p.shortDescription || p.description,
+            "url": `https://starhiherbs.com${productUrl}`
+          }
+        };
+      })
+    }
+  };
+
   return (
     <>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": "https://starhiherbs.com/products"
-          },
-          url: "https://starhiherbs.com/products",
-          name: "Star Hi Herbs Botanical Extract Products",
-          description: "Browse our full collection of standardized herbal extracts, branded ingredients, and vitamin solutions.",
-          publisher: {
-            "@id": "https://starhiherbs.com/#organization"
-          }
-        }}
-      />
+      <JsonLd data={productsPageSchema} />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[300px] flex items-center">
         <Image src="https://ik.imagekit.io/pon54xoks/About-Star-Hi-Herbs-01.jpg"

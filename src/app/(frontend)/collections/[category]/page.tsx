@@ -11,6 +11,7 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import StorgProductFamily from '@/components/products/StorgProductFamily';
 import ProductListingClient from '@/components/products/ProductListingClient';
 import CategoryDetails from '@/components/collections/CategoryDetails';
+import JsonLd from '@/components/seo/JsonLd';
 
 // Generate static params for all categories
 // Generate static params for all categories
@@ -111,8 +112,39 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     }
   }
 
+  // Generate CollectionPage / ItemList JSON-LD Schema
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: category.name,
+    description: category.description,
+    url: `https://starhiherbs.com/collections/${category.slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: categoryProducts.length,
+      itemListElement: categoryProducts.map((p, index) => {
+        let productUrl = `/products/${p.slug}`;
+        if (p.productType === 'branded') productUrl = `/branded-ingredients/${p.slug}`;
+        if (p.productType === 'vitamin-mineral') productUrl = `/vitamins-minerals/${p.slug}`;
+        
+        return {
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'Product',
+            name: p.name,
+            image: p.image,
+            description: p.shortDescription || p.description,
+            url: `https://starhiherbs.com${productUrl}`
+          }
+        };
+      })
+    }
+  };
+
   return (
     <>
+      <JsonLd data={collectionSchema} />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center">
         <Image

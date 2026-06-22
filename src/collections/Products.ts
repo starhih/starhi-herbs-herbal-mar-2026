@@ -45,6 +45,23 @@ export const Products: CollectionConfig = {
                 } catch (err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
                 }
+
+                try {
+                    const baseUrl = 'https://starhiherbs.com';
+                    let urlPath = `/products/${doc.slug}`;
+                    if (doc.productType === 'branded') urlPath = `/branded-ingredients/${doc.slug}`;
+                    if (doc.productType === 'vitamin-mineral') urlPath = `/vitamins-minerals/${doc.slug}`;
+                    
+                    const productUrl = `${baseUrl}${urlPath}`;
+                    
+                    const { submitToIndexNow } = await import('@/lib/indexnow');
+                    submitToIndexNow([productUrl, `${baseUrl}/products`]).catch((err) => {
+                        req.payload.logger.error('IndexNow submission failed for product: ' + err);
+                    });
+                } catch (indexNowErr) {
+                    req.payload.logger.error('Error triggering IndexNow for product: ' + indexNowErr);
+                }
+
                 return doc;
             }
         ],

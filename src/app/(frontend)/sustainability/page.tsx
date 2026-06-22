@@ -23,6 +23,26 @@ export default async function SustainabilityPage() {
   });
   const allCertifications = certDocs.map(mapCertification).filter(Boolean);
 
+  // Sort certifications: starting from ISO and ending with Spices Board
+  const certOrder = [
+    'iso',
+    'fssc',
+    'gmp',
+    'usda',
+    'organic',
+    'halal',
+    'kosher',
+    'spice',
+  ];
+  allCertifications.sort((a: any, b: any) => {
+    const aIndex = certOrder.findIndex(keyword => a.name.toLowerCase().includes(keyword));
+    const bIndex = certOrder.findIndex(keyword => b.name.toLowerCase().includes(keyword));
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return 0;
+  });
+
   return (
     <>
       {/* Hero Section */}

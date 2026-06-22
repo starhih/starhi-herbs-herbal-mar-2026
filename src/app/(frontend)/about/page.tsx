@@ -270,8 +270,8 @@ export default function AboutPage() {
               <div className="text-white/80">Herbal Ingredients</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold mb-2">27+</div>
-              <div className="text-white/80">Branded Products</div>
+              <div className="text-4xl font-bold mb-2">9+</div>
+              <div className="text-white/80">clinical trials</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">25+</div>

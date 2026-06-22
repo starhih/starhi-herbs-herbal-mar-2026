@@ -180,6 +180,48 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     parentProduct = parentDocs[0] ? mapProduct(parentDocs[0]) : null;
   }
 
+  // Find twin product (Organic/Non-Organic)
+  let twinProduct: Product | null = null;
+  const twinSlugs: string[] = [];
+  if (product.slug.startsWith('organic-')) {
+    twinSlugs.push(product.slug.replace(/^organic-/, ''));
+  } else {
+    twinSlugs.push(`organic-${product.slug}`);
+  }
+  if (product.slug.endsWith('-organic')) {
+    twinSlugs.push(product.slug.replace(/-organic$/, ''));
+  } else {
+    twinSlugs.push(`${product.slug}-organic`);
+  }
+
+  const { docs: twinDocsBySlug } = await payload.find({
+    collection: 'products',
+    where: {
+      slug: { in: twinSlugs },
+    },
+    limit: 1,
+  });
+
+  if (twinDocsBySlug && twinDocsBySlug.length > 0) {
+    twinProduct = mapProduct(twinDocsBySlug[0]);
+  }
+
+  if (!twinProduct && product.latinName) {
+    const { docs: twinDocsByLatin } = await payload.find({
+      collection: 'products',
+      where: {
+        and: [
+          { latinName: { equals: product.latinName } },
+          { slug: { not_equals: product.slug } }
+        ]
+      },
+      limit: 1,
+    });
+    if (twinDocsByLatin && twinDocsByLatin.length > 0) {
+      twinProduct = mapProduct(twinDocsByLatin[0]);
+    }
+  }
+
   // Generate Product JSON-LD Schema
   const productSchema = {
     '@context': 'https://schema.org',
@@ -198,7 +240,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       price: '0',
       priceCurrency: 'USD',
       url: `https://starhiherbs.com/products/${product.slug}`
-    }
+    },
+    ...(parentProduct ? {
+      isPartOf: {
+        '@type': 'Product',
+        name: parentProduct.name,
+        url: `https://starhiherbs.com/products/${parentProduct.slug}`
+      }
+    } : {})
   };
 
   // Generate FAQ JSON-LD Schema
@@ -229,6 +278,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             items={[
               { label: 'Products', href: '/products' },
               { label: product.categoryName || 'Category', href: `/collections/${product.categorySlug || ''}` },
+              ...(parentProduct ? [{ label: parentProduct.name, href: `/products/${parentProduct.slug}` }] : []),
               { label: product.name, href: `/products/${product.slug}`, isCurrent: true }
             ]}
             showHomeLink={true}
@@ -248,6 +298,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   quality={85}
                 />
               </div>
+
+              {/* Variant Product Cross-Link Banner */}
+              {twinProduct && (
+                <div className="p-4 rounded-xl bg-[#258F67]/5 border border-[#258F67]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Leaf className="h-5 w-5 text-[#258F67] flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-600">
+                        Also available in <span className="font-semibold text-[#214842]">{twinProduct.slug.includes('organic') ? 'Organic' : 'Standardized'}</span> format:
+                      </p>
+                      <p className="font-semibold text-[#214842]">{twinProduct.name}</p>
+                    </div>
+                  </div>
+                  <Button asChild size="sm" className="bg-[#258F67] hover:bg-[#1a6b47] text-white self-start sm:self-center flex-shrink-0">
+                    <Link href={
+                      twinProduct.productType === 'branded' ? `/branded-ingredients/${twinProduct.slug}` :
+                      twinProduct.productType === 'vitamin-mineral' ? `/vitamins-minerals/${twinProduct.slug}` :
+                      `/products/${twinProduct.slug}`
+                    }>
+                      View {twinProduct.slug.includes('organic') ? 'Organic' : 'Standardized'} variant
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Product Info */}

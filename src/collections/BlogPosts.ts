@@ -19,6 +19,19 @@ export const BlogPosts: CollectionConfig = {
                 } catch (err) {
                     console.error('Error revalidating BlogPosts:', err);
                 }
+
+                try {
+                    const baseUrl = 'https://starhiherbs.com';
+                    const postUrl = `${baseUrl}/blog/${doc.slug}`;
+                    
+                    const { submitToIndexNow } = await import('@/lib/indexnow');
+                    submitToIndexNow([postUrl, `${baseUrl}/blog`]).catch((err) => {
+                        console.error('IndexNow submission failed for blog post:', err);
+                    });
+                } catch (indexNowErr) {
+                    console.error('Error triggering IndexNow for blog post:', indexNowErr);
+                }
+
                 return doc;
             }
         ],

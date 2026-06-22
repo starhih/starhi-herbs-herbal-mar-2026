@@ -37,11 +37,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { docs: categories } = await payload.find({
     collection: 'categories',
     limit: 100,
-    select: { slug: true },
+    select: { slug: true, updatedAt: true },
   });
   const categoryRoutes = categories.map((category) => ({
     url: `${baseUrl}/collections/${category.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(category.updatedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { docs: products } = await payload.find({
     collection: 'products',
     limit: 1000,
-    select: { slug: true, productType: true },
+    select: { slug: true, productType: true, updatedAt: true },
   });
   const productRoutes = products.map((product) => {
     let urlPath = `/products/${product.slug}`;
@@ -59,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     
     return {
       url: `${baseUrl}${urlPath}`,
-      lastModified: new Date(),
+      lastModified: new Date(product.updatedAt),
       changeFrequency: 'weekly' as const,
       priority: 0.6,
     };
@@ -69,11 +69,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { docs: blogCategories } = await payload.find({
     collection: 'blog-categories',
     limit: 100,
-    select: { slug: true },
+    select: { slug: true, updatedAt: true },
   });
   const blogCategoryRoutes = blogCategories.map((category) => ({
     url: `${baseUrl}/blog/category/${category.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(category.updatedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));

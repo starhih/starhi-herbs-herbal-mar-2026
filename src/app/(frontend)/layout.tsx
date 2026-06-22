@@ -47,6 +47,7 @@ export const metadata: Metadata = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://starhiherbs.com/#organization',
   name: 'Star Hi Herbs',
   url: 'https://starhiherbs.com',
   logo: 'https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg',
@@ -57,6 +58,51 @@ const organizationSchema = {
     'https://in.linkedin.com/company/star-hi-herbs-pvt-ltd',
     'https://www.facebook.com/StarHiHerbsNaturalExtracts/',
     'https://www.instagram.com/star.hi.herbs/'
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    'streetAddress': 'Plot #50, 3rd Road, 1st Phase, K.I.A.D.B. Industrial Area, Jigani',
+    'addressLocality': 'Bangalore',
+    'addressRegion': 'Karnataka',
+    'postalCode': '560105',
+    'addressCountry': 'IN'
+  },
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'ISO 22000:2018 Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'WHO GMP Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'FSSC 22000 Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'Halal Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'Kosher Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'USDA Organic Certification',
+      'credentialCategory': 'certification'
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'EU Organic Certification',
+      'credentialCategory': 'certification'
+    }
   ],
   contactPoint: {
     '@type': 'ContactPoint',

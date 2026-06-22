@@ -7,15 +7,45 @@ import { Shield, Sparkles, Heart, Brain, Zap, Sun, Pill, Dumbbell } from 'lucide
 // Icons for different indications
 const indicationIcons: Record<string, React.ReactNode> = {
   'Immune Function': <Shield className="h-10 w-10" />,
+  'Immunity Support': <Shield className="h-10 w-10" />,
+  'Antioxidant': <Shield className="h-10 w-10" />,
+  'Antioxidant Protection': <Shield className="h-10 w-10" />,
+  'Liver Protection': <Shield className="h-10 w-10" />,
+  
   'Skin Health': <Sparkles className="h-10 w-10" />,
+  'Skin Nutrition': <Sparkles className="h-10 w-10" />,
+  'Hair Growth': <Sparkles className="h-10 w-10" />,
+  'Nail Strength': <Sparkles className="h-10 w-10" />,
+  'Collagen Formation': <Sparkles className="h-10 w-10" />,
+  'Wound Healing': <Sparkles className="h-10 w-10" />,
+  
   'Cardiovascular Health': <Heart className="h-10 w-10" />,
-  'Neurological Function': <Brain className="h-10 w-10" />,
-  'Energy': <Zap className="h-10 w-10" />,
-  'Thyroid Health': <Sun className="h-10 w-10" />,
   'Reproductive Health': <Heart className="h-10 w-10" />,
+  'Cellular Health': <Heart className="h-10 w-10" />,
+  'Maternal Health': <Heart className="h-10 w-10" />,
+  'Blood Health': <Heart className="h-10 w-10" />,
+  'Cholesterol Management': <Heart className="h-10 w-10" />,
+  "Women's General Health": <Heart className="h-10 w-10" />,
+  "Men's General Health": <Heart className="h-10 w-10" />,
+  "Children's Growth": <Heart className="h-10 w-10" />,
+  
+  'Neurological Function': <Brain className="h-10 w-10" />,
+  'Cognitive Function': <Brain className="h-10 w-10" />,
+  'Nervous System Health': <Brain className="h-10 w-10" />,
+  
+  'Energy': <Zap className="h-10 w-10" />,
+  'Energy Metabolism': <Zap className="h-10 w-10" />,
+  'Fatigue Reduction': <Zap className="h-10 w-10" />,
+  
+  'Thyroid Health': <Sun className="h-10 w-10" />,
+  'Thyroid Function': <Sun className="h-10 w-10" />,
+  
   'Prenatal Support': <Pill className="h-10 w-10" />,
+  'Red Blood Cell Formation': <Pill className="h-10 w-10" />,
+  
   'Bone Health': <Dumbbell className="h-10 w-10" />,
-  'Antioxidant': <Shield className="h-10 w-10" />
+  'Muscle Function': <Dumbbell className="h-10 w-10" />,
+  'Vision Health': <Sparkles className="h-10 w-10" />,
 };
 
 // Default icon for indications without a specific icon
@@ -30,12 +60,10 @@ export default function VitaminProductIndications({ productIndications }: Vitami
     <div className="w-full">
       <div className="text-center mb-12">
         <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Health Support</h6>
-        <h2 className="text-[#214842] mb-4">{productIndications.title}</h2>
-        {productIndications.description && (
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            {productIndications.description}
-          </p>
-        )}
+        <h2 className="text-[#214842] mb-4">{productIndications.title || "Health Indications"}</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto">
+          {productIndications.description || "Specifically formulated to support these key health areas."}
+        </p>
       </div>
 
       <div className="max-w-5xl mx-auto">
