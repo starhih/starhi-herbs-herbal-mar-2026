@@ -101,7 +101,7 @@ export default async function ProductsPage() {
   // Fetch all products for the A-Z Ingredient Directory to eliminate orphan pages
   const { docs: allProductDocs } = await payload.find({
     collection: 'products',
-    limit: 500,
+    limit: 5000,
   });
   const allProducts = allProductDocs.map(mapProduct).filter(Boolean) as any[];
 

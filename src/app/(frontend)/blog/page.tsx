@@ -46,7 +46,7 @@ export default async function BlogPage() {
   const { docs: postDocs } = await payload.find({
     collection: 'blog-posts',
     sort: '-publishedAt',
-    limit: 100,
+    limit: 1000,
   });
   const blogPosts = postDocs.map(mapBlogPost);
 

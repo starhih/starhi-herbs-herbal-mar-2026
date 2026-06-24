@@ -18,7 +18,7 @@ export async function generateStaticParams() {
   const payload = await getPayloadClient();
   const { docs: posts } = await payload.find({
     collection: 'blog-posts',
-    limit: 100,
+    limit: 1000,
     select: { slug: true }
   });
   return posts.map((post) => ({
