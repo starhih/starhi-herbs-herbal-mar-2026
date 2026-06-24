@@ -370,7 +370,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="md:grid md:grid-cols-3 gap-0">
                 <div className="relative h-80 md:h-auto">
-                  <Image src="/images/hm-firoz-hussain-1.jpg"
+                  <Image src="https://ik.imagekit.io/pon54xoks/images/hm-firoz-hussain-01.jpg"
                     alt="Mr. Firoz Hussain"
                     fill
                     className="object-cover"

@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
+        disallow: ['/api/', '/admin/', '/_next/', '/*?*trk='],
       },
       {
         userAgent: [
@@ -19,7 +19,7 @@ export default function robots(): MetadataRoute.Robots {
           'OAI-SearchBot',
         ],
         allow: ['/', '/llms.txt'],
-        disallow: ['/api/', '/admin/'],
+        disallow: ['/api/', '/admin/', '/_next/', '/*?*trk='],
       },
     ],
     sitemap: 'https://starhiherbs.com/sitemap.xml',
