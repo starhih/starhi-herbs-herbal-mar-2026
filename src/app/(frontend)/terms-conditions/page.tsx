@@ -16,11 +16,20 @@ export const metadata: Metadata = {
     description: 'Review Star Hi Herbs\' terms and conditions governing the use of our website, products, and services. Learn about user responsibilities and limitations.',
     url: '/terms-conditions',
     type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Terms & Conditions | Star Hi Herbs',
     description: 'Review Star Hi Herbs\' terms and conditions governing the use of our website, products, and services. Learn about user responsibilities and limitations.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };
 

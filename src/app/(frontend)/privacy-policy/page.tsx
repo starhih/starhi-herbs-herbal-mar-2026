@@ -16,11 +16,20 @@ export const metadata: Metadata = {
     description: 'Read Star Hi Herbs\' privacy policy to understand how we collect, use, and protect your personal information when you visit our website or use our services.',
     url: '/privacy-policy',
     type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Privacy Policy | Star Hi Herbs',
     description: 'Read Star Hi Herbs\' privacy policy to understand how we collect, use, and protect your personal information when you visit our website or use our services.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };
 

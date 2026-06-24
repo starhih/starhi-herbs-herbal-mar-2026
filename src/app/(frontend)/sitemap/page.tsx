@@ -18,11 +18,20 @@ export const metadata: Metadata = {
     description: 'Navigate through all pages on the Star Hi Herbs website with our comprehensive sitemap. Find products, company information, and resources easily.',
     url: '/sitemap',
     type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Sitemap | Star Hi Herbs',
     description: 'Navigate through all pages on the Star Hi Herbs website with our comprehensive sitemap. Find products, company information, and resources easily.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };
 
