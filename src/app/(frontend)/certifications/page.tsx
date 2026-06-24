@@ -12,6 +12,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/certifications',
   },
+  openGraph: {
+    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
+    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
+    url: '/certifications',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs Certifications',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
+    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+  },
 };
 
 export default async function CertificationsPage() {

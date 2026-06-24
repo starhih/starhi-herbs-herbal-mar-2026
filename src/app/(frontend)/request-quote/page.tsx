@@ -9,9 +9,13 @@ export const metadata: Metadata = {
   title: 'Request a Quote | Star Hi Herbs',
   description: 'Request pricing information for our herbal extracts, probiotics, and nutraceutical ingredients.',
   keywords: 'quote request, pricing, herbal extracts, probiotics, nutraceutical ingredients',
+  alternates: {
+    canonical: '/request-quote',
+  },
   openGraph: {
     title: 'Request a Quote | Star Hi Herbs',
     description: 'Request pricing information for our herbal extracts, probiotics, and nutraceutical ingredients.',
+    url: '/request-quote',
     images: [
       {
         url: '/images/hero/standardized-herbal-extracts.jpeg',
@@ -21,6 +25,12 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Request a Quote | Star Hi Herbs',
+    description: 'Request pricing information for our herbal extracts, probiotics, and nutraceutical ingredients.',
+    images: ['/images/hero/standardized-herbal-extracts.jpeg'],
   },
 };
 

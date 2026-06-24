@@ -8,10 +8,19 @@ export const metadata: Metadata = {
   title: 'Terms & Conditions | Star Hi Herbs',
   description: 'Review Star Hi Herbs\' terms and conditions governing the use of our website, products, and services. Learn about user responsibilities and limitations.',
   keywords: 'terms and conditions, terms of use, legal, Star Hi Herbs, website terms, service agreement',
+  alternates: {
+    canonical: '/terms-conditions',
+  },
   openGraph: {
     title: 'Terms & Conditions | Star Hi Herbs',
     description: 'Review Star Hi Herbs\' terms and conditions governing the use of our website, products, and services. Learn about user responsibilities and limitations.',
+    url: '/terms-conditions',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms & Conditions | Star Hi Herbs',
+    description: 'Review Star Hi Herbs\' terms and conditions governing the use of our website, products, and services. Learn about user responsibilities and limitations.',
   },
 };
 

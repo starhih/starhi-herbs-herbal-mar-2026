@@ -36,8 +36,37 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
+  const title = `Posts tagged "${tagObj.name}" | Star Hi Herbs Blog`;
+  const description = `Read our latest articles, insights, and research tagged with "${tagObj.name}" at Star Hi Herbs Corporate Knowledge Center.`;
+
   return {
-    title: `Posts tagged "${tagObj.name}" | Star Hi Herbs Blog`,
+    title,
+    description,
+    alternates: {
+      canonical: `/blog/tag/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/blog/tag/${slug}`,
+      siteName: 'Star Hi Herbs',
+      locale: 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+          width: 1200,
+          height: 630,
+          alt: tagObj.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+    },
   };
 }
 

@@ -15,6 +15,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/blog',
   },
+  openGraph: {
+    title: 'Knowledge Center | Star Hi Herbs Blog',
+    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
+    url: '/blog',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs Knowledge Center',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Knowledge Center | Star Hi Herbs Blog',
+    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+  },
 };
 
 export default async function BlogPage() {

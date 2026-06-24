@@ -42,9 +42,37 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     };
   }
 
+  const title = `${category.name} | Star Hi Herbs Blog`;
+  const description = category.description || `Read our latest articles and research about ${category.name} at the Star Hi Herbs Knowledge Center.`;
+
   return {
-    title: `${category.name} | Star Hi Herbs Blog`,
-    description: category.description,
+    title,
+    description,
+    alternates: {
+      canonical: `/blog/category/${categorySlug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/blog/category/${categorySlug}`,
+      siteName: 'Star Hi Herbs',
+      locale: 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+          width: 1200,
+          height: 630,
+          alt: category.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+    },
   };
 }
 

@@ -8,10 +8,19 @@ export const metadata: Metadata = {
   title: 'Privacy Policy | Star Hi Herbs',
   description: 'Read Star Hi Herbs\' privacy policy to understand how we collect, use, and protect your personal information when you visit our website or use our services.',
   keywords: 'privacy policy, data protection, personal information, Star Hi Herbs, GDPR, data security',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
   openGraph: {
     title: 'Privacy Policy | Star Hi Herbs',
     description: 'Read Star Hi Herbs\' privacy policy to understand how we collect, use, and protect your personal information when you visit our website or use our services.',
+    url: '/privacy-policy',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | Star Hi Herbs',
+    description: 'Read Star Hi Herbs\' privacy policy to understand how we collect, use, and protect your personal information when you visit our website or use our services.',
   },
 };
 

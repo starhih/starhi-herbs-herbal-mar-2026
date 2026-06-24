@@ -53,9 +53,13 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     title: `${category.name} | Star Hi Herbs`,
     description: category.description || `Explore our range of high-quality ${category.name.toLowerCase()} products by Star Hi Herbs.`,
     keywords: [category.name, 'herbal extracts', 'nutraceutical ingredients', 'Star Hi Herbs'].join(', '),
+    alternates: {
+      canonical: `/collections/${categorySlug}`,
+    },
     openGraph: {
       title: category.name,
       description: category.description || `Explore our range of high-quality ${category.name.toLowerCase()} products by Star Hi Herbs.`,
+      url: `/collections/${categorySlug}`,
       images: [
         {
           url: category.heroImage || category.image,
@@ -65,6 +69,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
         },
       ],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: category.name,
+      description: category.description || `Explore our range of high-quality ${category.name.toLowerCase()} products by Star Hi Herbs.`,
+      images: [category.heroImage || category.image],
     },
   };
 }
@@ -135,7 +145,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             name: p.name,
             image: p.image,
             description: p.shortDescription || p.description,
-            url: `https://starhiherbs.com${productUrl}`
+            url: `https://starhiherbs.com${productUrl}`,
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'USD',
+              availability: 'https://schema.org/InStock',
+              url: `https://starhiherbs.com${productUrl}`
+            }
           }
         };
       })

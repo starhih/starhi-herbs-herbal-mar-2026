@@ -156,7 +156,14 @@ export default async function ProductsPage() {
             "name": p.name,
             "image": p.image,
             "description": p.shortDescription || p.description,
-            "url": `https://starhiherbs.com${productUrl}`
+            "url": `https://starhiherbs.com${productUrl}`,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `https://starhiherbs.com${productUrl}`
+            }
           }
         };
       })

@@ -78,6 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${product.name} | ${product.categoryName}`,
       description: product.description || `${product.name} - ${product.standardization} - High-quality herbal extract by Star Hi Herbs.`,
+      url: `/products/${product.slug}`,
       images: [
         {
           url: product.image,
@@ -87,6 +88,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         },
       ],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | ${product.categoryName}`,
+      description: product.description || `${product.name} - ${product.standardization} - High-quality herbal extract by Star Hi Herbs.`,
+      images: [product.image],
     },
   };
 }
@@ -240,14 +247,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       price: '0',
       priceCurrency: 'USD',
       url: `https://starhiherbs.com/products/${product.slug}`
-    },
-    ...(parentProduct ? {
-      isPartOf: {
-        '@type': 'Product',
-        name: parentProduct.name,
-        url: `https://starhiherbs.com/products/${parentProduct.slug}`
-      }
-    } : {})
+    }
   };
 
   // Generate FAQ JSON-LD Schema

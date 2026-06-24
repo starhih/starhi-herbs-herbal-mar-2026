@@ -2,6 +2,38 @@ import Image from '@/components/ui/image';
 import { getPayloadClient } from '@/lib/payload';
 import { mapJob } from '@/lib/mappers';
 import CareersPageClient from '@/components/careers/CareersPageClient';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Careers at Star Hi Herbs | Join Our Global Team',
+  description: 'Explore career opportunities at Star Hi Herbs. Build your future with a leading global manufacturer of premium herbal extracts, probiotics, and nutraceuticals.',
+  keywords: 'careers star hi herbs, jobs in bangalore, herbal company jobs, pharmaceutical roles india, nutraceutical careers',
+  alternates: {
+    canonical: '/careers',
+  },
+  openGraph: {
+    title: 'Careers at Star Hi Herbs | Join Our Global Team',
+    description: 'Explore career opportunities at Star Hi Herbs. Build your future with a leading global manufacturer of premium herbal extracts, probiotics, and nutraceuticals.',
+    url: '/careers',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/career.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Careers at Star Hi Herbs',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Careers at Star Hi Herbs | Join Our Global Team',
+    description: 'Explore career opportunities at Star Hi Herbs. Build your future with a leading global manufacturer of premium herbal extracts, probiotics, and nutraceuticals.',
+    images: ['https://ik.imagekit.io/pon54xoks/career.jpg'],
+  },
+};
 
 export default async function CareersPage() {
   const payload = await getPayloadClient();

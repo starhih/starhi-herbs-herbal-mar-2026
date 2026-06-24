@@ -5,9 +5,61 @@ import { Briefcase, MapPin, Clock, Calendar } from 'lucide-react';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import JobDetailClient from '@/components/careers/JobDetailClient';
 import { formatDate } from '@/utils/date';
+import { Metadata } from 'next';
 
 // Set dynamic to force-static for static export
 export const dynamic = 'force-static';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const payload = await getPayloadClient();
+  const { docs } = await payload.find({
+    collection: 'jobs',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  });
+  const job = docs[0] ? mapJob(docs[0]) : null;
+
+  if (!job) {
+    return {
+      title: 'Job Opening Not Found | Star Hi Herbs',
+      description: 'The requested job opening could not be found.',
+    };
+  }
+
+  const title = `${job.title} | Careers at Star Hi Herbs`;
+  const description = `Apply for the ${job.title} position in the ${job.department} department at Star Hi Herbs, Bangalore, India. Learn about qualifications and responsibilities.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/careers/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/careers/${slug}`,
+      siteName: 'Star Hi Herbs',
+      locale: 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: 'https://ik.imagekit.io/pon54xoks/career.jpg',
+          width: 1200,
+          height: 630,
+          alt: job.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['https://ik.imagekit.io/pon54xoks/career.jpg'],
+    },
+  };
+}
 
 // Generate static params for all job openings
 export async function generateStaticParams() {

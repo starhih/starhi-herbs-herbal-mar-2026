@@ -9,9 +9,13 @@ export const metadata: Metadata = {
   title: 'Request a Sample | Star Hi Herbs',
   description: 'Request product samples of our herbal extracts, probiotics, and nutraceutical ingredients for evaluation.',
   keywords: 'sample request, product samples, herbal extracts, probiotics, nutraceutical ingredients',
+  alternates: {
+    canonical: '/request-sample',
+  },
   openGraph: {
     title: 'Request a Sample | Star Hi Herbs',
     description: 'Request product samples of our herbal extracts, probiotics, and nutraceutical ingredients for evaluation.',
+    url: '/request-sample',
     images: [
       {
         url: '/images/hero/standardized-herbal-extracts.jpeg',
@@ -21,6 +25,12 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Request a Sample | Star Hi Herbs',
+    description: 'Request product samples of our herbal extracts, probiotics, and nutraceutical ingredients for evaluation.',
+    images: ['/images/hero/standardized-herbal-extracts.jpeg'],
   },
 };
 

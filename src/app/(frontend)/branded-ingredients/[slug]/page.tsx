@@ -84,6 +84,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${product.name} | Branded Ingredients`,
       description: product.description || `${product.name} - ${product.standardization} - Premium branded ingredient by Star Hi Herbs.`,
+      url: `/branded-ingredients/${product.slug}`,
       images: [
         {
           url: product.image,
@@ -93,6 +94,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         },
       ],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | Branded Ingredients`,
+      description: product.description || `${product.name} - ${product.standardization} - Premium branded ingredient by Star Hi Herbs.`,
+      images: [product.image],
     },
   };
 }

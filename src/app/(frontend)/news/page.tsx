@@ -15,6 +15,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/news',
   },
+  openGraph: {
+    title: 'News & Updates | Star Hi Herbs Corporate Announcements',
+    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
+    url: '/news',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs Corporate Announcements',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'News & Updates | Star Hi Herbs Corporate Announcements',
+    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+  },
 };
 
 export default async function NewsPage() {

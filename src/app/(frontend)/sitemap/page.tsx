@@ -10,10 +10,19 @@ export const metadata: Metadata = {
   title: 'Sitemap | Star Hi Herbs',
   description: 'Navigate through all pages on the Star Hi Herbs website with our comprehensive sitemap. Find products, company information, and resources easily.',
   keywords: 'sitemap, navigation, Star Hi Herbs, website map, pages, products, company information',
+  alternates: {
+    canonical: '/sitemap',
+  },
   openGraph: {
     title: 'Sitemap | Star Hi Herbs',
     description: 'Navigate through all pages on the Star Hi Herbs website with our comprehensive sitemap. Find products, company information, and resources easily.',
+    url: '/sitemap',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sitemap | Star Hi Herbs',
+    description: 'Navigate through all pages on the Star Hi Herbs website with our comprehensive sitemap. Find products, company information, and resources easily.',
   },
 };
 

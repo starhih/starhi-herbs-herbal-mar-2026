@@ -80,6 +80,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${product.name} | Vitamins & Minerals`,
       description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
+      url: `/vitamins-minerals/${product.slug}`,
       images: [
         {
           url: product.image,
@@ -89,6 +90,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         },
       ],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | Vitamins & Minerals`,
+      description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
+      images: [product.image],
     },
   };
 }
@@ -210,14 +217,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
       price: '0',
       priceCurrency: 'USD',
       url: `https://starhiherbs.com/vitamins-minerals/${product.slug}`
-    },
-    ...(parentProduct ? {
-      isPartOf: {
-        '@type': 'Product',
-        name: parentProduct.name,
-        url: `https://starhiherbs.com/products/${parentProduct.slug}`
-      }
-    } : {})
+    }
   };
 
   // Generate FAQ JSON-LD Schema

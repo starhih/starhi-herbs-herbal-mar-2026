@@ -14,6 +14,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/sustainability',
   },
+  openGraph: {
+    title: 'Sustainability & CSR | Star Hi Herbs Ethical Manufacturing',
+    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer of herbal extracts.',
+    url: '/sustainability',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs Sustainability and CSR',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sustainability & CSR | Star Hi Herbs Ethical Manufacturing',
+    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer of herbal extracts.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
+  },
 };
 export default async function SustainabilityPage() {
   const payload = await getPayloadClient();

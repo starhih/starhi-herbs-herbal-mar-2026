@@ -7,9 +7,13 @@ export const metadata: Metadata = {
   title: 'Download Catalogue | Star Hi Herbs',
   description: 'Download our comprehensive product catalogue featuring our herbal extracts, probiotics, and nutraceutical ingredients.',
   keywords: 'product catalogue, herbal extracts, probiotics, nutraceutical ingredients, download',
+  alternates: {
+    canonical: '/download-catalogue',
+  },
   openGraph: {
     title: 'Download Catalogue | Star Hi Herbs',
     description: 'Download our comprehensive product catalogue featuring our herbal extracts, probiotics, and nutraceutical ingredients.',
+    url: '/download-catalogue',
     images: [
       {
         url: '/images/hero/standardized-herbal-extracts.jpeg',
@@ -19,6 +23,12 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Download Catalogue | Star Hi Herbs',
+    description: 'Download our comprehensive product catalogue featuring our herbal extracts, probiotics, and nutraceutical ingredients.',
+    images: ['/images/hero/standardized-herbal-extracts.jpeg'],
   },
 };
 

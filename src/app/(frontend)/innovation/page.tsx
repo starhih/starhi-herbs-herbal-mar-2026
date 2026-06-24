@@ -2,6 +2,38 @@ import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, FlaskRound as Flask, Microscope, Lightbulb, Award } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Innovation & Research | Star Hi Herbs R&D Center',
+  description: 'Discover how Star Hi Herbs advances herbal science through cutting-edge R&D, clinical trials, and proprietary extraction technologies.',
+  keywords: 'herbal extract innovation, research and development, clinical trials, proprietary extraction, botanical patents, Star Hi Herbs R&D',
+  alternates: {
+    canonical: '/innovation',
+  },
+  openGraph: {
+    title: 'Innovation & Research | Star Hi Herbs R&D Center',
+    description: 'Discover how Star Hi Herbs advances herbal science through cutting-edge R&D, clinical trials, and proprietary extraction technologies.',
+    url: '/innovation',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/innovation-research.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs Research & Development',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Innovation & Research | Star Hi Herbs R&D Center',
+    description: 'Discover how Star Hi Herbs advances herbal science through cutting-edge R&D, clinical trials, and proprietary extraction technologies.',
+    images: ['https://ik.imagekit.io/pon54xoks/innovation-research.jpg'],
+  },
+};
 
 export default function InnovationPage() {
   return (

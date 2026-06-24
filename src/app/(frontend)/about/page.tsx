@@ -1,7 +1,7 @@
 import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Award, Users, Globe, Leaf, CheckCircle, Building, Beaker, FileCheck, FileText, Mail, PhoneCall } from 'lucide-react';
+import { ArrowRight, Award, Users, Globe, Leaf, CheckCircle, Building, Beaker, FileCheck, FileText, Mail, PhoneCall, Linkedin } from 'lucide-react';
 import { Metadata } from 'next';
 
 import JsonLd from '@/components/seo/JsonLd';
@@ -12,6 +12,28 @@ export const metadata: Metadata = {
   keywords: 'herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, Coleus manufacturer in india, Sesamin extract manufacturer in the world, b2b herbal extracts, nutraceutical ingredients, probiotics, Star Hi Herbs, Firoz Hussain',
   alternates: {
     canonical: '/about',
+  },
+  openGraph: {
+    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+    description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
+    url: '/about',
+    siteName: 'Star Hi Herbs',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/pon54xoks/website.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Star Hi Herbs - About Us',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+    description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
+    images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };
 
@@ -357,6 +379,17 @@ export default function AboutPage() {
                 <div className="p-8 md:col-span-2 flex flex-col justify-center">
                   <h3 className="text-2xl font-semibold text-[#214842] mb-1">Mr. HM Firoz Hussain</h3>
                   <div className="text-[#258F67] font-medium mb-4">Founder & Managing Director</div>
+                  <div className="mb-4">
+                    <Link 
+                      href="https://www.linkedin.com/in/firoz-hm/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-[#258F67] hover:text-[#0077b5] transition-colors"
+                      title="Mr. HM Firoz Hussain on LinkedIn"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                    </Link>
+                  </div>
                   <p className="text-gray-600 mb-4">
                     A dynamic chemical engineer from Dayananda Sagar College, Bangalore, with over 30 years in herbal extraction,
                     product development, and business strategy. Mr. Hussain is the driving force behind Star Hi Herbs' growth,
@@ -379,12 +412,14 @@ export default function AboutPage() {
                 position: 'Vice President Global Marketing',
                 image: 'https://ik.imagekit.io/pon54xoks/najish-n-nadaf%20.jpg',
                 bio: 'MBA – Karnataka University. 20+ years in B2B marketing, international sales, and strategic partnerships.',
+                linkedin: 'https://www.linkedin.com/in/najish/',
               },
               {
                 name: 'Balamurali Krishna K',
                 position: 'Director – Technical & Business Development',
                 image: '/images/balamurali.jpeg',
                 bio: 'Chemical Engineer, PGDM (IIMM). 30+ years in manufacturing, plant operations, quality and business development.',
+                linkedin: 'https://www.linkedin.com/in/balamurali-krishna-k-balu-52403b1b0/',
               },
               {
                 name: 'Radhakrishna Patil',
@@ -397,6 +432,7 @@ export default function AboutPage() {
                 position: 'Vice President R&D & Unit Head',
                 image: 'https://ik.imagekit.io/pon54xoks/dr-sadashiva.jpg',
                 bio: 'PhD – Mysore University, Postdoc – University of Kwa Zulunatal, South Africa. 25+ years in herbal R&D and clinical research.',
+                linkedin: 'https://www.linkedin.com/in/sadashiva-channangihalli-57352620/',
               },
               {
                 name: 'Youhan Hussain',
@@ -423,6 +459,19 @@ export default function AboutPage() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-[#214842] mb-1">{member.name}</h3>
                   <div className="text-[#258F67] font-medium mb-2">{member.position}</div>
+                  {member.linkedin && (
+                    <div className="mb-3">
+                      <Link 
+                        href={member.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-[#258F67] hover:text-[#0077b5] transition-colors"
+                        title={`${member.name} on LinkedIn`}
+                      >
+                        <Linkedin className="h-5 w-5" />
+                      </Link>
+                    </div>
+                  )}
                   <p className="text-gray-600 text-sm">{member.bio}</p>
                 </div>
               </div>

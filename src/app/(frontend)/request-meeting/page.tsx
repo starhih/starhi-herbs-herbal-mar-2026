@@ -11,9 +11,13 @@ export const metadata: Metadata = {
   title: 'Request a Meeting | Star Hi Herbs',
   description: 'Schedule a meeting with our team at upcoming industry events to discuss your herbal extract requirements.',
   keywords: 'meeting request, industry events, trade shows, herbal extracts, nutraceutical ingredients',
+  alternates: {
+    canonical: '/request-meeting',
+  },
   openGraph: {
     title: 'Request a Meeting | Star Hi Herbs',
     description: 'Schedule a meeting with our team at upcoming industry events to discuss your herbal extract requirements.',
+    url: '/request-meeting',
     images: [
       {
         url: '/images/events/event-meeting.jpg',
@@ -23,6 +27,12 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Request a Meeting | Star Hi Herbs',
+    description: 'Schedule a meeting with our team at upcoming industry events to discuss your herbal extract requirements.',
+    images: ['/images/events/event-meeting.jpg'],
   },
 };
 
