@@ -126,6 +126,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${montserrat.variable} ${nunitoSans.variable}`}>
       <head>
+        {/* Preconnect and dns-prefetch to critical CDNs for LCP optimization */}
+        <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://ik.imagekit.io" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+
         {/* Preload critical assets */}
         <link rel="icon" href="/images/starhiherbs-favicon.jpg" />
         <link rel="apple-touch-icon" href="/images/starhiherbs-favicon.jpg" />

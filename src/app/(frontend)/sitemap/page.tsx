@@ -52,6 +52,45 @@ export default async function SitemapPage() {
   });
   const blogCategories = blogCategoryDocs.map(mapBlogCategory).filter(Boolean) as any[];
 
+  // Fetch all products to resolve orphan pages issue
+  const { docs: productDocs } = await payload.find({
+    collection: 'products',
+    limit: 5000,
+    select: { slug: true, name: true, productType: true },
+  });
+
+  const allProducts = productDocs.map((p) => {
+    let url = `/products/${p.slug}`;
+    if (p.productType === 'branded') url = `/branded-ingredients/${p.slug}`;
+    if (p.productType === 'vitamin-mineral') url = `/vitamins-minerals/${p.slug}`;
+    return {
+      id: p.id,
+      name: p.name,
+      url,
+    };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+
+  // Group products alphabetically
+  const productAlphabetGroups: { [key: string]: any[] } = {};
+  allProducts.forEach((product) => {
+    const firstLetter = product.name.trim().charAt(0).toUpperCase();
+    const groupKey = /^[A-Z]/.test(firstLetter) ? firstLetter : '#';
+    if (!productAlphabetGroups[groupKey]) {
+      productAlphabetGroups[groupKey] = [];
+    }
+    productAlphabetGroups[groupKey].push(product);
+  });
+
+  const sortedProductGroupKeys = Object.keys(productAlphabetGroups).sort((a, b) => {
+    if (a === '#') return 1;
+    if (b === '#') return -1;
+    return a.localeCompare(b);
+  });
+
+  sortedProductGroupKeys.forEach((key) => {
+    productAlphabetGroups[key].sort((a, b) => a.name.localeCompare(b.name));
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -285,6 +324,39 @@ export default async function SitemapPage() {
                     </Link>
                   </li>
                 </ul>
+              </div>
+            </div>
+
+            {/* Products A-Z Directory to resolve Orphan Pages */}
+            <div className="mt-16 bg-white rounded-xl shadow-md p-8 border border-gray-100">
+              <h3 className="text-2xl font-semibold text-[#214842] mb-6 flex items-center">
+                <Leaf className="h-6 w-6 mr-2 text-[#258F67]" />
+                Complete Products Directory (A-Z)
+              </h3>
+              <p className="text-gray-600 mb-8">
+                Browse our entire portfolio of botanical extracts, custom formulations, vitamins, minerals, and probiotics.
+              </p>
+              
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {sortedProductGroupKeys.map((key) => (
+                  <div key={key} className="space-y-3">
+                    <div className="text-xl font-bold text-[#258F67] border-b pb-1 border-gray-200">
+                      {key}
+                    </div>
+                    <ul className="space-y-2">
+                      {productAlphabetGroups[key].map((product) => (
+                        <li key={product.id}>
+                          <Link
+                            href={product.url}
+                            className="text-gray-600 hover:text-[#258F67] text-sm transition-colors duration-150 inline-block py-0.5"
+                          >
+                            {product.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
 

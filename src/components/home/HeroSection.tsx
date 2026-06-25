@@ -37,7 +37,9 @@ export default function HeroSection() {
            <img
              src="https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg" 
              className="absolute inset-0 w-full h-full object-cover opacity-10 filter blur-sm" 
-             alt=""
+             alt="Star Hi Herbs Background Logo"
+             fetchPriority="high"
+             decoding="sync"
            />
         )}
         {loadVideo && (
