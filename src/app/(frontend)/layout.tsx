@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CookieConsent from '@/components/CookieConsent';
+import B2BDisclaimerModal from '@/components/B2BDisclaimerModal';
 import Analytics from '@/components/Analytics';
 import { montserrat, nunitoSans } from './fonts';
 import '@/lib/error-suppression';
@@ -141,6 +142,7 @@ export default function RootLayout({
           <main className="min-h-screen">{children}</main>
           <Footer />
           <CookieConsent />
+          <B2BDisclaimerModal />
           <Toaster />
         </ThemeProvider>
       </body>
