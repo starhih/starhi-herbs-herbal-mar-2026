@@ -50,7 +50,7 @@ export default function BlogInsights({ posts, categories }: BlogInsightsProps) {
                   </div>
                 </div>
                 <CardContent className="p-6">
-                  <div className="text-sm text-gray-600 mb-2">{formatDate(post.publishedAt)}</div>
+                  <div suppressHydrationWarning className="text-sm text-gray-600 mb-2">{formatDate(post.publishedAt)}</div>
                   <h3 className="text-xl font-semibold text-[#214842] mb-3 group-hover:text-[#258F67] transition-colors line-clamp-2">
                     <Link href={`/blog/${post.slug}`}>
                       {post.title}

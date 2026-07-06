@@ -94,7 +94,7 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
                 href={getProductUrl()}
                 className="inline-flex items-center text-[#258F67] font-medium hover:text-[#214842] transition-colors"
               >
-                Read More
+                Read More <span className="sr-only">about {name}</span>
                 <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -155,7 +155,7 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center text-xs text-[#258F67] mb-2">
-                              <span>{formatDate(newsItem.date)}</span>
+                              <span suppressHydrationWarning>{formatDate(newsItem.date)}</span>
                               <span className="mx-2">•</span>
                               <span className="bg-[#258F67]/10 px-2 py-1 rounded-full text-xs">{newsItem.category}</span>
                             </div>
