@@ -10,14 +10,14 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'News & Updates | Star Hi Herbs Corporate Announcements',
-  description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
-  keywords: 'Star Hi Herbs news, corporate announcements, herbal extract manufacturer updates, india nutraceutical news, botanical extract launches',
+  description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer and exporter globally.',
+  keywords: 'Star Hi Herbs news, corporate announcements, herbal extract manufacturer and exporter updates, india nutraceutical news, botanical extract launches',
   alternates: {
     canonical: '/news',
   },
   openGraph: {
     title: 'News & Updates | Star Hi Herbs Corporate Announcements',
-    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
+    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer and exporter globally.',
     url: '/news',
     siteName: 'Star Hi Herbs',
     locale: 'en_US',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'News & Updates | Star Hi Herbs Corporate Announcements',
-    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer globally.',
+    description: 'Latest news, product launches, and company updates from Star Hi Herbs, a leading herbal extract manufacturer and exporter globally.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };

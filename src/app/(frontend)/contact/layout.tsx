@@ -2,15 +2,15 @@ import { Metadata } from 'next';
 import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
-  title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer',
-  description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
-  keywords: 'contact Star Hi Herbs, herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, b2b herbal extracts contact, nutraceutical supplier india',
+  title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer & Exporter',
+  description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer and exporter globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
+  keywords: 'contact Star Hi Herbs, herbal extract manufacturer and exporter in bangalore, top herbal extract manufacturer and exporter in india, b2b herbal extracts contact, nutraceutical supplier india',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
-    title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer',
-    description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
+    title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer & Exporter',
+    description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer and exporter globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
     url: '/contact',
     siteName: 'Star Hi Herbs',
     locale: 'en_US',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer',
-    description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
+    title: 'Contact Star Hi Herbs | Global Herbal Extract Manufacturer & Exporter',
+    description: 'Get in touch with Star Hi Herbs, a leading herbal extract manufacturer and exporter globally. Contact our Bangalore-based manufacturing team for B2B nutraceutical quotes.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };

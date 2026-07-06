@@ -343,10 +343,23 @@ export const mapAward = (a: any): any => {
         console.warn('[mapAward] Received null/undefined award, skipping.');
         return null;
     }
+    
+    let title = a.title || '';
+    let year = a.year || '';
+    
+    if (title.toLowerCase().includes('times business')) {
+        if (!title.includes('2026')) {
+            title = 'Times Business Award 2020, 2026';
+        }
+        if (!year.includes('2026')) {
+            year = '2020, 2026';
+        }
+    }
+
     return {
         id: a.id,
-        title: a.title || '',
-        year: a.year || '',
+        title,
+        year,
         description: a.description || '',
         image: getImageUrl(a.image) || a.imageUrl || '',
     };

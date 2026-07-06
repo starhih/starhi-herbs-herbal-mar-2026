@@ -12,14 +12,14 @@ import JsonLd from '@/components/seo/JsonLd';
 
 // Define metadata for the products page
 export const metadata: Metadata = {
-  title: 'Our Products | Herbal Extracts Manufacturer in India',
+  title: 'Our Products | Herbal Extracts Manufacturer & Exporter in India',
   description: 'Explore our comprehensive range of high-quality herbal extracts, probiotics, and nutraceuticals. Premium B2B botanical ingredients from Star Hi Herbs.',
-  keywords: 'herbal extracts, organic extracts, nutraceutical ingredients, standardized extracts, probiotics, herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, b2b herbs',
+  keywords: 'herbal extracts, organic extracts, nutraceutical ingredients, standardized extracts, probiotics, herbal extract manufacturer and exporter in bangalore, top herbal extract manufacturer and exporter in india, b2b herbs',
   alternates: {
     canonical: '/products',
   },
   openGraph: {
-    title: 'Our Products | Herbal Extracts Manufacturer in India',
+    title: 'Our Products | Herbal Extracts Manufacturer & Exporter in India',
     description: 'Explore our comprehensive range of high-quality herbal extracts, probiotics, and nutraceuticals. Premium B2B botanical ingredients from Star Hi Herbs.',
     images: [
       {

@@ -6,15 +6,15 @@ import { Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-  title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
-  description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
-  keywords: 'herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, organic extracts, WHO GMP certified manufacturer india, ISO certified herbal extracts, halal herbal extracts, Star Hi Herbs certifications',
+  title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer & Exporter',
+  description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer and exporter in India.',
+  keywords: 'herbal extract manufacturer and exporter in bangalore, top herbal extract manufacturer and exporter in india, organic extracts, WHO GMP certified manufacturer and exporter india, ISO certified herbal extracts, halal herbal extracts, Star Hi Herbs certifications',
   alternates: {
     canonical: '/certifications',
   },
   openGraph: {
-    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
-    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
+    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer & Exporter',
+    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer and exporter in India.',
     url: '/certifications',
     siteName: 'Star Hi Herbs',
     locale: 'en_US',
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer',
-    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer in India.',
+    title: 'Our Certifications | Star Hi Herbs High-Quality Manufacturer & Exporter',
+    description: 'Star Hi Herbs holds global certifications including ISO, WHO-GMP, FSSC, Halal, Kosher, and Organic, cementing our position as a top herbal extract manufacturer and exporter in India.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };

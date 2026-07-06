@@ -62,16 +62,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} | Top ${product.name} Manufacturer in India | Star Hi Herbs`,
-    description: `Leading ${product.name} manufacturer in Bangalore, India. ${product.description || product.shortDescription || 'Premium plant-based vitamin/mineral by Star Hi Herbs.'}`,
+    title: `${product.name} | Top ${product.name} Manufacturer & Exporter in India | Star Hi Herbs`,
+    description: `Leading ${product.name} manufacturer and exporter in Bangalore, India. ${product.description || product.shortDescription || 'Premium plant-based vitamin/mineral by Star Hi Herbs.'}`,
     keywords: [
-      `${product.name} manufacturer in india`,
-      `${product.name} manufacturer in bangalore`,
-      `top ${product.name} manufacturer`,
+      `${product.name} manufacturer and exporter in india`,
+      `${product.name} manufacturer and exporter in bangalore`,
+      `top ${product.name} manufacturer and exporter`,
       product.name, 
       'Vitamins & Minerals', 
       product.standardization, 
-      'plant-based manufacturer in india', 
+      'plant-based manufacturer and exporter in india', 
       ...product.certifications
     ].join(', '),
     alternates: {
@@ -356,7 +356,12 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
                 )}
 
                 {/* Contact Buttons */}
-                <ContactButtons />
+                <ContactButtons
+                  productName={product.name}
+                  productCategory={product.categoryName}
+                  productStandardization={product.standardization}
+                  productType={product.productType}
+                />
               </div>
             </div>
           </div>

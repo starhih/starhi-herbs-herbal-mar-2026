@@ -9,14 +9,14 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Sustainability & CSR | Star Hi Herbs Ethical Manufacturing',
-  description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer of herbal extracts.',
-  keywords: 'sustainable herbal extraction, organic extract manufacturer india, contract farming herbs, ethical sourcing nutraceuticals, top herbal extract manufacturer in india, b2b organic extracts',
+  description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer and exporter of herbal extracts.',
+  keywords: 'sustainable herbal extraction, organic extract manufacturer and exporter india, contract farming herbs, ethical sourcing nutraceuticals, top herbal extract manufacturer and exporter in india, b2b organic extracts',
   alternates: {
     canonical: '/sustainability',
   },
   openGraph: {
     title: 'Sustainability & CSR | Star Hi Herbs Ethical Manufacturing',
-    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer of herbal extracts.',
+    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer and exporter of herbal extracts.',
     url: '/sustainability',
     siteName: 'Star Hi Herbs',
     locale: 'en_US',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sustainability & CSR | Star Hi Herbs Ethical Manufacturing',
-    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer of herbal extracts.',
+    description: 'Learn about Star Hi Herbs\' commitment to sustainability, contract farming, and organic extract production. We are a leading responsible manufacturer and exporter of herbal extracts.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };

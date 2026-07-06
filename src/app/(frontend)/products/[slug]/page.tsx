@@ -20,6 +20,7 @@ import ProductFAQs from '@/components/products/ProductFAQs';
 import StorgChildProducts from '@/components/products/StorgChildProducts';
 import StorgIndications from '@/components/products/StorgIndications';
 import JsonLd from '@/components/seo/JsonLd';
+import ProductActionButtons from '@/components/products/ProductActionButtons';
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -59,16 +60,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} | Top ${product.name} Manufacturer in India | Star Hi Herbs`,
-    description: `Leading ${product.name} manufacturer in Bangalore, India. ${product.description || product.shortDescription || 'High-quality herbal extract by Star Hi Herbs.'}`,
+    title: `${product.name} | Top ${product.name} Manufacturer & Exporter in India | Star Hi Herbs`,
+    description: `Leading ${product.name} manufacturer and exporter in Bangalore, India. ${product.description || product.shortDescription || 'High-quality herbal extract by Star Hi Herbs.'}`,
     keywords: [
-      `${product.name} manufacturer in india`, 
-      `${product.name} manufacturer in bangalore`, 
-      `top ${product.name} manufacturer`,
+      `${product.name} manufacturer and exporter in india`, 
+      `${product.name} manufacturer and exporter in bangalore`, 
+      `top ${product.name} manufacturer and exporter`,
       product.name, 
       product.categoryName, 
       product.standardization, 
-      'herbal extract manufacturer in india', 
+      'herbal extract manufacturer and exporter in india', 
       'nutraceuticals', 
       ...product.certifications
     ].join(', '),
@@ -397,20 +398,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <p className="text-gray-600">{product.description}</p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild className="flex-1 cta-primary">
-                  <Link href="/request-quote" className="flex items-center justify-center">
-                    Request Quote
-                    <ArrowRight size={16} className="ml-2" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" className="flex-1">
-                  <Link href="/request-sample" className="flex items-center justify-center">
-                    Request Sample
-                    <ArrowRight size={16} className="ml-2" />
-                  </Link>
-                </Button>
-              </div>
+              <ProductActionButtons
+                productName={product.name}
+                productCategory={product.categoryName}
+                productStandardization={product.standardization}
+              />
             </div>
           </div>
         </div>

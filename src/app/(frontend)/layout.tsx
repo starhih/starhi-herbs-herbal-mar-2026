@@ -14,9 +14,9 @@ import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://starhiherbs.com'),
-  title: 'Star Hi Herbs | Top Herbal Extract Manufacturer in India & Bangalore',
-  description: 'Star Hi Herbs is the world\'s largest manufacturer of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer based in Bangalore, India, supplying premium B2B nutraceuticals.',
-  keywords: 'herbal extract manufacturer in india, herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, Coleus manufacturer in india, Sesamin extract manufacturer in the world, herbal extracts, probiotics, nutraceuticals, organic extracts, herbal solutions, b2b herbs',
+  title: 'Star Hi Herbs | Top Herbal Extract Manufacturer & Exporter in India & Bangalore',
+  description: 'Star Hi Herbs is the world\'s largest manufacturer and exporter of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer and exporter based in Bangalore, India, supplying premium B2B nutraceuticals.',
+  keywords: 'herbal extract manufacturer and exporter in india, herbal extract manufacturer and exporter in bangalore, top herbal extract manufacturer and exporter in india, Coleus manufacturer and exporter in india, Sesamin extract manufacturer and exporter in the world, herbal extracts, probiotics, nutraceuticals, organic extracts, herbal solutions, b2b herbs',
   icons: {
     icon: '/images/starhiherbs-favicon.jpg',
     apple: '/images/starhiherbs-favicon.jpg',
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Star Hi Herbs | Top Herbal Extract Manufacturer in India',
-    description: 'Star Hi Herbs is the world\'s largest manufacturer of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer based in Bangalore, India.',
+    title: 'Star Hi Herbs | Top Herbal Extract Manufacturer & Exporter in India',
+    description: 'Star Hi Herbs is the world\'s largest manufacturer and exporter of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer and exporter based in Bangalore, India.',
     url: '/',
     siteName: 'Star Hi Herbs',
     images: [
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Star Hi Herbs | Top Herbal Extract Manufacturer in India',
-    description: 'Star Hi Herbs is the world\'s largest manufacturer of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer based in Bangalore, India.',
+    title: 'Star Hi Herbs | Top Herbal Extract Manufacturer & Exporter in India',
+    description: 'Star Hi Herbs is the world\'s largest manufacturer and exporter of Coleus extract and Sesamin extract. We are a leading herbal extract manufacturer and exporter based in Bangalore, India.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };
@@ -55,7 +55,7 @@ const organizationSchema = {
   name: 'Star Hi Herbs',
   url: 'https://starhiherbs.com',
   logo: 'https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg',
-  description: 'Star Hi Herbs is the world\'s largest manufacturer of Coleus extract and Sesamin extract. We are recognized as the top herbal extract manufacturer in Bangalore, India, providing globally certified B2B organic extracts.',
+  description: 'Star Hi Herbs is the world\'s largest manufacturer and exporter of Coleus extract and Sesamin extract. We are recognized as the top herbal extract manufacturer and exporter in Bangalore, India, providing globally certified B2B organic extracts.',
   telephone: '+91 98 8642 2452',
   email: 'starhi@starhiherbs.com',
   sameAs: [

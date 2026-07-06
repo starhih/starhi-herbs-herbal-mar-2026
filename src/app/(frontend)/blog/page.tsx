@@ -10,14 +10,14 @@ import SubscribeForm from '@/components/blog/SubscribeForm';
 
 export const metadata: Metadata = {
   title: 'Knowledge Center | Star Hi Herbs Blog',
-  description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
-  keywords: 'herbal extract knowledge, nutraceutical articles, probiotics research, top herbal extract manufacturer in india, b2b herbal extracts news',
+  description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer and exporter of premium herbal extracts, coleus extract, and probiotics.',
+  keywords: 'herbal extract knowledge, nutraceutical articles, probiotics research, top herbal extract manufacturer and exporter in india, b2b herbal extracts news',
   alternates: {
     canonical: '/blog',
   },
   openGraph: {
     title: 'Knowledge Center | Star Hi Herbs Blog',
-    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
+    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer and exporter of premium herbal extracts, coleus extract, and probiotics.',
     url: '/blog',
     siteName: 'Star Hi Herbs',
     locale: 'en_US',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Knowledge Center | Star Hi Herbs Blog',
-    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer of premium herbal extracts, coleus extract, and probiotics.',
+    description: 'Latest insights, research, and industry news from Star Hi Herbs, a leading global manufacturer and exporter of premium herbal extracts, coleus extract, and probiotics.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
 };

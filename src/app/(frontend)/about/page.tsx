@@ -7,14 +7,14 @@ import { Metadata } from 'next';
 import JsonLd from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
-  title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+  title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer & Exporter',
   description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
-  keywords: 'herbal extract manufacturer in bangalore, top herbal extract manufacturer in india, Coleus manufacturer in india, Sesamin extract manufacturer in the world, b2b herbal extracts, nutraceutical ingredients, probiotics, Star Hi Herbs, Firoz Hussain',
+  keywords: 'herbal extract manufacturer and exporter in bangalore, top herbal extract manufacturer and exporter in india, Coleus manufacturer and exporter in india, Sesamin extract manufacturer and exporter in the world, b2b herbal extracts, nutraceutical ingredients, probiotics, Star Hi Herbs, Firoz Hussain',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer & Exporter',
     description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
     url: '/about',
     siteName: 'Star Hi Herbs',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer',
+    title: 'About Us | Star Hi Herbs - Top Herbal Extract Manufacturer & Exporter',
     description: 'Learn about Star Hi Herbs, the world\'s leading manufacturer and exporter of standardized herbal extracts, premium Coleus & Sesamin extracts, and probiotics.',
     images: ['https://ik.imagekit.io/pon54xoks/website.jpg'],
   },
@@ -705,7 +705,7 @@ export default function AboutPage() {
               <div className="relative h-full min-h-[250px] flex items-stretch overflow-hidden">
                 <div className="absolute inset-0">
                   <Image src="https://ik.imagekit.io/pon54xoks/times-business-award-2020.jpg"
-                    alt="Times Business Award 2020"
+                    alt="Times Business Award 2020, 2026"
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -713,7 +713,7 @@ export default function AboutPage() {
                 </div>
                 <div className="hidden md:block md:w-1/3 object-cover"></div>
                 <div className="relative w-full md:w-2/3 p-6 z-10 flex flex-col justify-center">
-                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">Times Business Award 2020</h3>
+                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">Times Business Award 2020, 2026</h3>
                   <p className="text-white/90 drop-shadow-md leading-relaxed">Excellence in Herbal Extract Manufacturing</p>
                 </div>
               </div>

@@ -66,16 +66,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${product.name} | Top ${product.name} Manufacturer in India | Star Hi Herbs`,
-    description: `Leading ${product.name} manufacturer in Bangalore, India. ${product.description || product.shortDescription || 'Premium branded ingredient by Star Hi Herbs.'}`,
+    title: `${product.name} | Top ${product.name} Manufacturer & Exporter in India | Star Hi Herbs`,
+    description: `Leading ${product.name} manufacturer and exporter in Bangalore, India. ${product.description || product.shortDescription || 'Premium branded ingredient by Star Hi Herbs.'}`,
     keywords: [
-      `${product.name} manufacturer in india`,
-      `${product.name} manufacturer in bangalore`,
-      `top ${product.name} manufacturer`,
+      `${product.name} manufacturer and exporter in india`,
+      `${product.name} manufacturer and exporter in bangalore`,
+      `top ${product.name} manufacturer and exporter`,
       product.name, 
       'Branded Ingredient', 
       product.standardization, 
-      'nutraceutical manufacturer in india', 
+      'nutraceutical manufacturer and exporter in india', 
       ...product.certifications
     ].join(', '),
     alternates: {

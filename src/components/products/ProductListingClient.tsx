@@ -90,7 +90,7 @@ export default function ProductListingClient({
   const brandedIngredientsData = [
     {
       name: 'Turmimax',
-      imageUrl: 'https://ik.imagekit.io/pon54xoks/turmimax.jpg',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmi-Max-01.jpg',
       url: 'https://turmimax.com/',
     },
     {
