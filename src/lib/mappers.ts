@@ -346,15 +346,6 @@ export const mapAward = (a: any): any => {
     
     let title = a.title || '';
     let year = a.year || '';
-    
-    if (title.toLowerCase().includes('times business')) {
-        if (!title.includes('2026')) {
-            title = 'Times Business Award 2020, 2026';
-        }
-        if (!year.includes('2026')) {
-            year = '2020, 2026';
-        }
-    }
 
     return {
         id: a.id,

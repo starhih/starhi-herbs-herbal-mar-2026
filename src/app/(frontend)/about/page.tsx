@@ -699,42 +699,40 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Times Business Award */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Times Business Award 2020 */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67] group">
-              <div className="relative h-full min-h-[250px] flex items-stretch overflow-hidden">
-                <div className="absolute inset-0">
-                  <Image src="https://ik.imagekit.io/pon54xoks/times-business-award-2020.jpg"
-                    alt="Times Business Award 2020, 2026"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-black/60 to-black/90 md:from-transparent md:via-black/70 md:to-black/95"></div>
-                </div>
-                <div className="hidden md:block md:w-1/3 object-cover"></div>
-                <div className="relative w-full md:w-2/3 p-6 z-10 flex flex-col justify-center">
-                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">Times Business Award 2020, 2026</h3>
-                  <p className="text-white/90 drop-shadow-md leading-relaxed">Excellence in Herbal Extract Manufacturing</p>
-                </div>
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <Image src="https://ik.imagekit.io/pon54xoks/times-business-award-2020.jpeg"
+                  alt="Times Business Award 2020"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
               </div>
             </div>
 
             {/* World Signature Award */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67] group">
-              <div className="relative h-full min-h-[250px] flex items-stretch overflow-hidden">
-                <div className="absolute inset-0">
-                  <Image src="https://ik.imagekit.io/pon54xoks/world-signature-award-2023.jpg"
-                    alt="World Signature Award 2023"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-black/60 to-black/90 md:from-transparent md:via-black/70 md:to-black/95"></div>
-                </div>
-                <div className="hidden md:block md:w-1/3 object-cover"></div>
-                <div className="relative w-full md:w-2/3 p-6 z-10 flex flex-col justify-center">
-                  <h3 className="text-xl font-semibold text-white drop-shadow-md mb-2">World Signature Award 2023</h3>
-                  <p className="text-white/90 drop-shadow-md leading-relaxed">Innovation in Standardization and R&D</p>
-                </div>
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <Image src="https://ik.imagekit.io/pon54xoks/world-signature-award-2023.jpeg"
+                  alt="World Signature Award 2023"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+            </div>
+
+            {/* Times Business Award 2026 */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67] group">
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <Image src="https://ik.imagekit.io/pon54xoks/times-business-award-2026.jpeg"
+                  alt="Times Business Award 2026"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
               </div>
             </div>
           </div>
