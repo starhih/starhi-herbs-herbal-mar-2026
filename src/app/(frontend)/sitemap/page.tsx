@@ -280,7 +280,7 @@ export default async function SitemapPage() {
                   <li>
                     <Link href="/collections/vitamins-minerals" className="text-gray-600 hover:text-[#258F67] transition-colors flex items-center">
                       <span className="w-2 h-2 bg-[#EFC368] rounded-full mr-3"></span>
-                      Vitamins & Minerals
+                      Natural Vitamins & Minerals
                     </Link>
                   </li>
                   <li>

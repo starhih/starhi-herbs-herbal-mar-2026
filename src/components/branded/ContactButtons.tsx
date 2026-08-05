@@ -15,7 +15,7 @@ interface ContactButtonsProps {
 
 export default function ContactButtons({
   productName = '',
-  productCategory = 'Vitamins & Minerals',
+  productCategory = 'Natural Vitamins & Minerals',
   productStandardization = '',
   productType = '',
 }: ContactButtonsProps) {

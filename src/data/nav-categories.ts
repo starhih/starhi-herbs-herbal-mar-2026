@@ -7,6 +7,6 @@ export const navCategories = [
   { name: 'Organic Extracts', slug: 'organic-extracts' },
   { name: 'Branded Ingredients', slug: 'branded-ingredients' },
   { name: 'Probiotics', slug: 'probiotics' },
-  { name: 'Vitamins & Minerals', slug: 'vitamins-minerals' },
+  { name: 'Natural Vitamins & Minerals', slug: 'vitamins-minerals' },
   { name: 'Bulk Formulations', slug: 'bulk-formulations' },
 ];

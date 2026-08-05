@@ -90,7 +90,7 @@ async function seed() {
       storgParent = await payload.create({
         collection: 'products',
         data: {
-          name: 'Storg® Plant-based Vitamins & Minerals',
+          name: 'Storg® Plant-based Natural Vitamins & Minerals',
           slug: 'storg-plant-based-vitamins-minerals',
           category: vitCategory.docs[0].id,
           productType: 'vitamin-mineral',

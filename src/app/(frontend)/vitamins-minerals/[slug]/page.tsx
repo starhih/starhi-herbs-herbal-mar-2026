@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       `${product.name} manufacturer and exporter in bangalore`,
       `top ${product.name} manufacturer and exporter`,
       product.name, 
-      'Vitamins & Minerals', 
+      'Natural Vitamins & Minerals', 
       product.standardization, 
       'plant-based manufacturer and exporter in india', 
       ...product.certifications
@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       canonical: `/vitamins-minerals/${product.slug}`,
     },
     openGraph: {
-      title: `${product.name} | Vitamins & Minerals`,
+      title: `${product.name} | Natural Vitamins & Minerals`,
       description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
       url: `/vitamins-minerals/${product.slug}`,
       images: [
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${product.name} | Vitamins & Minerals`,
+      title: `${product.name} | Natural Vitamins & Minerals`,
       description: product.description || `${product.name} - ${product.standardization} - Premium plant-based vitamin/mineral by Star Hi Herbs.`,
       images: [product.image],
     },
@@ -206,7 +206,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
     name: product.name,
     image: product.image,
     description: product.description || product.shortDescription,
-    category: 'Vitamins & Minerals',
+    category: 'Natural Vitamins & Minerals',
     brand: {
       '@type': 'Brand',
       name: 'Star Hi Herbs'
@@ -247,7 +247,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
           <Breadcrumbs
             items={[
               { label: 'Products', href: '/products' },
-              { label: 'Vitamins & Minerals', href: '/collections/vitamins-minerals' },
+              { label: 'Natural Vitamins & Minerals', href: '/collections/vitamins-minerals' },
               ...(parentProduct ? [{ label: parentProduct.name, href: `/products/${parentProduct.slug}` }] : []),
               { label: product.name, href: `/vitamins-minerals/${product.slug}`, isCurrent: true }
             ]}
@@ -313,7 +313,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
             <div className="flex flex-col">
               <div className="mb-6">
                 <Link href="/collections/vitamins-minerals" className="text-[#258F67] mb-2 hover:underline inline-block">
-                  Vitamins & Minerals
+                  Natural Vitamins & Minerals
                 </Link>
                 <h1 className="text-[#214842] mb-2">{product.name}</h1>
 
@@ -507,7 +507,7 @@ export default async function VitaminMineralPage({ params }: { params: Promise<{
           <div className="container-custom">
             <div className="text-center mb-12">
               <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Explore More</h6>
-              <h2 className="text-[#214842] mb-4">Related Vitamins & Minerals</h2>
+              <h2 className="text-[#214842] mb-4">Related Natural Vitamins & Minerals</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedProducts.map((product) => (

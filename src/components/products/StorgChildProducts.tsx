@@ -17,7 +17,7 @@ export default function StorgChildProducts({ childProducts }: StorgChildProducts
         <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Product Family</h6>
         <h2 className="text-[#214842] mb-4">Storg® Product Variants</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Explore our complete range of plant-based vitamins and minerals, each formulated to address specific nutritional needs.
+          Explore our complete range of plant-based natural vitamins and minerals, each formulated to address specific nutritional needs.
         </p>
       </div>
       
