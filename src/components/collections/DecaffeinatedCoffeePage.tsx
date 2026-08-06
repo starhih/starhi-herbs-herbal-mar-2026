@@ -150,8 +150,8 @@ export default function DecaffeinatedCoffeePage({ category, products }: Decaffei
       {/* Hero Section */}
       <section className="relative h-[65vh] min-h-[480px] flex items-center">
         <Image
-          src={category.heroImage || '/images/products/Coffee Bean 1.jpg'}
-          fallbackSrc={category.heroImageFallback || '/images/products/Coffee Bean 1.jpg'}
+          src={category.heroImage || category.image || '/images/products/Coffee Bean 1.jpg'}
+          fallbackSrc={category.heroImageFallback || category.imageFallback || '/images/products/Coffee Bean 1.jpg'}
           alt={category.name}
           fill
           className="object-cover"

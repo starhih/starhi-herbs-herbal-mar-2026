@@ -39,7 +39,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     where: {
       slug: { equals: categorySlug }
     },
-    limit: 1
+    limit: 1,
+    depth: 2
   });
   let category = docs[0] ? mapCategory(docs[0]) : null;
 
@@ -108,7 +109,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const { docs: categoryDocs } = await payload.find({
     collection: 'categories',
     where: { slug: { equals: categorySlug } },
-    limit: 1
+    limit: 1,
+    depth: 2
   });
   let category = categoryDocs[0] ? mapCategory(categoryDocs[0]) : null;
 
