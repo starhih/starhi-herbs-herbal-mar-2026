@@ -49,7 +49,7 @@ export default function StatisticsSection() {
               <FileText className="h-6 w-6 text-[#214842]" />
             </div>
             <div className="flex items-center justify-center mb-2">
-              <Counter end={27} duration={2.5} fontSize={36} suffix="+" />
+              <Counter end={42} duration={2.5} fontSize={36} suffix="+" />
             </div>
             <h3 className="text-lg font-semibold text-[#214842] mb-2">Patents</h3>
             <p className="text-gray-600 text-sm">Registered Globally</p>
@@ -60,7 +60,7 @@ export default function StatisticsSection() {
               <BookOpen className="h-6 w-6 text-[#214842]" />
             </div>
             <div className="flex items-center justify-center mb-2">
-              <Counter end={20} duration={2.5} fontSize={36} suffix="+" />
+              <Counter end={28} duration={2.5} fontSize={36} suffix="+" />
             </div>
             <h3 className="text-lg font-semibold text-[#214842] mb-2">Publications</h3>
             <p className="text-gray-600 text-sm">Research Papers</p>

@@ -272,6 +272,54 @@ export default function AboutPage() {
                   <div className="absolute left-1/2 transform -translate-x-1/2 top-6 w-5 h-5 rounded-full bg-[#258F67] border-4 border-white hidden md:block"></div>
                 </div>
               </div>
+
+              {/* 2024 */}
+              <div className="relative">
+                <div className="md:grid md:grid-cols-2 gap-8 items-center">
+                  <div className="hidden md:block"></div>
+                  <div className="md:pl-12">
+                    <div className="bg-[#214842] text-white text-xl font-bold py-1 px-4 rounded-full inline-block mb-3">2024</div>
+                    <h3 className="text-xl font-semibold text-[#214842] mb-2">Expanding Scale</h3>
+                    <ul className="text-gray-600 space-y-2 list-disc pl-5">
+                      <li>Began expansion of the production facility in SEZ Hassan to meet soaring global demand.</li>
+                    </ul>
+                  </div>
+                  {/* Timeline Dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 top-6 w-5 h-5 rounded-full bg-[#258F67] border-4 border-white hidden md:block"></div>
+                </div>
+              </div>
+
+              {/* 2025 */}
+              <div className="relative">
+                <div className="md:grid md:grid-cols-2 gap-8 items-center">
+                  <div className="md:text-right md:pr-12">
+                    <div className="bg-[#214842] text-white text-xl font-bold py-1 px-4 rounded-full inline-block mb-3">2025</div>
+                    <h3 className="text-xl font-semibold text-[#214842] mb-2">Branded Ingredient Innovation</h3>
+                    <ul className="text-gray-600 space-y-2 list-disc md:list-none pl-5 md:pl-0">
+                      <li>Launched clinically validated branded ingredients like Eyevistar® and Cissuslean™.</li>
+                    </ul>
+                  </div>
+                  <div className="hidden md:block"></div>
+                  {/* Timeline Dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 top-6 w-5 h-5 rounded-full bg-[#258F67] border-4 border-white hidden md:block"></div>
+                </div>
+              </div>
+
+              {/* 2026 */}
+              <div className="relative">
+                <div className="md:grid md:grid-cols-2 gap-8 items-center">
+                  <div className="hidden md:block"></div>
+                  <div className="md:pl-12">
+                    <div className="bg-[#214842] text-white text-xl font-bold py-1 px-4 rounded-full inline-block mb-3">2026</div>
+                    <h3 className="text-xl font-semibold text-[#214842] mb-2">Speciality Decaffeination</h3>
+                    <ul className="text-gray-600 space-y-2 list-disc pl-5">
+                      <li>Commissioned state-of-the-art Speciality Decaffeinated Coffee Bean processing plant with an installed capacity of 3,000+ MT/year.</li>
+                    </ul>
+                  </div>
+                  {/* Timeline Dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 top-6 w-5 h-5 rounded-full bg-[#258F67] border-4 border-white hidden md:block"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

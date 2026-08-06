@@ -12,6 +12,7 @@ import StorgProductFamily from '@/components/products/StorgProductFamily';
 import ProductListingClient from '@/components/products/ProductListingClient';
 import CategoryDetails from '@/components/collections/CategoryDetails';
 import JsonLd from '@/components/seo/JsonLd';
+import DecaffeinatedCoffeePage from '@/components/collections/DecaffeinatedCoffeePage';
 
 // Generate static params for all categories
 // Generate static params for all categories
@@ -40,7 +41,27 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     },
     limit: 1
   });
-  const category = docs[0] ? mapCategory(docs[0]) : null;
+  let category = docs[0] ? mapCategory(docs[0]) : null;
+
+  if (categorySlug === 'decaffeinated-coffee-beans' && !category) {
+    category = {
+      id: 'mock-decaff-id',
+      slug: 'decaffeinated-coffee-beans',
+      name: 'Decaffeinated Coffee Beans',
+      description: 'A Decaffeinated Coffee Bean Processing Facility with an installed capacity of approximately 3,000 MT per annum.',
+      image: '/images/products/coffee-bean-extract.jpg',
+      imageFallback: '',
+      heroImage: '/images/products/Coffee Bean 1.jpg',
+      heroImageFallback: '',
+      homepageImage: '',
+      homepageImageFallback: '',
+      count: 0,
+      longDescription: null,
+      faqs: [],
+      updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+    };
+  }
 
   if (!category) {
     return {
@@ -89,24 +110,53 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     where: { slug: { equals: categorySlug } },
     limit: 1
   });
-  const category = categoryDocs[0] ? mapCategory(categoryDocs[0]) : null;
+  let category = categoryDocs[0] ? mapCategory(categoryDocs[0]) : null;
+
+  if (categorySlug === 'decaffeinated-coffee-beans' && !category) {
+    category = {
+      id: 'mock-decaff-id',
+      slug: 'decaffeinated-coffee-beans',
+      name: 'Decaffeinated Coffee Beans',
+      description: 'A Decaffeinated Coffee Bean Processing Facility with an installed capacity of approximately 3,000 MT per annum.',
+      image: '/images/products/coffee-bean-extract.jpg',
+      imageFallback: '',
+      heroImage: '/images/products/Coffee Bean 1.jpg',
+      heroImageFallback: '',
+      homepageImage: '',
+      homepageImageFallback: '',
+      count: 0,
+      longDescription: null,
+      faqs: [],
+      updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+    };
+  }
 
   if (!category) {
     notFound();
   }
 
   // Fetch products in this category
-  const { docs: productDocs } = await payload.find({
-    collection: 'products',
-    where: {
-      // Assuming relationship uses ID. If slug matches 'category.slug', query nested.
-      // Or if we query by category ID using category.id
-      category: { equals: category.id }
-    },
-    limit: 100 // fetch all or paginate? for now limit 100
-  });
+  let productDocs: any[] = [];
+  if (categoryDocs[0]) {
+    const res = await payload.find({
+      collection: 'products',
+      where: {
+        // Assuming relationship uses ID. If slug matches 'category.slug', query nested.
+        // Or if we query by category ID using category.id
+        category: { equals: category.id }
+      },
+      limit: 100 // fetch all or paginate? for now limit 100
+    });
+    productDocs = res.docs;
+  }
 
   const categoryProducts = productDocs.map(mapProduct).filter(Boolean) as Product[];
+
+  // Decaffeinated Coffee Beans template redirect
+  if (categorySlug === 'decaffeinated-coffee-beans') {
+    return <DecaffeinatedCoffeePage category={category} products={categoryProducts} />;
+  }
 
   // Special handling for Storg main product
   let mainProduct: Product | undefined;

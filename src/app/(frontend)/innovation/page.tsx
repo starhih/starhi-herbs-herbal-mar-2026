@@ -71,7 +71,7 @@ export default function InnovationPage() {
                   efficacious, and safe botanical extracts.
                 </p>
                 <p>
-                  Our team of experienced scientists, led by Dr. Sadashiv, has contributed 27+ international publications and filed 41+ patents
+                  Our team of experienced scientists, led by Dr. Sadashiv, has contributed 28+ international publications and filed 42+ patents
                   in the field of herbal extracts and their applications. We continuously invest in advanced analytical equipment and methodology
                   development to enhance our capabilities.
                 </p>
@@ -89,14 +89,14 @@ export default function InnovationPage() {
                 <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <Award className="h-7 w-7 text-[#214842]" />
                 </div>
-                <h3 className="text-lg font-semibold text-[#214842] mb-2">27+ publications</h3>
+                <h3 className="text-lg font-semibold text-[#214842] mb-2">28+ publications</h3>
                 <p className="text-gray-600 text-sm">In international journals</p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                 <div className="bg-[#214842]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <Award className="h-7 w-7 text-[#214842]" />
                 </div>
-                <h3 className="text-lg font-semibold text-[#214842] mb-2">41+ patents</h3>
+                <h3 className="text-lg font-semibold text-[#214842] mb-2">42+ patents</h3>
                 <p className="text-gray-600 text-sm">Filed for novel formulations</p>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
@@ -673,7 +673,7 @@ export default function InnovationPage() {
                 <h3 className="text-xl font-semibold text-[#214842]">Patents</h3>
               </div>
               <p className="text-gray-600 mb-4">
-                Our team has filed 41+ patents for novel formulations and extraction processes, including:
+                Our team has filed 42+ patents for novel formulations and extraction processes, including:
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start">

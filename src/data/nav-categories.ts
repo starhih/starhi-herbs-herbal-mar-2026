@@ -8,5 +8,6 @@ export const navCategories = [
   { name: 'Branded Ingredients', slug: 'branded-ingredients' },
   { name: 'Probiotics', slug: 'probiotics' },
   { name: 'Natural Vitamins & Minerals', slug: 'vitamins-minerals' },
+  { name: 'Decaffeinated Coffee Beans', slug: 'decaffeinated-coffee-beans' },
   { name: 'Bulk Formulations', slug: 'bulk-formulations' },
 ];
