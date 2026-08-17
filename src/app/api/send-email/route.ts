@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { forwardToCrm } from '@/lib/crm-leads';
 import { getPayloadClient } from '@/lib/payload';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -65,22 +66,39 @@ export async function POST(request: NextRequest) {
 
     const emailSubject = subject || `[${formType}] New submission from ${data.from_name || data.name || 'Website'}`;
 
-    const { error } = await resend.emails.send({
-      from: fromEmail,
-      to: [recipientEmail],
-      ...(ccList.length > 0 ? { cc: ccList } : {}),
-      subject: emailSubject,
-      replyTo: data.from_email || data.email || undefined,
-      html: htmlContent,
-      text: textContent,
-    });
+    let resendFailed = false;
+    try {
+      const { error } = await resend.emails.send({
+        from: fromEmail,
+        to: [recipientEmail],
+        ...(ccList.length > 0 ? { cc: ccList } : {}),
+        subject: emailSubject,
+        replyTo: data.from_email || data.email || undefined,
+        html: htmlContent,
+        text: textContent,
+      });
 
-    if (error) {
-      console.error('Resend error:', error);
+      if (error) {
+        resendFailed = true;
+        console.error('Resend error:', error);
+      }
+    } catch (sendError) {
+      resendFailed = true;
+      console.error('Resend error:', sendError);
+    }
+
+    // Production: email is required. Local: still capture CRM so quote/contact can be tested without a Resend key.
+    if (resendFailed && process.env.NODE_ENV === 'production') {
       return NextResponse.json(
-        { success: false, error: error.message },
+        { success: false, error: 'Failed to send email' },
         { status: 500 },
       );
+    }
+
+    try {
+      await forwardToCrm(formType, data);
+    } catch (crmError) {
+      console.error('CRM lead capture error:', crmError);
     }
 
     return NextResponse.json({ success: true });
