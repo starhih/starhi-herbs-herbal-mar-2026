@@ -10,14 +10,24 @@ interface FooterProps {
 
 export default async function Footer({ categories }: FooterProps = {}) {
   const currentYear = new Date().getFullYear();
-  const productCategories = categories && categories.length > 0 ? categories : navCategories;
+  let productCategories = categories && categories.length > 0 ? categories : [];
 
   let settings: any = null;
   try {
     const payload = await getPayloadClient();
     settings = await (payload as any).findGlobal({ slug: 'site-settings' });
+    if (productCategories.length === 0) {
+      const { docs } = await payload.find({ collection: 'categories', limit: 100 });
+      if (docs && docs.length > 0) {
+        productCategories = docs.map((c) => ({ name: c.name, slug: c.slug }));
+      }
+    }
   } catch {
-    // Fallback to defaults if settings not yet created
+    // Fallback to defaults if settings or categories not yet loaded
+  }
+
+  if (productCategories.length === 0) {
+    productCategories = navCategories;
   }
 
   const tagline = settings?.general?.tagline || 'Global manufacturer of premium herbal extracts, probiotics, and nutraceutical solutions for a healthier tomorrow.';

@@ -47,11 +47,29 @@ interface NavbarProps {
   categories?: Array<{ name: string; slug: string }>;
 }
 
-export default function Navbar({ categories }: NavbarProps) {
-  const activeCategories = categories && categories.length > 0 ? categories : navCategories;
-  const productCategories = activeCategories.map(category => ({
+export default function Navbar({ categories: initialCategories }: NavbarProps) {
+  const [categoriesList, setCategoriesList] = useState<Array<{ name: string; slug: string }>>(
+    initialCategories && initialCategories.length > 0 ? initialCategories : navCategories
+  );
+
+  useEffect(() => {
+    if (initialCategories && initialCategories.length > 0) {
+      setCategoriesList(initialCategories);
+    }
+    // Fetch live categories to ensure Navbar is always fresh even after client-side navigation
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCategoriesList(data);
+        }
+      })
+      .catch(() => {});
+  }, [initialCategories]);
+
+  const productCategories = categoriesList.map((category) => ({
     name: category.name,
-    href: `/collections/${category.slug}`
+    href: `/collections/${category.slug}`,
   }));
 
   const pathname = usePathname();

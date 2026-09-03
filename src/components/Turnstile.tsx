@@ -16,6 +16,8 @@ declare global {
           'expired-callback'?: () => void;
           theme?: 'light' | 'dark' | 'auto';
           size?: 'normal' | 'compact' | 'flexible';
+          retry?: 'auto' | 'never';
+          'refresh-expired'?: 'auto' | 'manual' | 'never';
         }
       ) => string;
       reset: (widgetId?: string) => void;
@@ -143,18 +145,25 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
           widgetIdRef.current = null;
         }
 
+        if (containerRef.current) {
+          containerRef.current.innerHTML = '';
+        }
+
         try {
           const id = window.turnstile.render(containerRef.current, {
             sitekey: siteKey,
             action,
             theme,
             size,
+            retry: 'never',
+            'refresh-expired': 'auto',
             callback: (token: string) => {
               if (isMounted) {
                 onVerifyRef.current?.(token);
               }
             },
             'error-callback': (code: string) => {
+              console.error('[Turnstile] Cloudflare challenge error code:', code);
               if (isMounted && onErrorRef.current) {
                 onErrorRef.current(code);
               }
