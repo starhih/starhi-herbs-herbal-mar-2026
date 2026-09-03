@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 interface MeetingEvent {
   id: string | number;
@@ -51,6 +52,8 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<string>('');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   // Filter only upcoming events
   const upcomingEvents = events.filter(event => event.upcoming);
@@ -98,14 +101,15 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
       // Get the selected event details for the email
       const selectedEventDetails = upcomingEvents.find(event => event.id.toString() === data.eventId);
 
-      // Prepare data for email with event details
+      // Prepare data for email with event details and Turnstile token
       const emailData = {
         ...data,
         eventName: selectedEventDetails?.name || 'Unknown Event',
         eventLocation: selectedEventDetails?.location || 'Unknown Location',
         eventDates: selectedEventDetails ?
           `${new Date(selectedEventDetails.startDate).toLocaleDateString()} - ${new Date(selectedEventDetails.endDate).toLocaleDateString()}` :
-          'Unknown Dates'
+          'Unknown Dates',
+        turnstileToken,
       };
 
       const { sendMeetingRequestEmail } = await import('@/lib/email-service');
@@ -115,14 +119,20 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
         analytics.trackMeetingSubmit();
         setSubmitSuccess(true);
         reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         setSelectedEvent('');
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'RequestMeetingForm', error);
@@ -404,6 +414,14 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
           <p className="text-red-500 text-xs mt-1">{errors.comments.message}</p>
         )}
       </div>
+
+      {/* Cloudflare Turnstile */}
+      <Turnstile
+        ref={turnstileRef}
+        action="meeting"
+        onVerify={setTurnstileToken}
+        onExpire={() => setTurnstileToken('')}
+      />
 
       {/* Submit Button */}
       <Button

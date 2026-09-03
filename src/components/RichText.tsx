@@ -11,7 +11,7 @@ export const RichText: React.FC<{ content: any }> = ({ content }) => {
                         <p key={i} style={{ marginBottom: '1rem' }}>
                             {node.children?.map((child: any, j: number) => {
                                 if (child.type === 'text') {
-                                    let text = child.text
+                                    const text = child.text
                                     if (child.format & 1) return <strong key={j}>{text}</strong>
                                     if (child.format & 2) return <em key={j}>{text}</em>
                                     return <span key={j}>{text}</span>

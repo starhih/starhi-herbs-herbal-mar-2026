@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -13,6 +13,7 @@ import { navCategories as productCategories } from '@/data/nav-categories';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
 import { Check } from 'lucide-react';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters' }),
@@ -48,6 +49,8 @@ export default function DrawerRequestQuoteForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   // MOQ Selection state
   const [selectedMoq, setSelectedMoq] = useState<'25' | '50' | '100' | 'custom'>('25');
@@ -111,6 +114,7 @@ export default function DrawerRequestQuoteForm({
         timeframe: data.timeframe,
         intendedUse: data.intendedUse || 'N/A',
         additionalInfo: data.additionalInfo || 'None',
+        turnstileToken,
       };
 
       const { sendQuoteRequestEmail } = await import('@/lib/email-service');
@@ -120,12 +124,18 @@ export default function DrawerRequestQuoteForm({
         analytics.trackQuoteSubmit();
         setSubmitSuccess(true);
         reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         setSelectedMoq('25');
         setCustomMoqText('');
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'DrawerRequestQuoteForm', error);
@@ -340,6 +350,15 @@ export default function DrawerRequestQuoteForm({
               {errors.termsAccepted && <p className="text-red-500 text-[10px]">{errors.termsAccepted.message}</p>}
             </div>
           </div>
+
+          {/* Cloudflare Turnstile */}
+          <Turnstile
+            ref={turnstileRef}
+            action="quote"
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken('')}
+            size="flexible"
+          />
 
           {/* Submission Button */}
           <Button

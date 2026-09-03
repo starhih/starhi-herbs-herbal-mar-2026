@@ -15,18 +15,22 @@ const CC_EMAIL = 'najish.n@starhiherbs.com';
 export async function sendEmail(
   formType: string,
   data: Record<string, any>,
-  options?: { subject?: string; fromEmail?: string; cc?: string | string[] },
+  options?: { subject?: string; fromEmail?: string; cc?: string | string[]; turnstileToken?: string },
 ) {
   try {
+    const { turnstileToken, ...cleanData } = data;
+    const finalToken = options?.turnstileToken || turnstileToken;
+
     const response = await fetch('/api/send-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         formType,
-        data,
+        data: cleanData,
         subject: options?.subject,
         fromEmail: options?.fromEmail,
         cc: options?.cc,
+        turnstileToken: finalToken,
       }),
     });
 
@@ -51,6 +55,7 @@ export async function sendContactEmail(data: {
   phone?: string;
   subject: string;
   message: string;
+  turnstileToken?: string;
 }) {
   return sendEmail('Contact Form', {
     from_name: data.name,
@@ -63,6 +68,7 @@ export async function sendContactEmail(data: {
     subject: `[Contact] ${data.subject}`,
     fromEmail: 'Star Hi Herbs Contact <contact@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken: data.turnstileToken,
   });
 }
 
@@ -70,11 +76,13 @@ export async function sendContactEmail(data: {
 export async function sendQuoteRequestEmail(data: Record<string, any>) {
   const companyName = data.company || data.companyName || 'Unknown Company';
   const country = data.country || data.countryRegion || 'Unknown Country';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('Quote Request', data, {
+  return sendEmail('Quote Request', formData, {
     subject: `💰 [Quote Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Quotes <quote@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 
@@ -82,11 +90,13 @@ export async function sendQuoteRequestEmail(data: Record<string, any>) {
 export async function sendSampleRequestEmail(data: Record<string, any>) {
   const companyName = data.companyName || data.company || 'Unknown Company';
   const country = data.country || data.countryRegion || 'Unknown Country';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('Sample Request', data, {
+  return sendEmail('Sample Request', formData, {
     subject: `📦 [Sample Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Samples <sample@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 
@@ -94,11 +104,13 @@ export async function sendSampleRequestEmail(data: Record<string, any>) {
 export async function sendCatalogueRequestEmail(data: Record<string, any>) {
   const name = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Visitor');
   const company = data.companyName || data.company || 'Unknown Company';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('Catalogue Download', data, {
+  return sendEmail('Catalogue Download', formData, {
     subject: `📚 [Catalogue] ${name} - ${company}`,
     fromEmail: 'Star Hi Herbs Catalogue <catalogue@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 
@@ -106,11 +118,13 @@ export async function sendCatalogueRequestEmail(data: Record<string, any>) {
 export async function sendJobApplicationEmail(data: Record<string, any>) {
   const applicantName = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Applicant');
   const position = data.jobTitle || data.position || 'General Position';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('Job Application', data, {
+  return sendEmail('Job Application', formData, {
     subject: `💼 [Job App] ${applicantName} - ${position}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 
@@ -118,11 +132,13 @@ export async function sendJobApplicationEmail(data: Record<string, any>) {
 export async function sendGeneralApplicationEmail(data: Record<string, any>) {
   const applicantName = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Applicant');
   const department = data.department || data.jobTitle || data.position || 'General Application';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('General Application', data, {
+  return sendEmail('General Application', formData, {
     subject: `📁 [General App] ${applicantName} - ${department}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 
@@ -131,11 +147,13 @@ export async function sendMeetingRequestEmail(data: Record<string, any>) {
   const name = data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : (data.name || 'Visitor');
   const eventName = data.eventName || data.event || data.meetingType || 'Meeting / Event';
   const company = data.companyName || data.company || 'Unknown Company';
+  const { turnstileToken, ...formData } = data;
   
-  return sendEmail('Meeting Request', data, {
+  return sendEmail('Meeting Request', formData, {
     subject: `🤝 [Meeting] ${name} - ${eventName} - ${company}`,
     fromEmail: 'Star Hi Herbs Meetings <meeting@starhiherbs.com>',
     cc: CC_EMAIL,
+    turnstileToken,
   });
 }
 

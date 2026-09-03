@@ -2,11 +2,23 @@
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    clarity: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag?: (...args: any[]) => void;
+    clarity?: (...args: any[]) => void;
+    dataLayer?: any[];
   }
 }
+
+// Ensure gtag exists on window with dataLayer buffering
+const getGtag = (): ((...args: any[]) => void) | null => {
+  if (typeof window === 'undefined') return null;
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function (...args: any[]) {
+      window.dataLayer?.push(args);
+    };
+  }
+  return window.gtag;
+};
 
 // Google Analytics Event Tracking
 export const trackEvent = (
@@ -16,28 +28,37 @@ export const trackEvent = (
   value?: number,
   params?: Record<string, any>
 ) => {
-  if (typeof window === 'undefined' || !window.gtag) {
-    return;
-  }
+  const gtag = getGtag();
+  if (!gtag) return;
 
-  window.gtag('event', action, {
+  gtag('event', action, {
     event_category: category,
     event_label: label,
     value: value,
-    form_location: typeof window !== 'undefined' ? window.location.pathname : undefined,
+    page_location: typeof window !== 'undefined' ? window.location.href : undefined,
+    page_path: typeof window !== 'undefined' ? window.location.pathname : undefined,
     ...params,
   });
 };
 
 // Track page views (useful for SPA navigation)
 export const trackPageView = (url: string, title?: string) => {
-  if (typeof window === 'undefined' || !window.gtag) {
-    return;
+  const gtag = getGtag();
+  if (!gtag) return;
+
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  if (gaId) {
+    gtag('config', gaId, {
+      page_title: title || (typeof document !== 'undefined' ? document.title : ''),
+      page_location: typeof window !== 'undefined' ? window.location.href : url,
+      page_path: url,
+    });
   }
 
-  window.gtag('config', process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX', {
-    page_title: title || document.title,
-    page_location: url,
+  gtag('event', 'page_view', {
+    page_title: title || (typeof document !== 'undefined' ? document.title : ''),
+    page_location: typeof window !== 'undefined' ? window.location.href : url,
+    page_path: url,
   });
 };
 
@@ -68,21 +89,31 @@ export const analytics = {
     trackEvent('catalogue_download_submit', 'lead_magnet', 'Catalogue Download');
   },
 
+  trackJobApplicationSubmit: (jobTitle?: string) => {
+    trackEvent('job_application_submit', 'recruitment', jobTitle || 'Job Application');
+  },
+
+  trackGeneralApplicationSubmit: () => {
+    trackEvent('general_application_submit', 'recruitment', 'General Application');
+  },
+
+  trackNewsletterSubscribe: () => {
+    trackEvent('newsletter_subscribe', 'engagement', 'Newsletter Subscription');
+  },
+
   // Track button clicks
   trackButtonClick: (buttonName: string, location?: string) => {
     trackEvent('click', 'engagement', `${buttonName}${location ? `_${location}` : ''}`);
   },
 
   // Track file downloads
-  trackDownload: (fileName: string, fileType?: string) => {
+  trackDownload: (fileName: string, _fileType?: string) => {
     trackEvent('download', 'engagement', fileName, undefined);
     
     // Also track with Clarity if available
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
       try {
-        if (typeof window.clarity === 'function') {
-          window.clarity('event', 'download');
-        }
+        window.clarity('event', 'download');
       } catch (e) {
         console.error("Clarity event error:", e);
       }
@@ -123,7 +154,7 @@ export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
 
   try {
     if (typeof window.clarity === 'function') {
-      window.clarity('event', eventName);
+      window.clarity('event', eventName, data);
     }
   } catch (e) {
     console.error("Clarity event error:", e);
@@ -132,9 +163,9 @@ export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
 
 // These functions remain for compatibility with CookieConsent.tsx but have no effect on blocking tracking
 export const initializeAnalytics = () => {
-  // Tracking runs unconditionally now
+  // Tracking runs unconditionally
 };
 
-export const updateAnalyticsConsent = (granted: boolean) => {
-  // Tracking runs unconditionally now
+export const updateAnalyticsConsent = (_granted: boolean) => {
+  // Tracking runs unconditionally
 };

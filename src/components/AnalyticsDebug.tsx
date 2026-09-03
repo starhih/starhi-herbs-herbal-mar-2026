@@ -17,7 +17,7 @@ export default function AnalyticsDebug() {
       setConsent(consentStatus);
       
       // Check if Google Analytics is loaded
-      const gaStatus = typeof window !== 'undefined' && window.gtag;
+      const gaStatus = typeof window !== 'undefined' && typeof window.gtag === 'function';
       setGaLoaded(!!gaStatus);
       
       // Check if Clarity is loaded
@@ -42,7 +42,7 @@ export default function AnalyticsDebug() {
   }, []);
 
   const testGoogleAnalytics = () => {
-    if (window.gtag) {
+    if (typeof window.gtag === 'function') {
       window.gtag('event', 'test_event', {
         event_category: 'debug',
         event_label: 'manual_test',
@@ -55,9 +55,7 @@ export default function AnalyticsDebug() {
   };
 
   const testClarity = () => {
-    const isClarityAvailable = typeof window !== 'undefined' && typeof window.clarity === 'function';
-
-    if (isClarityAvailable) {
+    if (typeof window.clarity === 'function') {
       window.clarity('event', 'debug_test');
       alert('Microsoft Clarity test event sent!');
     } else {

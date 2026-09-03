@@ -23,7 +23,7 @@ export function NotFoundPage() {
 
             <div className="mt-[-50px]">
               <h3 className="text-2xl text-[#214842] sm:text-3xl font-bold mb-4">
-                Looks like you're lost
+                Looks like you&apos;re lost
               </h3>
               <p className="mb-6 text-gray-600 sm:mb-5">
                 The page you are looking for is not available!

@@ -80,13 +80,13 @@ export default async function CareersPage() {
               <h2 className="text-[#214842] mb-4">Why Work With Us</h2>
               <div className="space-y-4 text-gray-700">
                 <p>
-                  At Star Hi Herbs, we're passionate about harnessing nature's power to create innovative, high-quality herbal extracts that improve lives worldwide. Our team combines scientific expertise with a deep respect for traditional knowledge.
+                  At Star Hi Herbs, we&apos;re passionate about harnessing nature&apos;s power to create innovative, high-quality herbal extracts that improve lives worldwide. Our team combines scientific expertise with a deep respect for traditional knowledge.
                 </p>
                 <p>
                   We foster a collaborative environment where creativity, continuous learning, and personal growth are encouraged. Our employees enjoy a supportive workplace culture that values work-life balance, diversity, and sustainability.
                 </p>
                 <p>
-                  Join us to be part of a company that's making a positive impact on global health while providing opportunities for professional development and advancement.
+                  Join us to be part of a company that&apos;s making a positive impact on global health while providing opportunities for professional development and advancement.
                 </p>
               </div>
             </div>

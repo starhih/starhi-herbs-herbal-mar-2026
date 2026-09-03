@@ -1,13 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { getPayloadClient } from '@/lib/payload';
+import { verifyTurnstileToken } from '@/lib/turnstile';
+import { emailRateLimiter } from '@/lib/rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown';
+
+    // 1. IP-based Rate Limiting (6 requests / min / IP)
+    const rateLimit = emailRateLimiter.check(clientIp);
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(rateLimit.reset) } },
+      );
+    }
+
     const body = await request.json();
-    const { formType, subject, data, fromEmail: customFrom, cc } = body;
+    const { formType, subject, data, fromEmail: customFrom, cc, turnstileToken, 'cf-turnstile-response': cfToken } = body;
 
     if (!formType || !data) {
       return NextResponse.json(
@@ -16,8 +29,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 2. Honeypot check: If bot fills hidden honeypot fields, silently drop
+    const honeypotFields = [body.honeypot, body.company_fax, body.website_hp, data.honeypot, data.company_fax, data.website_hp];
+    const isBot = honeypotFields.some(val => val && typeof val === 'string' && val.trim().length > 0);
+    if (isBot) {
+      return NextResponse.json({ success: true, message: 'Message sent successfully' });
+    }
+
+    // 3. Verify Cloudflare Turnstile token
+    const token = turnstileToken || cfToken || data.turnstileToken;
+    const verification = await verifyTurnstileToken({
+      token,
+      ip: clientIp === 'unknown' ? undefined : clientIp,
+      expectedAction: ['inquiry', 'contact', 'quote', 'sample', 'catalogue', 'meeting', 'job_application', 'general_application'],
+    });
+
+    if (!verification.success) {
+      return NextResponse.json(
+        { success: false, error: verification.error || 'Security verification failed' },
+        { status: 403 },
+      );
+    }
+
     let recipientEmail = process.env.RESEND_TO_EMAIL || 'starhi@starhiherbs.com';
-    let fromEmail = customFrom || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    const fromEmail = customFrom || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
     let ccList = cc ? (Array.isArray(cc) ? cc : [cc]) : [];
 
     if (formType === 'Job Application' || formType === 'General Application') {
@@ -25,20 +60,37 @@ export async function POST(request: NextRequest) {
       ccList = ['najish.n@starhiherbs.com'];
     }
 
+    // 4. Secure resume upload with size & mime whitelisting
     if (data.resumeFileBase64) {
       try {
+        const allowedMimeTypes = [
+          'application/pdf',
+          'application/msword',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ];
+        const mimeType = data.resumeFileType || 'application/pdf';
+
+        if (!allowedMimeTypes.includes(mimeType)) {
+          throw new Error('Invalid resume file type.');
+        }
+
         const base64Data = data.resumeFileBase64.split(';base64,').pop();
         if (base64Data) {
           const buffer = Buffer.from(base64Data, 'base64');
-          const payload = await getPayloadClient();
           
+          // Max file size: 5MB
+          if (buffer.length > 5 * 1024 * 1024) {
+            throw new Error('File exceeds maximum size of 5MB.');
+          }
+
+          const payload = await getPayloadClient();
           const mediaDoc = await payload.create({
             collection: 'media',
             data: { alt: `Resume - ${data.firstName || data.name || 'Applicant'} - ${formType}` },
             file: {
               data: buffer,
-              mimetype: data.resumeFileType || 'application/pdf',
-              name: `${Date.now()}-${(data.resumeFileName || 'resume.pdf').replace(/\s+/g, '-')}`,
+              mimetype: mimeType,
+              name: `${Date.now()}-${(data.resumeFileName || 'resume.pdf').replace(/[^a-zA-Z0-9.-]/g, '-')}`,
               size: buffer.length,
             },
           });
@@ -53,9 +105,9 @@ export async function POST(request: NextRequest) {
           delete data.resumeFileSize;
           delete data.resumeFileType;
         }
-      } catch (uploadError) {
+      } catch (uploadError: any) {
         console.error('Error uploading resume to Spaces:', uploadError);
-        data.resumeUploadError = 'Failed to upload resume to cloud storage.';
+        data.resumeUploadError = uploadError.message || 'Failed to upload resume to cloud storage.';
       }
     }
 

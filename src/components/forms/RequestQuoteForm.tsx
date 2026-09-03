@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { navCategories as productCategories } from '@/data/nav-categories';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 // Form validation schema
 const formSchema = z.object({
@@ -38,6 +39,8 @@ export default function RequestQuoteForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   const {
     register,
@@ -46,7 +49,6 @@ export default function RequestQuoteForm() {
     setValue,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: '',
       email: '',
@@ -64,6 +66,7 @@ export default function RequestQuoteForm() {
       additionalInfo: '',
       termsAccepted: false,
     },
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (data: FormData) => {
@@ -74,23 +77,29 @@ export default function RequestQuoteForm() {
       // Import the email service dynamically to avoid SSR issues
       const { sendQuoteRequestEmail } = await import('@/lib/email-service');
 
-      // Send the email
-      const result = await sendQuoteRequestEmail(data);
+      // Send the email with Turnstile token
+      const result = await sendQuoteRequestEmail({ ...data, turnstileToken });
 
       if (result.success) {
         // Success
         analytics.trackQuoteSubmit();
         setSubmitSuccess(true);
         reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
 
         // Reset success message after 5 seconds
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'RequestQuoteForm', error);
@@ -403,6 +412,14 @@ export default function RequestQuoteForm() {
         </div>
       </div>
 
+      {/* Cloudflare Turnstile */}
+      <Turnstile
+        ref={turnstileRef}
+        action="quote"
+        onVerify={setTurnstileToken}
+        onExpire={() => setTurnstileToken('')}
+      />
+
       {/* Submit Button */}
       <Button
         type="submit"
@@ -414,7 +431,7 @@ export default function RequestQuoteForm() {
 
       <p className="text-xs text-gray-600 text-center mt-4">
         By submitting this form, you agree to our Privacy Policy and Terms of Service.
-        We'll use your information to process your request and contact you about our products.
+        We&apos;ll use your information to process your request and contact you about our products.
       </p>
     </form>
   );

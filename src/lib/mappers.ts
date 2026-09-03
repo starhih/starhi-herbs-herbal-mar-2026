@@ -344,8 +344,8 @@ export const mapAward = (a: any): any => {
         return null;
     }
     
-    let title = a.title || '';
-    let year = a.year || '';
+    const title = a.title || '';
+    const year = a.year || '';
 
     return {
         id: a.id,

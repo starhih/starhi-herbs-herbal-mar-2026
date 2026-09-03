@@ -1,4 +1,4 @@
-export function logError(message: string, component?: string, error?: any) {
+export function logError(message: string, component?: string, error?: unknown) {
     const prefix = component ? `[${component}] ` : '';
     console.error(`${prefix}${message}`, error || '');
 }

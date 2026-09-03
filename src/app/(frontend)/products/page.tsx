@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { getPayloadClient } from '@/lib/payload';
-import { mapCategory, mapProduct } from '@/lib/mappers';
+import { mapCategory, mapProduct, getImageUrl } from '@/lib/mappers';
 import ProductCard from '@/components/products/ProductCard';
 import CategoryCard from '@/components/products/CategoryCard';
 import ProductsPageClient from '@/components/products/ProductsPageClient';
@@ -36,11 +36,53 @@ export const metadata: Metadata = {
 export default async function ProductsPage() {
   const payload = await getPayloadClient();
 
-  // Fetch categories from Payload
-  const { docs: categoryDocs } = await payload.find({
-    collection: 'categories',
-    limit: 100,
-  });
+  // Run all database queries concurrently with field selection for directory
+  const [
+    { docs: categoryDocs },
+    { docs: targetFeaturedDocs },
+    { docs: fallbackFeaturedDocs },
+    { docs: allProductDocs },
+  ] = await Promise.all([
+    // 1. Fetch categories from Payload
+    payload.find({
+      collection: 'categories',
+      limit: 100,
+    }),
+    // 2. Fetch specific popular/featured ingredients: Coleus, Sesamin, Turmeric
+    payload.find({
+      collection: 'products',
+      where: {
+        or: [
+          { slug: { equals: 'coleus-forskohlii-extract' } },
+          { slug: { equals: 'sesamin-extract' } },
+          { slug: { equals: 'turmeric' } },
+        ],
+      },
+      limit: 10,
+    }),
+    // 3. Fallback featured products
+    payload.find({
+      collection: 'products',
+      where: { featured: { equals: true } },
+      limit: 5,
+    }),
+    // 4. Fetch lightweight product projections for the A-Z Ingredient Directory
+    payload.find({
+      collection: 'products',
+      limit: 5000,
+      select: {
+        name: true,
+        slug: true,
+        latinName: true,
+        productType: true,
+        shortDescription: true,
+        image: true,
+        imageUrl: true,
+      },
+      depth: 1,
+    }),
+  ]);
+
   const productCategories = categoryDocs.map((c) => mapCategory(c as any)).filter(Boolean) as any[];
 
   // Custom sort for categories: Standardized, Organic, Branded, Probiotics, Vitamins and Minerals, Bulk Formulations
@@ -61,34 +103,16 @@ export default async function ProductsPage() {
     return 0;
   });
 
-  // Fetch specific popular/featured ingredients requested by their exact slugs: Coleus, Sesamin, Turmeric
-  const { docs: targetFeaturedDocs } = await payload.find({
-    collection: 'products',
-    where: {
-      or: [
-        { slug: { equals: 'coleus-forskohlii-extract' } },
-        { slug: { equals: 'sesamin-extract' } },
-        { slug: { equals: 'turmeric' } }
-      ]
-    },
-    limit: 10,
-  });
-
   const featuredMapped = targetFeaturedDocs.map(mapProduct).filter(Boolean) as any[];
 
   // Sort them in the exact order requested: Coleus first, Sesamin second, Turmeric third
   const orderSlug = ['coleus-forskohlii-extract', 'sesamin-extract', 'turmeric'];
-  let featuredProducts = featuredMapped.sort((a, b) => {
+  const featuredProducts = featuredMapped.sort((a, b) => {
     return orderSlug.indexOf(a.slug) - orderSlug.indexOf(b.slug);
   });
 
   // Fallback to general featured products if any are missing to ensure we always show 3
   if (featuredProducts.length < 3) {
-    const { docs: fallbackFeaturedDocs } = await payload.find({
-      collection: 'products',
-      where: { featured: { equals: true } },
-      limit: 5,
-    });
     const fallbackProducts = fallbackFeaturedDocs.map(mapProduct).filter(Boolean) as any[];
     for (const fb of fallbackProducts) {
       if (featuredProducts.length >= 3) break;
@@ -98,12 +122,16 @@ export default async function ProductsPage() {
     }
   }
 
-  // Fetch all products for the A-Z Ingredient Directory to eliminate orphan pages
-  const { docs: allProductDocs } = await payload.find({
-    collection: 'products',
-    limit: 5000,
-  });
-  const allProducts = allProductDocs.map(mapProduct).filter(Boolean) as any[];
+  // Map lightweight products for A-Z directory
+  const allProducts = allProductDocs.map((p: any) => ({
+    id: p.id,
+    name: p.name || '',
+    slug: p.slug || '',
+    latinName: p.latinName || '',
+    productType: p.productType || 'standardized',
+    shortDescription: p.shortDescription || '',
+    image: getImageUrl(p.image) || p.imageUrl || '',
+  }));
 
   // Group products alphabetically
   const alphabetGroups: { [key: string]: any[] } = {};
@@ -155,7 +183,7 @@ export default async function ProductsPage() {
             "@type": "Product",
             "name": p.name,
             "image": p.image,
-            "description": p.shortDescription || p.description,
+            "description": p.shortDescription || p.name,
             "url": `https://starhiherbs.com${productUrl}`,
             "offers": {
               "@type": "Offer",

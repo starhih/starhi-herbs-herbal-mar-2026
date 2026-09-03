@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -13,6 +13,7 @@ import { navCategories as productCategories } from '@/data/nav-categories';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
 import { Check } from 'lucide-react';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 const formSchema = z.object({
   firstName: z.string().min(2, { message: 'First name must be at least 2 characters' }),
@@ -53,6 +54,8 @@ export default function DrawerRequestSampleForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   // Sample Size selection state
   const [selectedSampleSize, setSelectedSampleSize] = useState<'50' | '100' | '250' | 'custom'>('50');
@@ -126,6 +129,7 @@ export default function DrawerRequestSampleForm({
         country: data.country,
         postalCode: data.postalCode,
         comments: data.comments || 'None',
+        turnstileToken,
       };
 
       const { sendSampleRequestEmail } = await import('@/lib/email-service');
@@ -135,12 +139,18 @@ export default function DrawerRequestSampleForm({
         analytics.trackSampleSubmit();
         setSubmitSuccess(true);
         reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         setSelectedSampleSize('50');
         setCustomSampleSizeText('');
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'DrawerRequestSampleForm', error);
@@ -397,6 +407,15 @@ export default function DrawerRequestSampleForm({
               {errors.termsAccepted && <p className="text-red-500 text-[10px]">{errors.termsAccepted.message}</p>}
             </div>
           </div>
+
+          {/* Cloudflare Turnstile */}
+          <Turnstile
+            ref={turnstileRef}
+            action="sample"
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken('')}
+            size="flexible"
+          />
 
           {/* Submission Button */}
           <Button

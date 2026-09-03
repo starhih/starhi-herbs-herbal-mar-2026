@@ -98,7 +98,7 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
               Star Hi Herbs is a leading manufacturer of premium herbal extracts, probiotics, and nutraceutical solutions. With state-of-the-art facilities in Bangalore and Hassan, we combine traditional knowledge with modern science to create innovative products for global markets.
             </p>
             <p className="text-gray-700">
-              Our team consists of passionate professionals dedicated to quality, innovation, and sustainability. Join us to be part of a company that's making a positive impact on global health.
+              Our team consists of passionate professionals dedicated to quality, innovation, and sustainability. Join us to be part of a company that&apos;s making a positive impact on global health.
             </p>
           </div>
 

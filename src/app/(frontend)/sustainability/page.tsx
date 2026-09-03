@@ -95,7 +95,7 @@ export default async function SustainabilityPage() {
               <h2 className="text-[#214842] mb-6">Sustainable by Design</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  At Star Hi Herbs, sustainability isn't just a buzzword—it's woven into every aspect
+                  At Star Hi Herbs, sustainability isn&apos;t just a buzzword—it&apos;s woven into every aspect
                   of our operations. From farming practices to processing methods, we prioritize
                   environmental stewardship while maintaining the highest quality standards.
                 </p>

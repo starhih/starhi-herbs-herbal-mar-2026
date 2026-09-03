@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
@@ -10,10 +10,13 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
 import { analytics } from '@/lib/analytics';
 import { MapPin, Phone, Mail, Clock, FileText, FlaskConical, CalendarDays, ShoppingBag, ShieldCheck, Users, Download, ChevronRight } from 'lucide-react';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 export default function ContactPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +32,8 @@ export default function ContactPage() {
         phone: formData.get('phone') as string,
         subject: formData.get('subject') as string,
         message: formData.get('message') as string,
+        website_hp: formData.get('website_hp') as string,
+        turnstileToken,
       };
 
       // Import the email service dynamically to avoid SSR issues
@@ -46,10 +51,16 @@ export default function ContactPage() {
 
         // Reset form
         (e.target as HTMLFormElement).reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to send message');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       console.error('Contact form error:', error);
       toast({
         title: "Error",
@@ -141,6 +152,16 @@ export default function ContactPage() {
               <p className="text-gray-600 mb-8 text-sm">Fill out the form below and we&apos;ll get back to you within 24 hours.</p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot field for bot protection */}
+                <input
+                  type="text"
+                  name="website_hp"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden opacity-0 absolute pointer-events-none -z-10"
+                />
+
                 {/* Contact Information */}
                 <div className="mb-2">
                   <h3 className="text-lg font-semibold text-[#214842]">Contact Information</h3>
@@ -219,6 +240,14 @@ export default function ContactPage() {
                     placeholder="Please describe your inquiry in detail..."
                   />
                 </div>
+
+                {/* Cloudflare Turnstile */}
+                <Turnstile
+                  ref={turnstileRef}
+                  action="contact"
+                  onVerify={setTurnstileToken}
+                  onExpire={() => setTurnstileToken('')}
+                />
 
                 <Button
                   type="submit"

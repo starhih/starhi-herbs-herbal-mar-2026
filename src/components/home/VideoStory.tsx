@@ -58,7 +58,7 @@ export default function VideoStory() {
 
           <div className="mt-6 text-center">
             <p className="text-gray-600 italic">
-              "Our commitment to quality starts from the seed and continues through every step of our process, ensuring we deliver nature's best benefits in every extract."
+              &ldquo;Our commitment to quality starts from the seed and continues through every step of our process, ensuring we deliver nature&apos;s best benefits in every extract.&rdquo;
             </p>
             <p className="mt-2 font-medium text-[#214842]">— Dr. Thomas Lee, Founder & Chief Scientific Officer</p>
           </div>

@@ -13,7 +13,7 @@ export default function AboutIntroSection() {
           <div className="space-y-6">
             <h2 className="text-3xl font-semibold text-[#214842]">At Star Hi Herbs</h2>
             <p className="text-xl font-medium text-[#258F67] italic">
-              "Extracting Nature's Best—Backed by Science, Delivered with Integrity."
+              &ldquo;Extracting Nature&apos;s Best—Backed by Science, Delivered with Integrity.&rdquo;
             </p>
             <p className="text-gray-600 leading-relaxed font-semibold">
               Recognized as a top herbal extract manufacturer in Bangalore, India, we are proud to be the largest manufacturer of Coleus extract and Sesamin extract in the world.
@@ -28,7 +28,7 @@ export default function AboutIntroSection() {
             <p className="text-gray-600 leading-relaxed">
               From ethical sourcing and innovative R&D to state-of-the-art manufacturing and rigorous
               quality assurance, every aspect of our process is built on trust, transparency, and
-              long-term impact. At Star Hi Herbs, we don't just extract herbs—we extract their full potential.
+              long-term impact. At Star Hi Herbs, we don&apos;t just extract herbs—we extract their full potential.
             </p>
           </div>
 

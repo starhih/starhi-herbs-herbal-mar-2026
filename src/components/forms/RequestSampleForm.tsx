@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { navCategories as productCategories } from '@/data/nav-categories';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
 
 // Form validation schema
 const formSchema = z.object({
@@ -43,6 +44,8 @@ export default function RequestSampleForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   const {
     register,
@@ -82,19 +85,27 @@ export default function RequestSampleForm() {
 
     try {
       const { sendSampleRequestEmail } = await import('@/lib/email-service');
-      const result = await sendSampleRequestEmail(data);
+      const result = await sendSampleRequestEmail({ ...data, turnstileToken });
 
       if (result.success) {
         analytics.trackSampleSubmit();
         setSubmitSuccess(true);
         reset();
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
+
+        // Reset success message after 5 seconds
         setTimeout(() => {
           setSubmitSuccess(false);
         }, 5000);
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'RequestSampleForm', error);
@@ -486,6 +497,14 @@ export default function RequestSampleForm() {
           )}
         </div>
       </div>
+
+      {/* Cloudflare Turnstile */}
+      <Turnstile
+        ref={turnstileRef}
+        action="sample"
+        onVerify={setTurnstileToken}
+        onExpire={() => setTurnstileToken('')}
+      />
 
       {/* Submit Button */}
       <Button

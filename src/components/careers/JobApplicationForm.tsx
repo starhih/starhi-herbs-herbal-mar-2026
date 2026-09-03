@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -18,6 +18,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import Turnstile, { TurnstileRef } from '@/components/Turnstile';
+import { analytics } from '@/lib/analytics';
 
 // Define the form schema with Zod
 const formSchema = z.object({
@@ -40,6 +42,8 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
   const [fileError, setFileError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileRef = useRef<TurnstileRef>(null);
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -114,7 +118,8 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
         resumeFileName: file.name,
         resumeFileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
         resumeFileType: file.type,
-        resumeFileBase64: fileBase64
+        resumeFileBase64: fileBase64,
+        turnstileToken,
       };
 
       // Import the email service dynamically to avoid SSR issues
@@ -124,13 +129,20 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
       const result = await sendJobApplicationEmail(emailData);
 
       if (result.success) {
+        analytics.trackJobApplicationSubmit(jobTitle);
         setIsSubmitted(true);
         form.reset();
         setFile(null);
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
       } else {
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit application');
       }
     } catch (error) {
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
       console.error('Error submitting form:', error);
       setFileError('There was a problem submitting your application. Please try again.');
     } finally {
@@ -292,6 +304,14 @@ export default function JobApplicationForm({ jobTitle }: JobApplicationFormProps
               <FormMessage />
             </FormItem>
           )}
+        />
+
+        {/* Cloudflare Turnstile */}
+        <Turnstile
+          ref={turnstileRef}
+          action="job_application"
+          onVerify={setTurnstileToken}
+          onExpire={() => setTurnstileToken('')}
         />
 
         <Button

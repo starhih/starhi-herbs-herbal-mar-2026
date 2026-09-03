@@ -74,7 +74,7 @@ export default function TermsConditionsPage() {
                 <strong>Last Updated:</strong> January 1, 2025
               </p>
               <p className="text-sm text-gray-600 mt-2">
-                These Terms and Conditions ("Terms") govern your use of the Star Hi Herbs Pvt Ltd website and services. By accessing or using our website, you agree to be bound by these Terms.
+                These Terms and Conditions (&ldquo;Terms&rdquo;) govern your use of the Star Hi Herbs Pvt Ltd website and services. By accessing or using our website, you agree to be bound by these Terms.
               </p>
             </div>
 
@@ -209,7 +209,7 @@ export default function TermsConditionsPage() {
                 </div>
 
                 <p className="text-gray-600 mb-4">
-                  THE INFORMATION ON THIS WEBSITE IS PROVIDED ON AN "AS IS" BASIS. TO THE FULLEST EXTENT PERMITTED BY LAW, STAR HI HERBS PVT LTD:
+                  THE INFORMATION ON THIS WEBSITE IS PROVIDED ON AN &ldquo;AS IS&rdquo; BASIS. TO THE FULLEST EXTENT PERMITTED BY LAW, STAR HI HERBS PVT LTD:
                 </p>
                 <ul className="list-disc pl-6 text-gray-600 mb-6 space-y-2">
                   <li>EXCLUDES ALL REPRESENTATIONS AND WARRANTIES RELATING TO THIS WEBSITE AND ITS CONTENTS</li>
@@ -236,7 +236,7 @@ export default function TermsConditionsPage() {
                 <h2 className="text-2xl font-semibold text-[#214842] mb-6">8. Indemnification</h2>
 
                 <p className="text-gray-600 mb-4">
-                  You agree to indemnify, defend, and hold harmless Star Hi Herbs Pvt Ltd, its officers, directors, employees, agents, and suppliers from and against all losses, expenses, damages, and costs, including reasonable attorneys' fees, resulting from:
+                  You agree to indemnify, defend, and hold harmless Star Hi Herbs Pvt Ltd, its officers, directors, employees, agents, and suppliers from and against all losses, expenses, damages, and costs, including reasonable attorneys&apos; fees, resulting from:
                 </p>
                 <ul className="list-disc pl-6 text-gray-600 mb-6 space-y-2">
                   <li>Your violation of these Terms</li>

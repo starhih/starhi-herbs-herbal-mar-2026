@@ -42,19 +42,23 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const payload = await getPayloadClient();
 
-  // Fetch all blog posts from Payload
-  const { docs: postDocs } = await payload.find({
-    collection: 'blog-posts',
-    sort: '-publishedAt',
-    limit: 1000,
-  });
-  const blogPosts = postDocs.map(mapBlogPost);
+  // Fetch blog posts and blog categories concurrently
+  const [
+    { docs: postDocs },
+    { docs: categoryDocs },
+  ] = await Promise.all([
+    payload.find({
+      collection: 'blog-posts',
+      sort: '-publishedAt',
+      limit: 1000,
+    }),
+    payload.find({
+      collection: 'blog-categories',
+      limit: 100,
+    }),
+  ]);
 
-  // Fetch blog categories
-  const { docs: categoryDocs } = await payload.find({
-    collection: 'blog-categories',
-    limit: 100,
-  });
+  const blogPosts = postDocs.map(mapBlogPost);
   const blogCategories = categoryDocs.map(mapBlogCategory);
 
   // Get featured posts (latest 3)

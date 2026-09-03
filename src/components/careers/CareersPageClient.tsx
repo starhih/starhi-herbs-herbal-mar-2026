@@ -108,7 +108,7 @@ export default function CareersPageClient({ departments, jobOpenings }: CareersP
             <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Join Our Talent Pool</h6>
             <h2 className="text-[#214842] mb-4">General Application</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Don't see a position that matches your skills? Submit a general application and we'll keep your resume on file for future opportunities.
+              Don&apos;t see a position that matches your skills? Submit a general application and we&apos;ll keep your resume on file for future opportunities.
             </p>
           </div>
 

@@ -38,26 +38,29 @@ export const metadata: Metadata = {
 export default async function SitemapPage() {
   const payload = await getPayloadClient();
 
-  // Fetch product categories
-  const { docs: categoryDocs } = await payload.find({
-    collection: 'categories',
-    limit: 100,
-  });
+  // Fetch product categories, blog categories, and products concurrently
+  const [
+    { docs: categoryDocs },
+    { docs: blogCategoryDocs },
+    { docs: productDocs },
+  ] = await Promise.all([
+    payload.find({
+      collection: 'categories',
+      limit: 100,
+    }),
+    payload.find({
+      collection: 'blog-categories',
+      limit: 100,
+    }),
+    payload.find({
+      collection: 'products',
+      limit: 5000,
+      select: { slug: true, name: true, productType: true },
+    }),
+  ]);
+
   const productCategories = categoryDocs.map((c) => mapCategory(c as any)).filter(Boolean) as any[];
-
-  // Fetch blog categories
-  const { docs: blogCategoryDocs } = await payload.find({
-    collection: 'blog-categories',
-    limit: 100,
-  });
   const blogCategories = blogCategoryDocs.map(mapBlogCategory).filter(Boolean) as any[];
-
-  // Fetch all products to resolve orphan pages issue
-  const { docs: productDocs } = await payload.find({
-    collection: 'products',
-    limit: 5000,
-    select: { slug: true, name: true, productType: true },
-  });
 
   const allProducts = productDocs.map((p) => {
     let url = `/products/${p.slug}`;
@@ -127,7 +130,7 @@ export default async function SitemapPage() {
           <div className="max-w-6xl mx-auto">
             {/* Introduction */}
             <div className="text-center mb-12">
-              <h2 className="text-2xl font-semibold text-[#214842] mb-4">Find What You're Looking For</h2>
+              <h2 className="text-2xl font-semibold text-[#214842] mb-4">Find What You&apos;re Looking For</h2>
               <p className="text-gray-600 max-w-3xl mx-auto">
                 This sitemap provides an organized overview of all pages and sections on our website. 
                 Use it to quickly navigate to the information you need.
@@ -404,9 +407,9 @@ export default async function SitemapPage() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-semibold text-[#214842] mb-4">Can't Find What You're Looking For?</h2>
+            <h2 className="text-2xl font-semibold text-[#214842] mb-4">Can&apos;t Find What You&apos;re Looking For?</h2>
             <p className="text-gray-600 mb-8">
-              If you can't find the information you need on this sitemap, our team is here to help you navigate our website and find the right solutions.
+              If you can&apos;t find the information you need on this sitemap, our team is here to help you navigate our website and find the right solutions.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
               <div className="flex items-center gap-2">

@@ -149,7 +149,7 @@ export default async function TagPage({ params }: TagPageProps) {
             {/* Main Content */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-semibold text-[#214842] mb-8">
-                Articles tagged "{tag.name}"
+                Articles tagged &ldquo;{tag.name}&rdquo;
               </h2>
 
               {posts.length > 0 ? (

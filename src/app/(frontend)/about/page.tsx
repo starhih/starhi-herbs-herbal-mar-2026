@@ -102,15 +102,15 @@ export default function AboutPage() {
                 <div>
                   <h3 className="text-xl font-semibold text-[#214842] mb-2">Our Mission</h3>
                   <p className="text-gray-600">
-                    "To empower people to achieve their best health, vitality, and well-being through natural
-                    and innovative solutions that support a long, active life."
+                    &ldquo;To empower people to achieve their best health, vitality, and well-being through natural
+                    and innovative solutions that support a long, active life.&rdquo;
                   </p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-[#214842] mb-2">Our Vision</h3>
                   <p className="text-gray-600">
-                    "To be a global leader in wellness innovation, setting high standards for quality,
-                    sustainability, and product efficacy in herbal extracts and nutraceuticals."
+                    &ldquo;To be a global leader in wellness innovation, setting high standards for quality,
+                    sustainability, and product efficacy in herbal extracts and nutraceuticals.&rdquo;
                   </p>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function AboutPage() {
                     <h3 className="text-xl font-semibold text-[#214842] mb-2">Humble Beginnings</h3>
                     <ul className="text-gray-600 space-y-2 list-disc md:list-none pl-5 md:pl-0">
                       <li>Founded as Hi Herbs Extract Udyog, a proprietary firm.</li>
-                      <li>Started operations with 8 employees in a leased facility in Bangalore's Electronic City.</li>
+                      <li>Started operations with 8 employees in a leased facility in Bangalore&apos;s Electronic City.</li>
                       <li>Focused on small-scale job work for other herbal companies.</li>
                     </ul>
                   </div>
@@ -440,12 +440,12 @@ export default function AboutPage() {
                   </div>
                   <p className="text-gray-600 mb-4">
                     A dynamic chemical engineer from Dayananda Sagar College, Bangalore, with over 30 years in herbal extraction,
-                    product development, and business strategy. Mr. Hussain is the driving force behind Star Hi Herbs' growth,
+                    product development, and business strategy. Mr. Hussain is the driving force behind Star Hi Herbs&apos; growth,
                     known for his innovation, vision, and commitment to excellence.
                   </p>
                   <blockquote className="italic text-gray-700 border-l-4 border-[#258F67] pl-4 py-2">
-                    "We are here not just to manufacture herbal extracts, but to redefine what quality, sustainability,
-                    and science-backed innovation mean in the natural health industry."
+                    &ldquo;We are here not just to manufacture herbal extracts, but to redefine what quality, sustainability,
+                    and science-backed innovation mean in the natural health industry.&rdquo;
                   </blockquote>
                 </div>
               </div>
@@ -695,7 +695,7 @@ export default function AboutPage() {
               <h2 className="text-[#214842] mb-6">Our Commitment to the Planet</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  At Star Hi Herbs, sustainability isn't just a buzzword—it's at the core of everything we do.
+                  At Star Hi Herbs, sustainability isn&apos;t just a buzzword—it&apos;s at the core of everything we do.
                   Our commitment extends from farm to finished product, ensuring that our growth supports both
                   environmental health and community wellbeing.
                 </p>
@@ -813,7 +813,7 @@ export default function AboutPage() {
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Want to Collaborate?</h2>
             <p className="text-white/90 max-w-3xl mx-auto mb-8">
-              Let's grow wellness together. Contact our global business team to explore formulation partnerships,
+              Let&apos;s grow wellness together. Contact our global business team to explore formulation partnerships,
               white label opportunities, and custom ingredient development.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">

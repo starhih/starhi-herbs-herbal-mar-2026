@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Last Updated:</strong> January 1, 2025
               </p>
               <p className="text-sm text-gray-600 mt-2">
-                This Privacy Policy explains how Star Hi Herbs Pvt Ltd ("we," "us," or "our") collects, uses, and protects your information when you visit our website or use our services.
+                This Privacy Policy explains how Star Hi Herbs Pvt Ltd (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, and protects your information when you visit our website or use our services.
               </p>
             </div>
 
@@ -94,7 +94,7 @@ export default function PrivacyPolicyPage() {
                 <a href="#third-party" className="block text-[#258F67] hover:text-[#214842] transition-colors">7. Third-Party Services</a>
                 <a href="#data-retention" className="block text-[#258F67] hover:text-[#214842] transition-colors">8. Data Retention</a>
                 <a href="#international-transfers" className="block text-[#258F67] hover:text-[#214842] transition-colors">9. International Data Transfers</a>
-                <a href="#children" className="block text-[#258F67] hover:text-[#214842] transition-colors">10. Children's Privacy</a>
+                <a href="#children" className="block text-[#258F67] hover:text-[#214842] transition-colors">10. Children&apos;s Privacy</a>
                 <a href="#changes" className="block text-[#258F67] hover:text-[#214842] transition-colors">11. Policy Changes</a>
                 <a href="#contact" className="block text-[#258F67] hover:text-[#214842] transition-colors">12. Contact Information</a>
               </nav>
@@ -274,7 +274,7 @@ export default function PrivacyPolicyPage() {
 
               {/* Children's Privacy */}
               <section id="children" className="mb-12">
-                <h2 className="text-2xl font-semibold text-[#214842] mb-6">10. Children's Privacy</h2>
+                <h2 className="text-2xl font-semibold text-[#214842] mb-6">10. Children&apos;s Privacy</h2>
 
                 <p className="text-gray-600 mb-4">
                   Our website and services are not directed to children under the age of 16. We do not knowingly collect personal information from children under 16. If we become aware that we have collected personal information from a child under 16, we will take steps to delete such information.
@@ -286,7 +286,7 @@ export default function PrivacyPolicyPage() {
                 <h2 className="text-2xl font-semibold text-[#214842] mb-6">11. Policy Changes</h2>
 
                 <p className="text-gray-600 mb-4">
-                  We may update this privacy policy from time to time to reflect changes in our practices or applicable laws. We will notify you of any material changes by posting the updated policy on our website and updating the "Last Updated" date. We encourage you to review this policy periodically.
+                  We may update this privacy policy from time to time to reflect changes in our practices or applicable laws. We will notify you of any material changes by posting the updated policy on our website and updating the &ldquo;Last Updated&rdquo; date. We encourage you to review this policy periodically.
                 </p>
               </section>
 
@@ -318,7 +318,7 @@ export default function PrivacyPolicyPage() {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl font-semibold text-[#214842] mb-4">Questions About Our Privacy Policy?</h2>
             <p className="text-gray-600 mb-8">
-              If you have any questions or concerns about our privacy practices, please don't hesitate to contact us.
+              If you have any questions or concerns about our privacy practices, please don&apos;t hesitate to contact us.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
               <div className="flex items-center gap-2">
