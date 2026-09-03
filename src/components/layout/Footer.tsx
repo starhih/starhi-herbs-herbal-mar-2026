@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import Image from '@/components/ui/image';
 import { Facebook, Instagram, Linkedin, Mail, PhoneCall, MapPin, Twitter, Youtube } from 'lucide-react';
-import { navCategories as productCategories } from '@/data/nav-categories';
+import { navCategories } from '@/data/nav-categories';
 import { getPayloadClient } from '@/lib/payload';
 
-export default async function Footer() {
+interface FooterProps {
+  categories?: Array<{ name: string; slug: string }>;
+}
+
+export default async function Footer({ categories }: FooterProps = {}) {
   const currentYear = new Date().getFullYear();
+  const productCategories = categories && categories.length > 0 ? categories : navCategories;
 
   let settings: any = null;
   try {

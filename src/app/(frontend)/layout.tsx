@@ -11,6 +11,8 @@ import { montserrat, nunitoSans } from './fonts';
 import '@/lib/error-suppression';
 import DisableRightClick from '@/components/DisableRightClick';
 import JsonLd from '@/components/seo/JsonLd';
+import { getPayloadClient } from '@/lib/payload';
+import { navCategories } from '@/data/nav-categories';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://starhiherbs.com'),
@@ -118,11 +120,49 @@ const organizationSchema = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let categories: Array<{ name: string; slug: string }> = navCategories;
+  try {
+    const payload = await getPayloadClient();
+    const { docs: categoryDocs } = await payload.find({
+      collection: 'categories',
+      limit: 100,
+    });
+
+    if (categoryDocs.length > 0) {
+      const categoryOrder = [
+        'standardized',
+        'organic',
+        'branded',
+        'probiotics',
+        'vitamins',
+        'bulk'
+      ];
+
+      const sortedDocs = [...categoryDocs].sort((a, b) => {
+        const aName = a.name ? a.name.toLowerCase() : '';
+        const bName = b.name ? b.name.toLowerCase() : '';
+        const aIndex = categoryOrder.findIndex(k => aName.includes(k));
+        const bIndex = categoryOrder.findIndex(k => bName.includes(k));
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        if (aIndex !== -1) return -1;
+        if (bIndex !== -1) return 1;
+        return aName.localeCompare(bName);
+      });
+
+      categories = sortedDocs.map(c => ({
+        name: c.name,
+        slug: c.slug,
+      }));
+    }
+  } catch (err) {
+    console.error('Error fetching categories in RootLayout:', err);
+  }
+
   return (
     <html lang="en" suppressHydrationWarning className={`${montserrat.variable} ${nunitoSans.variable}`}>
       <head>
@@ -144,9 +184,9 @@ export default function RootLayout({
         />
         <DisableRightClick />
         <ThemeProvider attribute="class" defaultTheme="light">
-          <Navbar />
+          <Navbar categories={categories} />
           <main className="min-h-screen">{children}</main>
-          <Footer />
+          <Footer categories={categories} />
           <CookieConsent />
           <B2BDisclaimerModal />
           <Toaster />

@@ -16,11 +16,6 @@ import {
 
 import { navCategories } from "@/data/nav-categories";
 
-const productCategories = navCategories.map(category => ({
-  name: category.name,
-  href: `/collections/${category.slug}`
-}));
-
 // Pages with hero banners
 const pagesWithHero = [
   '/',                    // Home page
@@ -48,7 +43,17 @@ const isCareerSinglePage = (path: string) => {
   return path.startsWith('/careers/');
 };
 
-export default function Navbar() {
+interface NavbarProps {
+  categories?: Array<{ name: string; slug: string }>;
+}
+
+export default function Navbar({ categories }: NavbarProps) {
+  const activeCategories = categories && categories.length > 0 ? categories : navCategories;
+  const productCategories = activeCategories.map(category => ({
+    name: category.name,
+    href: `/collections/${category.slug}`
+  }));
+
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
