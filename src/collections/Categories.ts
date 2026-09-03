@@ -14,7 +14,7 @@ export const Categories: CollectionConfig = {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/', 'layout');
-                } catch (err) {
+                } catch (_err) {
                     req.payload.logger.error('Error revalidating path for category ' + doc.id);
                 }
                 return doc;
@@ -25,7 +25,7 @@ export const Categories: CollectionConfig = {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/', 'layout');
-                } catch (err) {
+                } catch (_err) {
                     req.payload.logger.error('Error revalidating path for category ' + doc.id);
                 }
                 return doc;

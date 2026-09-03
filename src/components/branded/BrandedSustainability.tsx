@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from '@/components/ui/image';
-import { Leaf, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { Product } from '@/data/types';
 
 interface BrandedSustainabilityProps {

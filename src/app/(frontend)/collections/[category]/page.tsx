@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { getPayloadClient } from '@/lib/payload';
 import { mapCategory, mapProduct } from '@/lib/mappers';
 import { Product } from '@/data/types';

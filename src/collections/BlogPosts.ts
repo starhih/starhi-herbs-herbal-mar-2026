@@ -10,7 +10,7 @@ export const BlogPosts: CollectionConfig = {
     },
     hooks: {
         afterChange: [
-            async ({ doc, req }) => {
+            async ({ doc }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/');
@@ -36,7 +36,7 @@ export const BlogPosts: CollectionConfig = {
             }
         ],
         afterDelete: [
-            async ({ doc, req }) => {
+            async ({ doc }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/');

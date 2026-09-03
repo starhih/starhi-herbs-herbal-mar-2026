@@ -10,7 +10,7 @@ export const Products: CollectionConfig = {
     },
     hooks: {
         beforeChange: [
-            async ({ data, req, operation }) => {
+            async ({ data, req }) => {
                 // When a product is marked as Product of the Month,
                 // unset all other products that currently have it
                 if (data?.productOfTheMonth === true) {
@@ -42,7 +42,7 @@ export const Products: CollectionConfig = {
                     revalidatePath('/');
                     revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {
+                } catch (_err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
                 }
 
@@ -72,7 +72,7 @@ export const Products: CollectionConfig = {
                     revalidatePath('/');
                     revalidatePath('/', 'page');
                     revalidatePath('/', 'layout');
-                } catch (err) {
+                } catch (_err) {
                     req.payload.logger.error('Error revalidating path for product ' + doc.id);
                 }
                 return doc;

@@ -7,7 +7,7 @@ import { BlogPost } from '@/data/types';
 import BlogAuthorInfo from './BlogAuthorInfo';
 
 interface BlogHeaderProps {
-  post: any;
+  post: BlogPost;
   className?: string;
 }
 
@@ -28,7 +28,7 @@ export default function BlogHeader({ post, className = '' }: BlogHeaderProps) {
         <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-6">
           <div className="flex items-center">
             <Calendar size={16} className="mr-2" />
-            <span>{formatDate(post.updatedAt)}</span>
+            <span>{formatDate(post.updatedAt || post.publishedAt)}</span>
           </div>
           <div className="flex items-center">
             <Clock size={16} className="mr-2" />

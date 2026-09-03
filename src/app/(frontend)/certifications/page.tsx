@@ -1,6 +1,5 @@
 import Image from '@/components/ui/image';
 import { getPayloadClient } from '@/lib/payload';
-import Link from 'next/link';
 import { Metadata } from 'next';
 import { Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
 
 export default async function CertificationsPage() {
   const payload = await getPayloadClient();
-  const certsResponse = await (payload as any).find({
+  const certsResponse = await payload.find({
     collection: 'certifications',
     limit: 100,
     depth: 1, // To populate media relationships like the PDF
@@ -131,13 +130,13 @@ export default async function CertificationsPage() {
   );
 }
 
-function AwardIcon(props: any) {
+function AwardIcon({ size = 24, ...props }: React.SVGProps<SVGSVGElement> & { size?: number }) {
   return (
     <svg
+      width={size}
+      height={size}
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

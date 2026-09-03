@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Download, Award, FlaskRound as Flask, Leaf } from 'lucide-react';
+import { ArrowRight, Award, FlaskRound as Flask, Leaf } from 'lucide-react';
 import { Product } from '@/data/types';
 import { getPayloadClient } from '@/lib/payload';
 import { mapProduct } from '@/lib/mappers';

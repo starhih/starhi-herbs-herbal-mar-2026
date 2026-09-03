@@ -10,20 +10,20 @@ export const Jobs: CollectionConfig = {
     },
     hooks: {
         afterChange: [
-            async ({ doc, req }) => {
+            async ({ doc }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (_err) {}
                 return doc;
             }
         ],
         afterDelete: [
-            async ({ doc, req }) => {
+            async ({ doc }) => {
                 try {
                     const { revalidatePath } = await import('next/cache');
                     revalidatePath('/', 'layout');
-                } catch (err) {}
+                } catch (_err) {}
                 return doc;
             }
         ],

@@ -225,7 +225,6 @@ export default async function ProductsPage() {
         <div className="container-custom">
           <ProductsPageClient
             categories={productCategories}
-            featuredProducts={featuredProducts}
           />
         </div>
       </section>

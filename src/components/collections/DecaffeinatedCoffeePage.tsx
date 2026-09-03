@@ -18,12 +18,10 @@ import {
   Zap, 
   ShieldCheck, 
   CheckCircle2, 
-  FileText,
-  Sparkles,
-  ArrowRight,
-  ChevronRight,
-  TrendingUp,
-  Inbox
+  Sparkles, 
+  ArrowRight, 
+  ChevronRight, 
+  TrendingUp 
 } from 'lucide-react';
 import { Product, ProductCategory } from '@/data/types';
 

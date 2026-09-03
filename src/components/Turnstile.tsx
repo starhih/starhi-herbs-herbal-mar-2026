@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useImperativeHandle, forwardRef, useState } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 
 declare global {
   interface Window {
@@ -102,7 +102,16 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Keep latest callbacks in refs so function reference changes do not trigger re-renders
+    const onVerifyRef = useRef(onVerify);
+    onVerifyRef.current = onVerify;
+
+    const onErrorRef = useRef(onError);
+    onErrorRef.current = onError;
+
+    const onExpireRef = useRef(onExpire);
+    onExpireRef.current = onExpire;
 
     useImperativeHandle(ref, () => ({
       reset: () => {
@@ -142,22 +151,21 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
             size,
             callback: (token: string) => {
               if (isMounted) {
-                onVerify(token);
+                onVerifyRef.current?.(token);
               }
             },
             'error-callback': (code: string) => {
-              if (isMounted && onError) {
-                onError(code);
+              if (isMounted && onErrorRef.current) {
+                onErrorRef.current(code);
               }
             },
             'expired-callback': () => {
-              if (isMounted && onExpire) {
-                onExpire();
+              if (isMounted && onExpireRef.current) {
+                onExpireRef.current();
               }
             },
           });
           widgetIdRef.current = id;
-          setIsLoaded(true);
         } catch (err) {
           console.error('Turnstile render error:', err);
         }
@@ -174,7 +182,7 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
           widgetIdRef.current = null;
         }
       };
-    }, [siteKey, action, theme, size, onVerify, onError, onExpire]);
+    }, [siteKey, action, theme, size]);
 
     return (
       <div className={`turnstile-container my-2 ${className}`}>

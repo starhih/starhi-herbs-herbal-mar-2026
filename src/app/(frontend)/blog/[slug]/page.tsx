@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayloadClient } from '@/lib/payload';
 import { mapBlogPost, mapProduct } from '@/lib/mappers';
-import { BlogPost, Product } from '@/data/types';
+import { Product } from '@/data/types';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import BlogHeader from '@/components/blog/BlogHeader';
 import SimpleBlogContent from '@/components/blog/SimpleBlogContent';
@@ -114,10 +114,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     limit: 100,
   });
 
-  const matchedProducts = allProductsDocs
+  const matchedProducts = (allProductsDocs
     .map(mapProduct)
-    .filter(Boolean)
-    .filter((product: any) => {
+    .filter(Boolean) as Product[])
+    .filter((product) => {
       const name = product.name.toLowerCase();
       // Remove common suffixes like "extract", "oil", etc.
       const baseName = name.replace(/\s+(extract|oil|powder|granules)\s*$/g, '').trim();

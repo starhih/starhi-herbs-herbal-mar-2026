@@ -1,6 +1,5 @@
 import HeroSection from '@/components/home/HeroSection';
 import AboutIntroSection from '@/components/home/AboutIntroSection';
-import StatisticsSection from '@/components/home/StatisticsSection';
 import FeaturedHighlights from '@/components/home/FeaturedHighlights';
 import BrandedIngredientsHighlight from '@/components/home/BrandedIngredientsHighlight';
 import CertificationCarousel from '@/components/home/CertificationCarousel';

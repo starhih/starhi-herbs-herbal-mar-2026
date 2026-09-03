@@ -28,7 +28,6 @@ interface EventsSectionProps {
 }
 
 export default function EventsSection({ events }: EventsSectionProps) {
-  const [hoveredEvent, setHoveredEvent] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -175,8 +174,6 @@ export default function EventsSection({ events }: EventsSectionProps) {
                     key={event.id}
                     className="flex-none px-4"
                     style={{ width: `${100 / visibleCount}%` }}
-                    onMouseEnter={() => setHoveredEvent(Number(event.id))}
-                    onMouseLeave={() => setHoveredEvent(null)}
                   >
                     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
                       <div className="relative h-48 bg-white flex items-center justify-center border-b border-gray-50">

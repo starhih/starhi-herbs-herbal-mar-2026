@@ -29,24 +29,6 @@ const productColors: Record<string, string> = {
   'storg-kid': 'bg-purple-500'   // Purple (for kids)
 };
 
-// Product name colors for the chart
-const productNameColors: Record<string, string> = {
-  'storg-b': 'text-cyan-600',
-  'storg-bs': 'text-slate-500',
-  'storg-bio': 'text-emerald-500',
-  'storg-bt': 'text-red-800',
-  'storg-c': 'text-orange-600',
-  'storg-e': 'text-pink-600',
-  'storg-fa': 'text-yellow-600',
-  'storg-i': 'text-amber-600',
-  'storg-n': 'text-purple-500',
-  'storg-se': 'text-amber-800',
-  'storg-zn': 'text-green-600',
-  'storg-her': 'text-pink-500',
-  'storg-him': 'text-blue-600',
-  'storg-kid': 'text-purple-600'
-};
-
 // Product logos for the chart
 const productLogos: Record<string, { logo: string, subtitle: string }> = {
   'storg-b': {

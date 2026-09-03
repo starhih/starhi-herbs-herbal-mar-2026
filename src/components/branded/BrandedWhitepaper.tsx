@@ -4,7 +4,7 @@ import React from 'react';
 import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { FileText, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { Product } from '@/data/types';
 
 interface BrandedWhitepaperProps {

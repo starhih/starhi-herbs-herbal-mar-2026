@@ -1,7 +1,7 @@
 import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Award, Users, Globe, Leaf, CheckCircle, Building, Beaker, FileCheck, FileText, Mail, PhoneCall, Linkedin } from 'lucide-react';
+import { ArrowRight, CheckCircle, Mail, PhoneCall, Linkedin } from 'lucide-react';
 import { Metadata } from 'next';
 
 import JsonLd from '@/components/seo/JsonLd';

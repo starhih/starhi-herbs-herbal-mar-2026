@@ -44,7 +44,7 @@ export default function DrawerRequestQuoteForm({
   productName,
   productCategory,
   productStandardization = '',
-  onClose,
+  onClose: _onClose,
 }: DrawerRequestQuoteFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);

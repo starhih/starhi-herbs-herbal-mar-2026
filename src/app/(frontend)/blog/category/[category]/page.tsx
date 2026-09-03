@@ -1,9 +1,7 @@
 import { Metadata } from 'next';
-import Image from '@/components/ui/image';
 import { notFound } from 'next/navigation';
 import { getPayloadClient } from '@/lib/payload';
 import { mapBlogCategory, mapBlogPost } from '@/lib/mappers';
-import { BlogCategory } from '@/data/types';
 import BlogCard from '@/components/blog/BlogCard';
 import BlogCategoryList from '@/components/blog/BlogCategoryList';
 import BlogSearchBar from '@/components/blog/BlogSearchBar';

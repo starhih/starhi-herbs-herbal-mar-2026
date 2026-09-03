@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 const brandedIngredients = [
   { name: 'Turmimax', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmimax-bio-1.png', url: 'https://turmimax.com/' },

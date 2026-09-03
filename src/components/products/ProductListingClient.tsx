@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Product, ProductCategory } from '@/data/types';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -59,7 +59,7 @@ const sortOptions: SortOption[] = [
     label: 'Newest',
     value: 'newest',
     // This is a placeholder - in a real app, you'd use createdAt
-    sortFn: (a, b) => 0
+    sortFn: (_a, _b) => 0
   },
 ];
 
@@ -72,7 +72,6 @@ export default function ProductListingClient({
   category,
   initialProducts
 }: ProductListingClientProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   // Get initial values from URL params

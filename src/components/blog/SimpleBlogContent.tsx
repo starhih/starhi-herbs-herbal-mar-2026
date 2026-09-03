@@ -38,31 +38,31 @@ export default function SimpleBlogContent({ content, className = '' }: BlogConte
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw, rehypeSlug]}
           components={{
-            h2: ({ node, ...props }) => (
+            h2: ({ node: _node, ...props }) => (
               <h2
                 className="text-2xl font-semibold text-[#214842] mt-8 mb-4 scroll-mt-24"
                 {...props}
               />
             ),
-            h3: ({ node, ...props }) => (
+            h3: ({ node: _node, ...props }) => (
               <h3
                 className="text-xl font-semibold text-[#214842] mt-6 mb-3 scroll-mt-24"
                 {...props}
               />
             ),
-            p: ({ node, ...props }) => (
+            p: ({ node: _node, ...props }) => (
               <p className="text-gray-700 mb-4 leading-relaxed" {...props} />
             ),
-            ul: ({ node, ...props }) => (
+            ul: ({ node: _node, ...props }) => (
               <ul className="list-disc pl-6 mb-4 text-gray-700" {...props} />
             ),
-            ol: ({ node, ...props }) => (
+            ol: ({ node: _node, ...props }) => (
               <ol className="list-decimal pl-6 mb-4 text-gray-700" {...props} />
             ),
-            li: ({ node, ...props }) => (
+            li: ({ node: _node, ...props }) => (
               <li className="mb-2" {...props} />
             ),
-            a: ({ node, ...props }) => (
+            a: ({ node: _node, ...props }) => (
               <a
                 className="text-[#258F67] hover:text-[#214842] transition-colors"
                 target="_blank"
@@ -70,24 +70,24 @@ export default function SimpleBlogContent({ content, className = '' }: BlogConte
                 {...props}
               />
             ),
-            blockquote: ({ node, ...props }) => (
+            blockquote: ({ node: _node, ...props }) => (
               <blockquote
                 className="border-l-4 border-[#214842] pl-4 italic text-gray-700 my-4"
                 {...props}
               />
             ),
-            table: ({ node, ...props }) => (
+            table: ({ node: _node, ...props }) => (
               <div className="overflow-x-auto mb-6">
                 <table className="min-w-full border-collapse border border-gray-300" {...props} />
               </div>
             ),
-            thead: ({ node, ...props }) => (
+            thead: ({ node: _node, ...props }) => (
               <thead className="bg-gray-100" {...props} />
             ),
-            th: ({ node, ...props }) => (
+            th: ({ node: _node, ...props }) => (
               <th className="border border-gray-300 px-4 py-2 text-left text-[#214842]" {...props} />
             ),
-            td: ({ node, ...props }) => (
+            td: ({ node: _node, ...props }) => (
               <td className="border border-gray-300 px-4 py-2" {...props} />
             ),
             code: (props) => {

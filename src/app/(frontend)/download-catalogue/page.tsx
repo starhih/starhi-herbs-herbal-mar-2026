@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import DownloadCatalogueForm from '@/components/forms/DownloadCatalogueForm';
 import Image from '@/components/ui/image';
-import { FileText, Download, BookOpen, Leaf, Award, FlaskRound } from 'lucide-react';
+import { Download, BookOpen, Leaf, Award, FlaskRound } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Download Catalogue | Star Hi Herbs',

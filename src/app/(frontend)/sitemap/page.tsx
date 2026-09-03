@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Map, Home, Building, Package, Lightbulb, Leaf, BookOpen, Mail, FileText, Users, Award } from 'lucide-react';
+import { ArrowRight, Map, Home, Building, Package, Leaf, BookOpen, Mail, FileText, Users, Award } from 'lucide-react';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { getPayloadClient } from '@/lib/payload';
 import { mapCategory, mapBlogCategory } from '@/lib/mappers';

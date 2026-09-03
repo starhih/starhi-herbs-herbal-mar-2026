@@ -8,8 +8,8 @@ import { BlogPost, BlogCategory } from '@/data/types';
 import { formatDate } from '@/utils/date';
 
 interface BlogCardProps {
-  post: any;
-  category?: any;
+  post: BlogPost;
+  category?: BlogCategory;
   className?: string;
 }
 

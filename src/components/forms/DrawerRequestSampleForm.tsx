@@ -49,7 +49,7 @@ export default function DrawerRequestSampleForm({
   productName,
   productCategory,
   productStandardization = '',
-  onClose,
+  onClose: _onClose,
 }: DrawerRequestSampleFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);

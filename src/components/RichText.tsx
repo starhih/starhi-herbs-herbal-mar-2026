@@ -25,7 +25,7 @@ export const RichText: React.FC<{ content: any }> = ({ content }) => {
                     const Tag = node.tag as any
                     return (
                         <Tag key={i} style={{ marginTop: '2rem', marginBottom: '1rem' }}>
-                            {node.children?.map((child: any, j: number) => child.text)}
+                            {node.children?.map((child: any) => child.text)}
                         </Tag>
                     )
                 }
@@ -35,7 +35,7 @@ export const RichText: React.FC<{ content: any }> = ({ content }) => {
                         <Tag key={i} style={{ marginBottom: '1.5rem', paddingLeft: '1.5rem' }}>
                             {node.children?.map((item: any, j: number) => (
                                 <li key={j} style={{ marginBottom: '0.5rem' }}>
-                                    {item.children?.map((child: any, k: number) => child.text)}
+                                    {item.children?.map((child: any) => child.text)}
                                 </li>
                             ))}
                         </Tag>

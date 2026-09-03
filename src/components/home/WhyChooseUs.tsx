@@ -1,5 +1,4 @@
 import Image from '@/components/ui/image';
-import { cn } from '@/lib/utils';
 import {
   Award,
   FlaskConical,
@@ -94,7 +93,7 @@ export default function WhyChooseUs() {
                   <div className="flex items-center mb-4">
                     {feature.iconImage ? (
                       <div className="mr-3 shrink-0">
-                        <img src={feature.iconImage} alt={feature.title} className="h-10 w-10 object-contain group-hover:scale-110 transition-transform" />
+                        <Image src={feature.iconImage} alt={feature.title} width={40} height={40} className="h-10 w-10 object-contain group-hover:scale-110 transition-transform" />
                       </div>
                     ) : (
                       <div className="bg-[#214842]/10 p-3 rounded-lg mr-3 group-hover:bg-[#258F67]/10 transition-colors shrink-0">

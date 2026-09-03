@@ -1,29 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Product, ProductCategory } from '@/data/types';
+import { ProductCategory } from '@/data/types';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { 
   Search, 
   Filter, 
-  X, 
-  SortAsc, 
-  SortDesc, 
-  Check 
+  X
 } from 'lucide-react';
-import CategoryCard from '@/components/products/CategoryCard';
-import ProductCard from '@/components/products/ProductCard';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -34,56 +20,22 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-
-// Sort options
-type SortOption = {
-  label: string;
-  value: string;
-  sortFn: (a: Product, b: Product) => number;
-};
-
-const sortOptions: SortOption[] = [
-  { 
-    label: 'Name (A-Z)', 
-    value: 'name-asc', 
-    sortFn: (a, b) => a.name.localeCompare(b.name) 
-  },
-  { 
-    label: 'Name (Z-A)', 
-    value: 'name-desc', 
-    sortFn: (a, b) => b.name.localeCompare(a.name) 
-  },
-  { 
-    label: 'Newest', 
-    value: 'newest', 
-    // This is a placeholder - in a real app, you'd use createdAt
-    sortFn: (a, b) => 0 
-  },
-];
 
 interface ProductsPageClientProps {
   categories: ProductCategory[];
-  featuredProducts: Product[];
 }
 
 export default function ProductsPageClient({ 
   categories, 
-  featuredProducts 
 }: ProductsPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
   // Get initial values from URL params
   const initialSearchQuery = searchParams.get('search') || '';
-  const initialCategoryFilter = searchParams.get('category') || '';
 
   // State
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-  const [categoryFilter, setCategoryFilter] = useState(initialCategoryFilter);
-  const [isFiltering, setIsFiltering] = useState(false);
 
   // Handle search input
   const handleSearch = (e: React.FormEvent) => {

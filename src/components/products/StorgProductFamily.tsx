@@ -5,8 +5,6 @@ import Image from '@/components/ui/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Product } from '@/data/types';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface StorgProductFamilyProps {
   mainProduct: Product;

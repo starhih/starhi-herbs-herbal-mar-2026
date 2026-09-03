@@ -1,10 +1,8 @@
 import { Metadata } from 'next';
 import Image from '@/components/ui/image';
 import { getPayloadClient } from '@/lib/payload';
-import { mapBlogPost, mapBlogCategory } from '@/lib/mappers';
+import { mapBlogPost } from '@/lib/mappers';
 import BlogCard from '@/components/blog/BlogCard';
-import BlogCategoryList from '@/components/blog/BlogCategoryList';
-import BlogSearchBar from '@/components/blog/BlogSearchBar';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import SubscribeForm from '@/components/blog/SubscribeForm';
 
@@ -42,27 +40,13 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const payload = await getPayloadClient();
 
-  // Fetch blog posts and blog categories concurrently
-  const [
-    { docs: postDocs },
-    { docs: categoryDocs },
-  ] = await Promise.all([
-    payload.find({
-      collection: 'blog-posts',
-      sort: '-publishedAt',
-      limit: 1000,
-    }),
-    payload.find({
-      collection: 'blog-categories',
-      limit: 100,
-    }),
-  ]);
+  const { docs: postDocs } = await payload.find({
+    collection: 'blog-posts',
+    sort: '-publishedAt',
+    limit: 1000,
+  });
 
   const blogPosts = postDocs.map(mapBlogPost);
-  const blogCategories = categoryDocs.map(mapBlogCategory);
-
-  // Get featured posts (latest 3)
-  const featuredPosts = blogPosts.slice(0, 3);
 
   return (
     <>
@@ -108,7 +92,7 @@ export default async function BlogPage() {
 
               {blogPosts.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                  {blogPosts.map((post: any) => (
+                  {blogPosts.map((post) => (
                     <BlogCard key={post.id} post={post} />
                   ))}
                 </div>

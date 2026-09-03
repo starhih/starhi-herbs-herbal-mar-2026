@@ -1,4 +1,4 @@
-import type { Product as PayloadProduct, Category as PayloadCategory, Media, Certification } from '@/payload-types';
+import type { Product as PayloadProduct, Category as PayloadCategory, Media } from '@/payload-types';
 import type { Product as FrontendProduct, ProductCategory as FrontendCategory } from '@/data/types';
 
 /**

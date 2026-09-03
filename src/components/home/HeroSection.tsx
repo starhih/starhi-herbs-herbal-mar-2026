@@ -1,9 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import Image from '@/components/ui/image';
 
 export default function HeroSection() {
@@ -34,13 +31,13 @@ export default function HeroSection() {
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
         {!loadVideo && (
-           <img
-             src="https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg" 
-             className="absolute inset-0 w-full h-full object-cover opacity-10 filter blur-sm" 
-             alt="Star Hi Herbs Background Logo"
-             fetchPriority="high"
-             decoding="sync"
-           />
+          <Image
+            src="https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg" 
+            className="absolute inset-0 w-full h-full object-cover opacity-10 filter blur-sm" 
+            alt="Star Hi Herbs Background Logo"
+            fill
+            priority
+          />
         )}
         {loadVideo && (
           <div className="youtube-container animate-fade-in transition-opacity duration-1000">
