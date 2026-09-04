@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { JobOpening } from '@/data/types';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import JobApplicationForm from '@/components/careers/JobApplicationForm';
 
@@ -13,6 +13,18 @@ interface JobDetailClientProps {
 
 export default function JobDetailClient({ job }: JobDetailClientProps) {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [shareUrl, setShareUrl] = useState(`https://starhiherbs.com/careers/${job.slug}`);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareUrl(window.location.href);
+    }
+  }, []);
+
+  const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+  const emailSubject = `Job Opening: ${job.title} at Star Hi Herbs`;
+  const emailBody = `Check out this job opening at Star Hi Herbs: ${job.title}\n\nView full details and apply here: ${shareUrl}`;
+  const mailtoUrl = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
   return (
     <>
@@ -105,11 +117,27 @@ export default function JobDetailClient({ job }: JobDetailClientProps) {
           <div className="bg-white rounded-xl shadow-md overflow-hidden p-6">
             <h3 className="text-xl font-semibold text-[#214842] mb-4">Share This Job</h3>
             <div className="flex gap-4">
-              <Button variant="outline" size="sm" className="flex-1">
-                LinkedIn
+              <Button variant="outline" size="sm" className="flex-1" asChild>
+                <a
+                  href={linkedInShareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2"
+                  aria-label="Share on LinkedIn"
+                >
+                  <Linkedin size={16} className="text-[#0A66C2]" />
+                  LinkedIn
+                </a>
               </Button>
-              <Button variant="outline" size="sm" className="flex-1">
-                Email
+              <Button variant="outline" size="sm" className="flex-1" asChild>
+                <a
+                  href={mailtoUrl}
+                  className="flex items-center justify-center gap-2"
+                  aria-label="Share via Email"
+                >
+                  <Mail size={16} className="text-[#258F67]" />
+                  Email
+                </a>
               </Button>
             </div>
           </div>
