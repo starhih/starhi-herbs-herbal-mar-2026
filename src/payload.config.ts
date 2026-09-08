@@ -37,6 +37,29 @@ export default buildConfig({
         Icon: '@/components/admin/Logo#Logo',
       },
     },
+    livePreview: {
+      breakpoints: [
+        {
+          label: 'Mobile',
+          name: 'mobile',
+          width: 375,
+          height: 667,
+        },
+        {
+          label: 'Tablet',
+          name: 'tablet',
+          width: 768,
+          height: 1024,
+        },
+        {
+          label: 'Desktop',
+          name: 'desktop',
+          width: 1440,
+          height: 900,
+        },
+      ],
+      collections: ['products', 'blog-posts'],
+    },
   },
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'].filter(Boolean),
@@ -66,6 +89,7 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URL || '',
     },
+    push: false,
   }),
   sharp,
   plugins: [

@@ -98,14 +98,40 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function BrandedIngredientPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BrandedIngredientPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ preview?: string }>;
+}) {
   const { slug } = await params;
+  const search = (await searchParams) || {};
+  let isDraft = search.preview === 'true';
+  try {
+    const { draftMode } = await import('next/headers');
+    const { isEnabled } = await draftMode();
+    if (isEnabled) isDraft = true;
+  } catch (_e) {}
+
   const payload = await getPayloadClient();
   const { docs } = await payload.find({
     collection: 'products',
     where: {
-      slug: { equals: slug },
+      and: [
+        { slug: { equals: slug } },
+        ...(!isDraft
+          ? [
+              {
+                _status: {
+                  equals: 'published',
+                },
+              },
+            ]
+          : []),
+      ],
     },
+    draft: isDraft,
     limit: 1,
   });
 

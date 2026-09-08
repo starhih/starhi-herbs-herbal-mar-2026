@@ -143,9 +143,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     const res = await payload.find({
       collection: 'products',
       where: {
-        // Assuming relationship uses ID. If slug matches 'category.slug', query nested.
-        // Or if we query by category ID using category.id
-        category: { equals: category.id }
+        and: [
+          { category: { equals: category.id } },
+          { _status: { equals: 'published' } },
+        ],
       },
       limit: 100 // fetch all or paginate? for now limit 100
     });

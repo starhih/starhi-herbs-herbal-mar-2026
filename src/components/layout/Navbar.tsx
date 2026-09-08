@@ -57,7 +57,7 @@ export default function Navbar({ categories: initialCategories }: NavbarProps) {
       setCategoriesList(initialCategories);
     }
     // Fetch live categories to ensure Navbar is always fresh even after client-side navigation
-    fetch('/api/categories')
+    fetch('/api/nav-categories')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {

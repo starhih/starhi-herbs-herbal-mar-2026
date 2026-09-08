@@ -3,16 +3,9 @@ import { notFound } from 'next/navigation';
 import { getPayloadClient } from '@/lib/payload';
 import { mapBlogPost, mapProduct } from '@/lib/mappers';
 import { Product } from '@/data/types';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import BlogHeader from '@/components/blog/BlogHeader';
-import SimpleBlogContent from '@/components/blog/SimpleBlogContent';
-import BlogTableOfContents from '@/components/blog/BlogTableOfContents';
-import BlogTags from '@/components/blog/BlogTags';
-import BlogRelatedPosts from '@/components/blog/BlogRelatedPosts';
-import ProductCard from '@/components/products/ProductCard';
 import JsonLd from '@/components/seo/JsonLd';
+import { BlogLiveView } from '@/components/blog/BlogLiveView';
 
-// Generate static params for all blog posts
 // Generate static params for all blog posts
 export async function generateStaticParams() {
   const payload = await getPayloadClient();
@@ -27,7 +20,6 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each blog post
-// Generate metadata for each blog post
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const payload = await getPayloadClient();
@@ -40,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!post) {
     return {
-      title: 'Blog Post Not Found | Star Hi Herbs',
+      title: 'Post Not Found | Star Hi Herbs',
       description: 'The requested blog post could not be found.',
     };
   }
@@ -48,6 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Star Hi Herbs Blog`,
     description: post.excerpt,
+    keywords: [post.category, ...post.tags, 'herbal extracts', 'wellness', 'nutraceuticals'].join(', '),
     alternates: {
       canonical: `/blog/${post.slug}`,
     },
@@ -55,9 +48,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.title,
       description: post.excerpt,
       url: `/blog/${post.slug}`,
-      type: 'article',
-      publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt,
       images: [
         {
           url: post.image,
@@ -66,6 +56,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
           alt: post.title,
         },
       ],
+      type: 'article',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.author || 'Star Hi Herbs'],
+      tags: post.tags,
     },
     twitter: {
       card: 'summary_large_image',
@@ -76,24 +71,48 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-// Set dynamic to force-static for static export
-export const dynamic = 'force-static';
-
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPostPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ preview?: string }>;
+}) {
   const { slug } = await params;
+  const search = (await searchParams) || {};
+  let isDraft = search.preview === 'true';
+  try {
+    const { draftMode } = await import('next/headers');
+    const { isEnabled } = await draftMode();
+    if (isEnabled) isDraft = true;
+  } catch (_e) {}
+
   const payload = await getPayloadClient();
   const { docs } = await payload.find({
     collection: 'blog-posts',
-    where: { slug: { equals: slug } },
-    limit: 1
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        ...(!isDraft
+          ? [
+              {
+                _status: {
+                  equals: 'published',
+                },
+              },
+            ]
+          : []),
+      ],
+    },
+    draft: isDraft,
+    limit: 1,
   });
-  const post = docs[0] ? mapBlogPost(docs[0]) : null;
+  const rawDoc = docs[0] || null;
+  const post = rawDoc ? mapBlogPost(rawDoc) : null;
 
-  if (!post) {
+  if (!post || !rawDoc) {
     notFound();
   }
-
-  const tags = post.tags; // tags are already populated in mapped post
 
   // Fetch related posts
   const { docs: relatedDocs } = await payload.find({
@@ -164,53 +183,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <JsonLd data={articleSchema} />
-      <section className="pt-8 lg:pt-12">
-        <div className="container-custom">
-          <Breadcrumbs
-            items={[
-              { label: 'Blog', href: '/blog' },
-              { label: post.title, href: `/blog/${post.slug}`, isCurrent: true }
-            ]}
-          />
-        </div>
-      </section>
-
-      <section className="py-8 lg:py-12">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Table of Contents Sidebar */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="sticky top-24">
-                <BlogTableOfContents items={post.tableOfContents} />
-              </div>
-            </div>
-
-            {/* Main Content */}
-            <div className="lg:col-span-3">
-              <BlogHeader post={post} className="mb-8" />
-
-              <SimpleBlogContent content={post.content} className="mb-12" />
-
-              <BlogTags tags={tags} className="mb-16" />
-
-              {blogRelatedProducts.length > 0 && (
-                <div className="mb-16 border-t pt-8">
-                  <h3 className="text-2xl font-bold text-[#214842] mb-6">Related Ingredients</h3>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {blogRelatedProducts.map((p) => (
-                      <ProductCard key={p.id} product={p} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {relatedPosts.length > 0 && (
-                <BlogRelatedPosts posts={relatedPosts} className="mt-16" />
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <BlogLiveView
+        initialDoc={rawDoc}
+        initialPost={post}
+        relatedPosts={relatedPosts}
+        blogRelatedProducts={blogRelatedProducts}
+      />
     </>
   );
 }

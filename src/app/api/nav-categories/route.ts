@@ -43,7 +43,7 @@ export async function GET() {
       },
     });
   } catch (err) {
-    console.error('[GET /api/categories] Error fetching categories:', err);
+    console.error('[GET /api/nav-categories] Error fetching categories:', err);
     return NextResponse.json([], { status: 500 });
   }
 }

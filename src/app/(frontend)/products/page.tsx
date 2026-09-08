@@ -63,12 +63,20 @@ export default async function ProductsPage() {
     // 3. Fallback featured products
     payload.find({
       collection: 'products',
-      where: { featured: { equals: true } },
+      where: {
+        and: [
+          { featured: { equals: true } },
+          { _status: { equals: 'published' } },
+        ],
+      },
       limit: 5,
     }),
     // 4. Fetch lightweight product projections for the A-Z Ingredient Directory
     payload.find({
       collection: 'products',
+      where: {
+        _status: { equals: 'published' },
+      },
       limit: 5000,
       select: {
         name: true,

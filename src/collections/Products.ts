@@ -4,9 +4,33 @@ export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         useAsTitle: 'name',
+        defaultColumns: ['name', '_status', 'productType', 'category', 'updatedAt'],
+        livePreview: {
+            url: ({ data }) => {
+                const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+                if (!data?.slug) return baseUrl;
+                let path = `/products/${data.slug}`;
+                if (data.productType === 'branded') path = `/branded-ingredients/${data.slug}`;
+                if (data.productType === 'vitamin-mineral') path = `/vitamins-minerals/${data.slug}`;
+                return `${baseUrl}${path}`;
+            },
+        },
+    },
+    versions: {
+        drafts: {
+            autosave: {
+                interval: 1500,
+            },
+        },
+        maxPerDoc: 50,
     },
     access: {
-        read: () => true,
+        read: ({ req: { user } }) => {
+            if (user) return true;
+            return {
+                _status: { equals: 'published' },
+            };
+        },
     },
     hooks: {
         beforeChange: [
@@ -36,30 +60,46 @@ export const Products: CollectionConfig = {
             },
         ],
         afterChange: [
-            async ({ doc, req }) => {
-                try {
-                    const { revalidatePath } = await import('next/cache');
-                    revalidatePath('/');
-                    revalidatePath('/', 'page');
-                    revalidatePath('/', 'layout');
-                } catch (_err) {
-                    req.payload.logger.error('Error revalidating path for product ' + doc.id);
+            async ({ doc, req, previousDoc, context }) => {
+                if (context?.skipHooks) return doc;
+                const isPublished = doc._status === 'published';
+                const wasPublished = previousDoc?._status === 'published';
+
+                // Revalidate cache if product is published or was unpublished
+                if (isPublished || wasPublished) {
+                    try {
+                        const { revalidatePath } = await import('next/cache');
+                        revalidatePath('/');
+                        revalidatePath('/', 'page');
+                        revalidatePath('/', 'layout');
+                        revalidatePath('/products');
+                        if (doc.slug) {
+                            revalidatePath(`/products/${doc.slug}`);
+                            revalidatePath(`/branded-ingredients/${doc.slug}`);
+                            revalidatePath(`/vitamins-minerals/${doc.slug}`);
+                        }
+                    } catch (_err) {
+                        req.payload.logger.error('Error revalidating path for product ' + doc.id);
+                    }
                 }
 
-                try {
-                    const baseUrl = 'https://starhiherbs.com';
-                    let urlPath = `/products/${doc.slug}`;
-                    if (doc.productType === 'branded') urlPath = `/branded-ingredients/${doc.slug}`;
-                    if (doc.productType === 'vitamin-mineral') urlPath = `/vitamins-minerals/${doc.slug}`;
-                    
-                    const productUrl = `${baseUrl}${urlPath}`;
-                    
-                    const { submitToIndexNow } = await import('@/lib/indexnow');
-                    submitToIndexNow([productUrl, `${baseUrl}/products`]).catch((err) => {
-                        req.payload.logger.error('IndexNow submission failed for product: ' + err);
-                    });
-                } catch (indexNowErr) {
-                    req.payload.logger.error('Error triggering IndexNow for product: ' + indexNowErr);
+                // Only submit to search engines if actively published
+                if (isPublished) {
+                    try {
+                        const baseUrl = 'https://starhiherbs.com';
+                        let urlPath = `/products/${doc.slug}`;
+                        if (doc.productType === 'branded') urlPath = `/branded-ingredients/${doc.slug}`;
+                        if (doc.productType === 'vitamin-mineral') urlPath = `/vitamins-minerals/${doc.slug}`;
+                        
+                        const productUrl = `${baseUrl}${urlPath}`;
+                        
+                        const { submitToIndexNow } = await import('@/lib/indexnow');
+                        submitToIndexNow([productUrl, `${baseUrl}/products`]).catch((err) => {
+                            req.payload.logger.error('IndexNow submission failed for product: ' + err);
+                        });
+                    } catch (indexNowErr) {
+                        req.payload.logger.error('Error triggering IndexNow for product: ' + indexNowErr);
+                    }
                 }
 
                 return doc;

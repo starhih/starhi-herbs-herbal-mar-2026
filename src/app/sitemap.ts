@@ -48,6 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch products
   const { docs: products } = await payload.find({
     collection: 'products',
+    where: { _status: { equals: 'published' } },
     limit: 1000,
     select: { slug: true, productType: true, updatedAt: true },
   });
@@ -80,6 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch blog posts
   const { docs: blogPosts } = await payload.find({
     collection: 'blog-posts',
+    where: { _status: { equals: 'published' } },
     limit: 1000,
     select: { slug: true, updatedAt: true },
   });
