@@ -20,12 +20,7 @@ export const BlogPosts: CollectionConfig = {
         maxPerDoc: 50,
     },
     access: {
-        read: ({ req: { user } }) => {
-            if (user) return true;
-            return {
-                _status: { equals: 'published' },
-            };
-        },
+        read: () => true,
     },
     hooks: {
         afterChange: [
