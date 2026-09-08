@@ -2,44 +2,65 @@
  * Star Hi Herbs - Production & Local Database Migration Script
  * 
  * Usage:
- *   node migrate.cjs
+ *   node migrate.cjs [optional-path-to-db]
  *   or
  *   npm run migrate
  * 
  * This script updates the SQLite database schema for Payload CMS:
- * 1. Adds `_status` column to `products` and `blog_posts` if missing
- * 2. Sets all existing documents to `_status = 'published'`
- * 3. Creates versioning tables (_products_v, _blog_posts_v, and relation tables)
- * 4. Syncs existing products & blog posts into version tables so they appear in Payload Admin
+ * 1. Resolves the database from process.env.DATABASE_URL, .env, or CLI argument
+ * 2. Adds `_status` column to `products` and `blog_posts` if missing
+ * 3. Sets all existing documents to `_status = 'published'`
+ * 4. Creates versioning tables (_products_v, _blog_posts_v, and relation tables)
+ * 5. Syncs existing products & blog posts into version tables so they appear in Payload Admin
  */
 
 const fs = require('fs');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
-// Try loading environment variables
+// Try loading environment variables in order of priority
 try {
   const dotenv = require('dotenv');
-  if (fs.existsSync('.env.local')) {
-    dotenv.config({ path: '.env.local' });
-  } else if (fs.existsSync('.env')) {
-    dotenv.config({ path: '.env' });
+  const envFiles = ['.env.production', '.env.local', '.env'];
+  for (const file of envFiles) {
+    const fullPath = path.resolve(__dirname, file);
+    if (fs.existsSync(fullPath)) {
+      dotenv.config({ path: fullPath });
+      console.log(`Loaded environment from ${file}`);
+      break;
+    }
   }
 } catch (_e) {}
 
-// Resolve DB path
-let dbPath = process.env.DATABASE_URL || 'star-hi-herbs-v2.db';
+// Resolve DB path:
+// 1. CLI argument: node migrate.cjs /path/to/db.sqlite
+// 2. process.env.DATABASE_URL
+// 3. Default fallback: star-hi-herbs-v2.db in project root
+let rawUrl = process.argv[2] || process.env.DATABASE_URL || 'star-hi-herbs-v2.db';
+let dbPath = rawUrl;
+
 if (dbPath.startsWith('file:')) {
   dbPath = dbPath.replace(/^file:/, '');
+}
+// Strip query strings like ?cache=shared
+if (dbPath.includes('?')) {
+  dbPath = dbPath.split('?')[0];
+}
+// Make sure path is absolute relative to project directory
+if (!path.isAbsolute(dbPath)) {
+  dbPath = path.resolve(__dirname, dbPath);
 }
 
 console.log('--------------------------------------------------');
 console.log('Star Hi Herbs - Database Migration');
-console.log('Target Database:', dbPath);
+console.log('Environment DATABASE_URL:', process.env.DATABASE_URL || '(not set, using fallback)');
+console.log('Resolved Database File:  ', dbPath);
 console.log('--------------------------------------------------');
 
 if (!fs.existsSync(dbPath)) {
-  console.error(`ERROR: Database file not found at ${dbPath}`);
+  console.error(`ERROR: Database file not found at: ${dbPath}`);
+  console.error('Please verify your DATABASE_URL in .env or pass the path directly:');
+  console.error('  node migrate.cjs /path/to/database.db');
   process.exit(1);
 }
 
