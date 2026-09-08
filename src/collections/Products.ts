@@ -24,8 +24,12 @@ export const Products: CollectionConfig = {
         maxPerDoc: 50,
     },
     access: {
-        read: ({ req: { user } }) => {
-            if (user) return true;
+        read: ({ req, id }) => {
+            console.log('[Products access.read]', {
+                user: req?.user?.email || 'unauthenticated',
+                id,
+            });
+            if (req?.user) return true;
             return {
                 _status: { equals: 'published' },
             };

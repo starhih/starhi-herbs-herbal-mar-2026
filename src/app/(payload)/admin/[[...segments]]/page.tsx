@@ -18,7 +18,11 @@ type Args = {
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
   generatePageMetadata({ config, params, searchParams })
 
-const Page = ({ params, searchParams }: Args) =>
-  RootPage({ config, params, searchParams, importMap })
+const Page = async ({ params, searchParams }: Args) => {
+  const p = await params;
+  const s = await searchParams;
+  console.log('[Payload Admin Page] Rendering segments:', p?.segments, 'searchParams:', s);
+  return RootPage({ config, params, searchParams, importMap });
+}
 
 export default Page
