@@ -9,8 +9,8 @@ export const Products: CollectionConfig = {
                 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
                 if (!data?.slug) return baseUrl;
                 let path = `/products/${data.slug}`;
-                if (data.productType === 'branded') path = `/branded-ingredients/${data.slug}`;
-                if (data.productType === 'vitamin-mineral') path = `/vitamins-minerals/${data.slug}`;
+                if (data?.productType === 'branded') path = `/branded-ingredients/${data.slug}`;
+                if (data?.productType === 'vitamin-mineral') path = `/vitamins-minerals/${data.slug}`;
                 return `${baseUrl}${path}`;
             },
         },
@@ -270,7 +270,7 @@ export const Products: CollectionConfig = {
             admin: {
                 position: 'sidebar',
                 description: 'Custom tagline shown on homepage (e.g. "Trending Now")',
-                condition: (data) => data.productOfTheMonth === true,
+                condition: (data) => Boolean(data?.productOfTheMonth),
             },
         },
         // Sections from products.ts
@@ -381,7 +381,7 @@ export const Products: CollectionConfig = {
             type: 'upload',
             relationTo: 'media',
             admin: {
-                condition: (data) => data.productType === 'branded'
+                condition: (data) => data?.productType === 'branded'
             }
         },
         {
@@ -389,14 +389,14 @@ export const Products: CollectionConfig = {
             type: 'text',
             admin: {
                 description: 'External brand logo URL',
-                condition: (data) => data.productType === 'branded'
+                condition: (data) => data?.productType === 'branded'
             }
         },
         {
             name: 'clinicalResearch',
             type: 'group',
             admin: {
-                condition: (data) => data.productType === 'branded'
+                condition: (data) => data?.productType === 'branded'
             },
             fields: [
                 { name: 'title', type: 'text' },
@@ -419,7 +419,7 @@ export const Products: CollectionConfig = {
             name: 'productIndications',
             type: 'group',
             admin: {
-                condition: (data) => data.productType === 'vitamin-mineral'
+                condition: (data) => data?.productType === 'vitamin-mineral'
             },
             fields: [
                 { name: 'title', type: 'text' },
@@ -438,7 +438,7 @@ export const Products: CollectionConfig = {
             name: 'probioticDetails',
             type: 'group',
             admin: {
-                condition: (data) => data.productType === 'probiotic'
+                condition: (data) => data?.productType === 'probiotic'
             },
             fields: [
                 { name: 'sporesPerGram', type: 'text' },
@@ -459,7 +459,7 @@ export const Products: CollectionConfig = {
             relationTo: 'products',
             admin: {
                 position: 'sidebar',
-                condition: (data) => !data.isParentProduct
+                condition: (data) => Boolean(data && !data.isParentProduct)
             }
         },
         {
@@ -469,7 +469,7 @@ export const Products: CollectionConfig = {
             hasMany: true,
             admin: {
                 position: 'sidebar',
-                condition: (data) => data.isParentProduct
+                condition: (data) => Boolean(data?.isParentProduct)
             }
         }
     ],
