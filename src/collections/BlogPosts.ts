@@ -4,7 +4,6 @@ export const BlogPosts: CollectionConfig = {
     slug: 'blog-posts',
     admin: {
         useAsTitle: 'title',
-        defaultColumns: ['title', '_status', 'author', 'publishedAt'],
         livePreview: {
             url: ({ data }) => {
                 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';

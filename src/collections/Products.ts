@@ -4,7 +4,6 @@ export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         useAsTitle: 'name',
-        defaultColumns: ['name', '_status', 'productType', 'category', 'updatedAt'],
         livePreview: {
             url: ({ data }) => {
                 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';

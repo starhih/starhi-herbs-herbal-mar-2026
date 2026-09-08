@@ -228,9 +228,12 @@ async function migrate() {
     `);
     console.log('✓ Checked _blog_posts_v_rels table');
 
-    // 7. Remove any invalid empty products (created accidentally with null name & slug)
+    // 7. Remove any invalid empty products and stale table column preferences
     await runSql("DELETE FROM products WHERE name IS NULL AND slug IS NULL");
     await runSql("DELETE FROM _products_v WHERE version_name IS NULL AND version_slug IS NULL");
+    await runSql("DELETE FROM payload_preferences WHERE key LIKE '%collection-products%'");
+    await runSql("DELETE FROM payload_preferences WHERE key LIKE '%collection-blog-posts%'");
+    console.log('✓ Reset stale table preferences in payload_preferences');
 
     // 8. Populate missing products into _products_v
     const syncProductsRes = await runSql(`
