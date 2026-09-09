@@ -228,6 +228,115 @@ async function migrate() {
     `);
     console.log('✓ Checked _blog_posts_v_rels table');
 
+    // 5b. Create missing _products_v sub-tables for array fields
+    // These are required by Payload when querying with draft:true but were not
+    // included in the original migrate.cjs — causing SQLITE_ERROR in production.
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_benefits (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        benefit text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_applications (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        application text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_certifications_section_images (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_events (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        description text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_events_images (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v_version_events(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_faqs (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        question text,
+        answer text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_variants (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        name text,
+        spec_document_id integer,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_clinical_research_studies (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        title text,
+        description text,
+        link text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_product_indications_indications (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        name text,
+        icon text,
+        description text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    console.log('✓ Created all _products_v version sub-tables (benefits, applications, faqs, variants, events, etc.)');
+
     // 7. Remove any invalid empty products and stale table column preferences
     await runSql("DELETE FROM products WHERE name IS NULL AND slug IS NULL");
     await runSql("DELETE FROM _products_v WHERE version_name IS NULL AND version_slug IS NULL");
