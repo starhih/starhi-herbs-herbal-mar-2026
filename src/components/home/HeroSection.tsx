@@ -43,7 +43,7 @@ export default function HeroSection() {
           <div className="youtube-container animate-fade-in transition-opacity duration-1000">
             <div className="youtube-video">
               <iframe
-                src="https://www.youtube.com/embed/oXhno7PCXQU?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=oXhno7PCXQU&modestbranding=1&enablejsapi=1&disablekb=1&fs=0&color=white&playsinline=1&origin=https://starhiherbs.com&autohide=1&version=3"
+                src="https://www.youtube.com/embed/1_i9CORxG3o?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=1_i9CORxG3o&modestbranding=1&enablejsapi=1&disablekb=1&fs=0&color=white&playsinline=1&origin=https://starhiherbs.com&autohide=1&version=3"
                 title="Herbal Extract Background Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
