@@ -9,8 +9,6 @@
  * 4. Verify your sending domain in Resend (or use onboarding@resend.dev for testing)
  */
 
-const CC_EMAIL = 'najish.n@starhiherbs.com';
-
 // Function to send an email via the server-side API route
 export async function sendEmail(
   formType: string,
@@ -67,7 +65,6 @@ export async function sendContactEmail(data: {
   }, {
     subject: `[Contact] ${data.subject}`,
     fromEmail: 'Star Hi Herbs Contact <contact@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken: data.turnstileToken,
   });
 }
@@ -81,7 +78,6 @@ export async function sendQuoteRequestEmail(data: Record<string, any>) {
   return sendEmail('Quote Request', formData, {
     subject: `💰 [Quote Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Quotes <quote@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }
@@ -95,7 +91,6 @@ export async function sendSampleRequestEmail(data: Record<string, any>) {
   return sendEmail('Sample Request', formData, {
     subject: `📦 [Sample Request from Website] - ${companyName} - ${country}`,
     fromEmail: 'Star Hi Herbs Samples <sample@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }
@@ -109,7 +104,6 @@ export async function sendCatalogueRequestEmail(data: Record<string, any>) {
   return sendEmail('Catalogue Download', formData, {
     subject: `📚 [Catalogue] ${name} - ${company}`,
     fromEmail: 'Star Hi Herbs Catalogue <catalogue@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }
@@ -123,7 +117,6 @@ export async function sendJobApplicationEmail(data: Record<string, any>) {
   return sendEmail('Job Application', formData, {
     subject: `💼 [Job App] ${applicantName} - ${position}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }
@@ -137,7 +130,6 @@ export async function sendGeneralApplicationEmail(data: Record<string, any>) {
   return sendEmail('General Application', formData, {
     subject: `📁 [General App] ${applicantName} - ${department}`,
     fromEmail: 'Star Hi Herbs Careers <careers@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }
@@ -152,7 +144,6 @@ export async function sendMeetingRequestEmail(data: Record<string, any>) {
   return sendEmail('Meeting Request', formData, {
     subject: `🤝 [Meeting] ${name} - ${eventName} - ${company}`,
     fromEmail: 'Star Hi Herbs Meetings <meeting@starhiherbs.com>',
-    cc: CC_EMAIL,
     turnstileToken,
   });
 }

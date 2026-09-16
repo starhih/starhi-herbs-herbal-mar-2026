@@ -825,8 +825,8 @@ export default function AboutPage() {
               </div>
               <div className="flex items-center gap-2">
                 <PhoneCall size={20} className="text-[#EFC368]" />
-                <a href="tel:+919886422452" className="text-white hover:text-[#EFC368] transition-colors">
-                  +91 98864 22452
+                <a href="tel:+918971793584" className="text-white hover:text-[#EFC368] transition-colors">
+                  +91 89 7179 3584
                 </a>
               </div>
             </div>

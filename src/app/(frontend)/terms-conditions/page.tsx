@@ -291,7 +291,7 @@ export default function TermsConditionsPage() {
                   <div className="space-y-2 text-gray-600">
                     <p><strong>Address:</strong> Hassan SEZ, Karnataka, India</p>
                     <p><strong>Email:</strong> <a href="mailto:legal@starhiherbs.com" className="text-[#258F67] hover:text-[#214842]">legal@starhiherbs.com</a></p>
-                    <p><strong>Phone:</strong> <a href="tel:+919886422452" className="text-[#258F67] hover:text-[#214842]">+91 98864 22452</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+918971793584" className="text-[#258F67] hover:text-[#214842]">+91 89 7179 3584</a></p>
                     <p><strong>Website:</strong> <a href="https://starhiherbs.com" className="text-[#258F67] hover:text-[#214842]">www.starhiherbs.com</a></p>
                   </div>
                 </div>
@@ -318,8 +318,8 @@ export default function TermsConditionsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={20} className="text-[#258F67]" />
-                <a href="tel:+919886422452" className="text-[#214842] hover:text-[#258F67] transition-colors">
-                  +91 98864 22452
+                <a href="tel:+918971793584" className="text-[#214842] hover:text-[#258F67] transition-colors">
+                  +91 89 7179 3584
                 </a>
               </div>
             </div>

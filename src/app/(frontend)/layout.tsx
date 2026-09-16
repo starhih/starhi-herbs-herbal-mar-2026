@@ -58,7 +58,7 @@ const organizationSchema = {
   url: 'https://starhiherbs.com',
   logo: 'https://ik.imagekit.io/pon54xoks/starhi-herbs%20-white-02.svg',
   description: 'Star Hi Herbs is the world\'s largest manufacturer and exporter of Coleus extract and Sesamin extract. We are recognized as the top herbal extract manufacturer and exporter in Bangalore, India, providing globally certified B2B organic extracts.',
-  telephone: '+91 98 8642 2452',
+  telephone: '+91 89 7179 3584',
   email: 'starhi@starhiherbs.com',
   sameAs: [
     'https://in.linkedin.com/company/star-hi-herbs-pvt-ltd',
@@ -112,7 +112,7 @@ const organizationSchema = {
   ],
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+91 98 8642 2452',
+    telephone: '+91 89 7179 3584',
     contactType: 'customer service',
     email: 'starhi@starhiherbs.com',
     areaServed: 'Worldwide',

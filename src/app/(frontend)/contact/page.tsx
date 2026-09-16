@@ -117,12 +117,12 @@ export default function ContactPage() {
               {
                 icon: Phone,
                 title: 'Call Us',
-                content: '+91 98 8642 2452 (Main)\n+91 89 7179 3584 (Sales)',
+                content: '+91 89 7179 3584 (Sales)',
               },
               {
                 icon: Mail,
                 title: 'Email Us',
-                content: 'najish.n@starhiherbs.com (General)\nstarhi@starhiherbs.com (Sales)',
+                content: 'starhi@starhiherbs.com (Sales)',
               },
               {
                 icon: Clock,
@@ -333,7 +333,7 @@ export default function ContactPage() {
                 city: 'Bangalore Unit',
                 country: 'Karnataka, India',
                 address: '#50, 3rd Road, 1st Phase, KIADB Industrial Area\nBangalore - 560105, Karnataka, India',
-                phone: '+91 98 8642 2452',
+                phone: '+91 89 7179 3584',
                 email: 'starhi@starhiherbs.com',
                 mapUrl: 'https://maps.google.com/maps?q=50,+3rd+Road,+1st+Phase,+KIADB+Industrial+Area,+Bangalore&t=&z=14&ie=UTF8&iwloc=&output=embed',
               },

@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     if (formType === 'Job Application' || formType === 'General Application') {
       recipientEmail = 'hr@starhiherbs.com';
-      ccList = ['najish.n@starhiherbs.com'];
+      ccList = [];
     }
 
     // 4. Secure resume upload with size & mime whitelisting

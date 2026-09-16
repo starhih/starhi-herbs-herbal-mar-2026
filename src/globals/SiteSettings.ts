@@ -42,7 +42,7 @@ export const SiteSettings: GlobalConfig = {
                 {
                     name: 'phone',
                     type: 'text',
-                    defaultValue: '+91 98 8642 2452',
+                    defaultValue: '+91 89 7179 3584',
                 },
                 {
                     name: 'email',
