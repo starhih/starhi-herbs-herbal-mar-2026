@@ -93,9 +93,9 @@ export default function ProductListingClient({
       url: 'https://turmimax.com/',
     },
     {
-      name: 'Turmesac',
-      imageUrl: 'https://ik.imagekit.io/pon54xoks/turmesac.jpg',
-      url: 'https://turmesac.in/',
+      name: 'Cissuslean',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/cissusiean.jpg',
+      url: 'https://cissuslean.com/',
     },
     {
       name: 'Forcslim',
@@ -108,24 +108,14 @@ export default function ProductListingClient({
       url: 'https://bacosane.com/',
     },
     {
-      name: 'Cissuslean',
-      imageUrl: 'https://ik.imagekit.io/pon54xoks/cissusiean.jpg',
-      url: 'https://cissuslean.com/',
-    },
-    {
-      name: 'Curkolin',
-      imageUrl: 'https://ik.imagekit.io/pon54xoks/curkolin.jpg',
-      url: 'https://curkolin.com/',
+      name: 'Turmesac',
+      imageUrl: 'https://ik.imagekit.io/pon54xoks/turmesac.jpg',
+      url: 'https://turmesac.in/',
     },
     {
       name: 'Bacospore',
       imageUrl: 'https://ik.imagekit.io/pon54xoks/bacospore.jpg',
       url: 'https://bacospore.com/',
-    },
-    {
-      name: 'Salislim',
-      imageUrl: 'https://ik.imagekit.io/pon54xoks/salislim.jpg',
-      url: 'https://salislim.com/',
     }
   ];
 

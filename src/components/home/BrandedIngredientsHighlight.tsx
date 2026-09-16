@@ -2,12 +2,12 @@ import React from 'react';
 
 const brandedIngredients = [
   { name: 'Turmimax', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmimax-bio-1.png', url: 'https://turmimax.com/' },
-  { name: 'Turmesac', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmesac.svg', url: 'https://turmesac.in' },
+  { name: 'Cissuslean', imageUrl: 'https://ik.imagekit.io/pon54xoks/CISSUSLEAN.svg', url: 'https://cissuslean.com' },
   { name: 'Forcslim', imageUrl: 'https://ik.imagekit.io/pon54xoks/Forcslim.svg', url: 'https://forcslim.com' },
   { name: 'Bacosane', imageUrl: 'https://ik.imagekit.io/pon54xoks/bacosane.svg', url: 'https://bacosane.com' },
-  { name: 'Cissuslean', imageUrl: 'https://ik.imagekit.io/pon54xoks/CISSUSLEAN.svg', url: 'https://cissuslean.com' },
-  { name: 'Curkolin', imageUrl: 'https://ik.imagekit.io/pon54xoks/Curkolin.svg', url: 'https://curkolin.com' },
+  { name: 'Turmesac', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmesac.svg', url: 'https://turmesac.in' },
   { name: 'Eyevistar', imageUrl: 'https://ik.imagekit.io/pon54xoks/eyevistar.png', url: 'https://eyevistar.com' },
+  { name: 'Curkolin', imageUrl: 'https://ik.imagekit.io/pon54xoks/Curkolin.svg', url: 'https://curkolin.com' },
   { name: 'Bacospore', imageUrl: 'https://ik.imagekit.io/pon54xoks/bacospore.svg', url: 'https://bacospore.com' },
 ];
 
