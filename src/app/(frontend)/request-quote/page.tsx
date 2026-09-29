@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import RequestQuoteForm from '@/components/forms/RequestQuoteForm';
+import ShortlistRequestForm from '@/components/forms/ShortlistRequestForm';
 import Image from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
 import { ShieldCheck, DollarSign, Zap, HeadphonesIcon, Lightbulb, FlaskConical } from 'lucide-react';
@@ -50,7 +50,7 @@ export default function RequestQuotePage() {
           <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Request a Quote</h1>
             <p className="text-xl text-white text-shadow-sm">
-              Fill out the form below and we will get back to you within 24 hours.
+              Quote several products in one request. Anything you shortlisted is already filled in.
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function RequestQuotePage() {
           <div className="grid lg:grid-cols-[1fr_380px] gap-10 items-start">
             {/* Left: Form */}
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <RequestQuoteForm />
+              <ShortlistRequestForm defaultRequest="quote" />
             </div>
 
             {/* Right: Info Sidebar */}

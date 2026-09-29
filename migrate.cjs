@@ -337,6 +337,42 @@ async function migrate() {
     `);
     console.log('✓ Created all _products_v version sub-tables (benefits, applications, faqs, variants, events, etc.)');
 
+    // 6b. Leads collection (website form submissions)
+    await runSql(`
+      CREATE TABLE IF NOT EXISTS leads (
+        id integer PRIMARY KEY NOT NULL,
+        form_type text NOT NULL,
+        status text DEFAULT 'new',
+        source_page text,
+        name text,
+        email text,
+        phone text,
+        company text,
+        country text,
+        products text,
+        message text,
+        data text,
+        notes text,
+        updated_at text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+        created_at text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
+      );
+    `);
+    await runSql(`
+      CREATE INDEX IF NOT EXISTS leads_form_type_idx ON leads (form_type);
+    `);
+    await runSql(`
+      CREATE INDEX IF NOT EXISTS leads_updated_at_idx ON leads (updated_at);
+    `);
+    await runSql(`
+      CREATE INDEX IF NOT EXISTS leads_created_at_idx ON leads (created_at);
+    `);
+    const lockedRelCols = await getAll("PRAGMA table_info(payload_locked_documents_rels)");
+    if (lockedRelCols.length > 0 && !lockedRelCols.some(c => c.name === 'leads_id')) {
+      await runSql("ALTER TABLE payload_locked_documents_rels ADD COLUMN leads_id integer REFERENCES leads(id) ON DELETE cascade");
+    }
+    await runSql("CREATE INDEX IF NOT EXISTS payload_locked_documents_rels_leads_id_idx ON payload_locked_documents_rels (leads_id)");
+    console.log('✓ Checked leads table');
+
     // 7. Remove any invalid empty products and stale table column preferences
     await runSql("DELETE FROM products WHERE name IS NULL AND slug IS NULL");
     await runSql("DELETE FROM _products_v WHERE version_name IS NULL AND version_slug IS NULL");

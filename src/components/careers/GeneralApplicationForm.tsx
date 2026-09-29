@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Turnstile, { TurnstileRef } from '@/components/Turnstile';
+import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 import { analytics } from '@/lib/analytics';
 
 // Define the form schema with Zod
@@ -44,8 +44,7 @@ export default function GeneralApplicationForm() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
-  const turnstileRef = useRef<TurnstileRef>(null);
+  const turnstile = useTurnstile();
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -121,7 +120,7 @@ export default function GeneralApplicationForm() {
         resumeFileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
         resumeFileType: file.type,
         resumeFileBase64: fileBase64,
-        turnstileToken,
+        turnstileToken: turnstile.token,
       };
 
       // Import the email service dynamically to avoid SSR issues
@@ -135,16 +134,13 @@ export default function GeneralApplicationForm() {
         setIsSubmitted(true);
         form.reset();
         setFile(null);
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
+        turnstile.reset();
       } else {
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit application');
       }
     } catch (error) {
-      turnstileRef.current?.reset();
-      setTurnstileToken('');
+      // Tokens are single-use; fetch a fresh one for the next attempt
+      turnstile.reset();
       console.error('Error submitting form:', error);
       setFileError('There was a problem submitting your application. Please try again.');
     } finally {
@@ -339,17 +335,13 @@ export default function GeneralApplicationForm() {
         />
 
         {/* Cloudflare Turnstile */}
-        <Turnstile
-          ref={turnstileRef}
-          action="general_application"
-          onVerify={setTurnstileToken}
-          onExpire={() => setTurnstileToken('')}
-        />
+        <Turnstile {...turnstile.widgetProps} action="general_application" />
+        <TurnstileStatus ready={turnstile.ready} failed={turnstile.failed} />
 
         <Button
           type="submit"
           className="w-full bg-[#214842] hover:bg-[#1a3a35]"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !turnstile.ready}
         >
           {isSubmitting ? (
             <>

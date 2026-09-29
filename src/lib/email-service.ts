@@ -53,6 +53,7 @@ export async function sendContactEmail(data: {
   phone?: string;
   subject: string;
   message: string;
+  website_hp?: string;
   turnstileToken?: string;
 }) {
   return sendEmail('Contact Form', {
@@ -62,6 +63,7 @@ export async function sendContactEmail(data: {
     phone: data.phone || 'Not provided',
     subject: data.subject,
     message: data.message,
+    website_hp: data.website_hp,
   }, {
     subject: `[Contact] ${data.subject}`,
     fromEmail: 'Star Hi Herbs Contact <contact@starhiherbs.com>',

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, Suspense } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 
 interface AnalyticsProps {
   googleAnalyticsId?: string;
+  googleAdsId?: string;
   microsoftClarityId?: string;
 }
 
@@ -16,6 +17,7 @@ function PageViewTracker({
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     if (!pathname || typeof window === 'undefined') return;
@@ -23,15 +25,15 @@ function PageViewTracker({
     const query = searchParams?.toString();
     const url = query ? `${pathname}?${query}` : pathname;
 
-    // 1. Google Analytics SPA Page View Tracking
-    if (googleAnalyticsId) {
+    // 1. Google Analytics SPA Page View Tracking.
+    // The initial load is already counted by gtag('config') in the loader script, and a
+    // 'config' call here would send a second page_view, so only client-side navigations
+    // send one explicit event.
+    const firstLoad = isFirstLoad.current;
+    isFirstLoad.current = false;
+    if (googleAnalyticsId && !firstLoad) {
       window.dataLayer = window.dataLayer || [];
       if (typeof window.gtag === 'function') {
-        window.gtag('config', googleAnalyticsId, {
-          page_path: url,
-          page_location: window.location.href,
-          page_title: document.title,
-        });
         window.gtag('event', 'page_view', {
           page_path: url,
           page_location: window.location.href,
@@ -55,8 +57,12 @@ function PageViewTracker({
 
 export default function Analytics({
   googleAnalyticsId,
+  googleAdsId,
   microsoftClarityId
 }: AnalyticsProps) {
+  // One gtag.js load serves both GA4 and Google Ads
+  const gtagLoaderId = googleAnalyticsId || googleAdsId;
+
   return (
     <>
       <Suspense fallback={null}>
@@ -87,11 +93,11 @@ export default function Analytics({
         />
       )}
 
-      {/* Google Analytics 4 */}
-      {googleAnalyticsId && (
+      {/* Google Analytics 4 + Google Ads */}
+      {gtagLoaderId && (
         <>
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtagLoaderId}`}
             strategy="afterInteractive"
           />
           <Script 
@@ -108,12 +114,13 @@ export default function Analytics({
                   'ad_personalization': 'granted'
                 });
                 gtag('js', new Date());
-                gtag('config', '${googleAnalyticsId}', {
+                ${googleAnalyticsId ? `gtag('config', '${googleAnalyticsId}', {
                   page_path: window.location.pathname,
                   page_location: window.location.href,
                   page_title: document.title,
                   send_page_view: true
-                });
+                });` : ''}
+                ${googleAdsId ? `gtag('config', '${googleAdsId}');` : ''}
               `
             }}
           />

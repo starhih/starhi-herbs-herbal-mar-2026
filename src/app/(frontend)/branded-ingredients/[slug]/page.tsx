@@ -385,7 +385,12 @@ export default async function BrandedIngredientPage({
                 )}
 
                 {/* Contact Buttons */}
-                <ContactButtons />
+                <ContactButtons
+                  productName={product.name}
+                  productSlug={product.slug}
+                  productType="branded"
+                  productCategory="Branded Ingredients"
+                />
               </div>
             </div>
           </div>

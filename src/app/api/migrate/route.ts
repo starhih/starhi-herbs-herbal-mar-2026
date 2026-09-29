@@ -4,33 +4,29 @@ import { getPayloadClient } from '@/lib/payload';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
+  const payload = await getPayloadClient();
+
+  // Allowed for a signed-in admin (open the link in the browser where you are logged into
+  // /admin), or with ?secret=PAYLOAD_SECRET when the admin panel is unavailable.
   const secret = req.nextUrl.searchParams.get('secret');
   const payloadSecret = process.env.PAYLOAD_SECRET;
+  const { user } = await payload.auth({ headers: req.headers }).catch(() => ({ user: null }));
+  const hasValidSecret = Boolean(secret && payloadSecret && secret === payloadSecret);
 
-  // Verify secret in production
-  if (process.env.NODE_ENV === 'production') {
-    if (!secret || secret !== payloadSecret) {
-      return NextResponse.json(
-        {
-          error: 'Unauthorized. Please provide ?secret=YOUR_PAYLOAD_SECRET',
-        },
-        { status: 401 }
-      );
-    }
-  } else {
-    // In development allow secret or notify
-    if (secret && payloadSecret && secret !== payloadSecret) {
-      return NextResponse.json(
-        {
-          error: 'Invalid secret provided.',
-        },
-        { status: 401 }
-      );
-    }
+  if (secret && !hasValidSecret) {
+    return NextResponse.json({ error: 'Invalid secret provided.' }, { status: 401 });
+  }
+  if (process.env.NODE_ENV === 'production' && !user && !hasValidSecret) {
+    return NextResponse.json(
+      {
+        error:
+          'Unauthorized. Log in at /admin first, then paste this URL into the address bar of the same browser (links clicked inside other websites are blocked for safety), or add ?secret=YOUR_PAYLOAD_SECRET',
+      },
+      { status: 401 }
+    );
   }
 
   try {
-    const payload = await getPayloadClient();
     const db = (payload.db as any).client;
 
     const logs: string[] = [];
@@ -169,9 +165,120 @@ export async function GET(req: NextRequest) {
       );
     `);
 
+    // 6b. Ensure _products_v sub-tables for array fields exist
+    // (required by Payload when querying with draft:true; kept in sync with migrate.cjs)
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_benefits (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        benefit text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_applications (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        application text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_certifications_section_images (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_events (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        description text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_events_images (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v_version_events(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_faqs (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        question text,
+        answer text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_variants (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        name text,
+        spec_document_id integer,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_clinical_research_studies (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        title text,
+        description text,
+        link text,
+        image_id integer,
+        image_url text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS _products_v_version_product_indications_indications (
+        id integer PRIMARY KEY NOT NULL,
+        _order integer NOT NULL,
+        _parent_id integer NOT NULL,
+        name text,
+        icon text,
+        description text,
+        _uuid text,
+        FOREIGN KEY (_parent_id) REFERENCES _products_v(id) ON UPDATE no action ON DELETE cascade
+      );
+    `);
+    logs.push("Checked _products_v version sub-tables (benefits, applications, faqs, variants, events, etc.).");
+
     // 7. Clean up any invalid empty drafts (e.g. created accidentally with null name & slug)
     await db.execute("DELETE FROM products WHERE name IS NULL AND slug IS NULL");
     await db.execute("DELETE FROM _products_v WHERE version_name IS NULL AND version_slug IS NULL");
+    // Stale list-column preferences can reference columns that no longer exist
+    await db.execute("DELETE FROM payload_preferences WHERE key LIKE '%collection-products%'");
+    await db.execute("DELETE FROM payload_preferences WHERE key LIKE '%collection-blog-posts%'");
 
     // 8. Sync missing products into _products_v
     const insertProductsVQuery = `
@@ -362,6 +469,42 @@ export async function GET(req: NextRequest) {
       WHERE parent_id IN (SELECT id FROM _blog_posts_v);
     `);
     logs.push("Synced relations into _blog_posts_v_rels.");
+
+    // 11b. Leads collection (website form submissions)
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS leads (
+        id integer PRIMARY KEY NOT NULL,
+        form_type text NOT NULL,
+        status text DEFAULT 'new',
+        source_page text,
+        name text,
+        email text,
+        phone text,
+        company text,
+        country text,
+        products text,
+        message text,
+        data text,
+        notes text,
+        updated_at text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+        created_at text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL
+      );
+    `);
+    await db.execute(`
+      CREATE INDEX IF NOT EXISTS leads_form_type_idx ON leads (form_type);
+    `);
+    await db.execute(`
+      CREATE INDEX IF NOT EXISTS leads_updated_at_idx ON leads (updated_at);
+    `);
+    await db.execute(`
+      CREATE INDEX IF NOT EXISTS leads_created_at_idx ON leads (created_at);
+    `);
+    const lockedRelCols = (await db.execute("PRAGMA table_info(payload_locked_documents_rels)")).rows.map((r: any) => r.name);
+    if (lockedRelCols.length > 0 && !lockedRelCols.includes('leads_id')) {
+      await db.execute("ALTER TABLE payload_locked_documents_rels ADD COLUMN leads_id integer REFERENCES leads(id) ON DELETE cascade");
+    }
+    await db.execute("CREATE INDEX IF NOT EXISTS payload_locked_documents_rels_leads_id_idx ON payload_locked_documents_rels (leads_id)");
+    logs.push("Checked leads table.");
 
     // 12. Get summary counts
     const totalProducts = (await db.execute("SELECT count(*) as count FROM products")).rows[0].count;

@@ -73,7 +73,6 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  priority
                 />
               </div>
             </div>
@@ -150,7 +149,6 @@ export default function FeaturedHighlights({ product, tagline, newsItems }: Feat
                               fill
                               sizes="96px"
                               className="object-cover transition-transform duration-300 hover:scale-105"
-                              priority={index < 4} // Prioritize loading first few images
                             />
                           </div>
                           <div className="flex-1">

@@ -54,7 +54,6 @@ export default async function Footer({ categories }: FooterProps = {}) {
                 height={70}
                 className="object-contain"
                 style={{ maxHeight: '75px', mixBlendMode: 'screen' }}
-                priority
               />
             </div>
             <p className="mb-6 text-white/80 text-sm leading-relaxed">
@@ -197,6 +196,20 @@ export default async function Footer({ categories }: FooterProps = {}) {
               Sitemap
             </Link>
           </div>
+        </div>
+
+        {/* B2B disclaimer (previously a first-visit popup) */}
+        <div className="mt-6 space-y-2 text-xs leading-relaxed text-white/60">
+          <p>
+            <span className="font-semibold text-white/80">Disclaimer:</span> Please note that this website is not aimed
+            at consumers as the information herein contained does not make reference to finished products; the website
+            is available for various countries all over the world and hence it may contain statements or product
+            classification not applicable to your country.
+          </p>
+          <p className="italic">
+            All trademark registrations referenced on this website refer to registrations in India, the European Union,
+            or other international jurisdictions.
+          </p>
         </div>
       </div>
     </footer>

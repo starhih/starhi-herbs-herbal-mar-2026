@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from '@/components/ui/image';
+import { useIsVisible } from '@/hooks/use-is-visible';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -23,6 +24,8 @@ export default function CertificationCarousel({ certifications }: CertificationC
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isVisible = useIsVisible(sectionRef);
 
   // Update items to show based on screen size
   useEffect(() => {
@@ -67,8 +70,10 @@ export default function CertificationCarousel({ certifications }: CertificationC
     setTimeout(() => setIsAnimating(false), 500);
   }, [isAnimating, maxIndex]);
 
-  // Auto-scroll effect
+  // Auto-scroll effect (only while the carousel is on screen)
   useEffect(() => {
+    if (!isVisible) return;
+
     const startAutoScroll = () => {
       // Clear any existing interval
       if (autoScrollIntervalRef.current) {
@@ -91,10 +96,10 @@ export default function CertificationCarousel({ certifications }: CertificationC
         clearInterval(autoScrollIntervalRef.current);
       }
     };
-  }, [next, isPaused]);
+  }, [next, isPaused, isVisible]);
 
   return (
-    <section className="section-padding bg-gray-50">
+    <section ref={sectionRef} className="section-padding bg-gray-50">
       <div className="container-custom">
         <div className="text-center mb-12">
           <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Trust & Quality</h6>

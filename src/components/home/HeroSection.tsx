@@ -7,10 +7,14 @@ export default function HeroSection() {
   const [loadVideo, setLoadVideo] = useState(false);
 
   useEffect(() => {
-    // Delay loading YouTube iframe to prevent JS execution blocking on initial render
-    const timer = setTimeout(() => {
-      setLoadVideo(true);
-    }, 3000); 
+    // Delay loading the YouTube iframe (~3MB) until the page has finished loading, so it
+    // does not compete with the page's own images and scripts
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const startTimer = () => {
+      timer = setTimeout(() => setLoadVideo(true), 3000);
+    };
+    if (document.readyState === 'complete') startTimer();
+    else window.addEventListener('load', startTimer, { once: true });
 
     // Alternatively, load immediately on first interaction
     const handleInteraction = () => setLoadVideo(true);
@@ -20,6 +24,7 @@ export default function HeroSection() {
 
     return () => {
       clearTimeout(timer);
+      window.removeEventListener('load', startTimer);
       window.removeEventListener('scroll', handleInteraction);
       window.removeEventListener('mousemove', handleInteraction);
       window.removeEventListener('touchstart', handleInteraction);

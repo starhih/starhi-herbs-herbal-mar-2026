@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Image from "@/components/ui/image";
+import { useIsVisible } from "@/hooks/use-is-visible";
 
 const shuffle = (array: any[]) => {
   const arr = [...array];
@@ -27,30 +29,41 @@ interface ShuffleGridProps {
 
 export const ShuffleGrid = ({ images }: ShuffleGridProps) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  // Each shuffle runs a layout animation that measures every square, so only shuffle
+  // while the grid is on screen (product pages have two of these far below the fold).
+  const isVisible = useIsVisible(gridRef);
 
   const squareData = images.map((src, index) => ({ id: index + 1, src }));
 
-  const generateSquares = () => {
-    return shuffle(squareData).map((sq) => (
+  const generateSquares = (shuffled = true) => {
+    return (shuffled ? shuffle(squareData) : squareData).map((sq) => (
       <motion.div
         key={sq.id}
         layout
         transition={{ duration: 1.2, type: "spring" }}
-        className="w-full h-full rounded-xl overflow-hidden bg-gray-100"
-        style={{
-          backgroundImage: `url('${sq.src}')`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundColor: "#f9fafb" // Provide a soft background in case transparency is used
-        }}
-      />
+        className="relative w-full h-full rounded-xl overflow-hidden bg-[#f9fafb]"
+      >
+        {/* next/image instead of a CSS background: resized, modern format and lazy-loaded
+            (CSS backgrounds downloaded every photo at full size, ~1MB each) */}
+        <Image
+          src={sq.src}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="object-contain"
+        />
+      </motion.div>
     ));
   };
 
-  const [squares, setSquares] = useState(generateSquares());
+  // First render keeps the original order so server and client HTML match;
+  // shuffling starts in the effect after hydration.
+  const [squares, setSquares] = useState(() => generateSquares(false));
 
   useEffect(() => {
+    if (!isVisible) return;
+
     if (images.length < 2) {
         setSquares(generateSquares());
         return;
@@ -67,7 +80,7 @@ export const ShuffleGrid = ({ images }: ShuffleGridProps) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images]);
+  }, [images, isVisible]);
 
   if (images.length === 0) {
       return null;
@@ -82,7 +95,7 @@ export const ShuffleGrid = ({ images }: ShuffleGridProps) => {
   }
 
   return (
-    <div className={`grid ${colsClass} gap-3 h-[400px] md:h-[450px] w-full auto-rows-fr`}>
+    <div ref={gridRef} className={`grid ${colsClass} gap-3 h-[400px] md:h-[450px] w-full auto-rows-fr`}>
       {squares}
     </div>
   );

@@ -176,6 +176,8 @@ export function ProductLiveView({
 
               <ProductActionButtons
                 productName={product.name}
+                productSlug={product.slug}
+                productType={product.productType}
                 productCategory={product.categoryName}
                 productStandardization={product.standardization}
               />

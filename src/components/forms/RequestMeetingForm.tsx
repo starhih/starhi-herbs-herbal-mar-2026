@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,7 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
-import Turnstile, { TurnstileRef } from '@/components/Turnstile';
+import { markLeadSubmitted, thankYouUrl } from '@/lib/lead-success';
+import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 
 interface MeetingEvent {
   id: string | number;
@@ -49,11 +51,10 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function RequestMeetingForm({ events }: RequestMeetingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<string>('');
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
-  const turnstileRef = useRef<TurnstileRef>(null);
+  const turnstile = useTurnstile();
+  const router = useRouter();
 
   // Filter only upcoming events
   const upcomingEvents = events.filter(event => event.upcoming);
@@ -61,7 +62,6 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     watch,
     formState: { errors },
@@ -109,7 +109,7 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
         eventDates: selectedEventDetails ?
           `${new Date(selectedEventDetails.startDate).toLocaleDateString()} - ${new Date(selectedEventDetails.endDate).toLocaleDateString()}` :
           'Unknown Dates',
-        turnstileToken,
+        turnstileToken: turnstile.token,
       };
 
       const { sendMeetingRequestEmail } = await import('@/lib/email-service');
@@ -117,26 +117,18 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
 
       if (result.success) {
         analytics.trackMeetingSubmit();
-        setSubmitSuccess(true);
-        reset();
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
-        setSelectedEvent('');
-        setTimeout(() => {
-          setSubmitSuccess(false);
-        }, 5000);
+        markLeadSubmitted('meeting');
+        router.push(thankYouUrl('meeting'));
+        return;
       } else {
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
-      turnstileRef.current?.reset();
-      setTurnstileToken('');
+      // Tokens are single-use; fetch a fresh one for the next attempt
+      turnstile.reset();
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'RequestMeetingForm', error);
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -146,13 +138,6 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Success message */}
-      {submitSuccess && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6">
-          <p>Thank you for your meeting request! Our team will contact you shortly to confirm the details.</p>
-        </div>
-      )}
-
       {/* Error message */}
       {submitError && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
@@ -416,18 +401,14 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
       </div>
 
       {/* Cloudflare Turnstile */}
-      <Turnstile
-        ref={turnstileRef}
-        action="meeting"
-        onVerify={setTurnstileToken}
-        onExpire={() => setTurnstileToken('')}
-      />
+      <Turnstile {...turnstile.widgetProps} action="meeting" />
+      <TurnstileStatus ready={turnstile.ready} failed={turnstile.failed} />
 
       {/* Submit Button */}
       <Button
         type="submit"
         className="w-full bg-[#214842] hover:bg-[#1a3a35] text-white"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !turnstile.ready}
       >
         {isSubmitting ? 'Submitting...' : 'Submit Meeting Request'}
       </Button>

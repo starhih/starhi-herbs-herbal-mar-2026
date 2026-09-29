@@ -5,7 +5,6 @@ import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CookieConsent from '@/components/CookieConsent';
-import B2BDisclaimerModal from '@/components/B2BDisclaimerModal';
 import Analytics from '@/components/Analytics';
 import { montserrat, nunitoSans } from './fonts';
 import '@/lib/error-suppression';
@@ -13,6 +12,9 @@ import DisableRightClick from '@/components/DisableRightClick';
 import JsonLd from '@/components/seo/JsonLd';
 import { getPayloadClient } from '@/lib/payload';
 import { navCategories } from '@/data/nav-categories';
+import { ShortlistProvider } from '@/components/shortlist/ShortlistProvider';
+import ShortlistDrawer from '@/components/shortlist/ShortlistDrawer';
+import ShortlistBar from '@/components/shortlist/ShortlistBar';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://starhiherbs.com'),
@@ -180,15 +182,19 @@ export default async function RootLayout({
       <body className="font-sans" suppressHydrationWarning>
         <Analytics
           googleAnalyticsId={process.env.NEXT_PUBLIC_GA_ID}
+          googleAdsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
           microsoftClarityId={process.env.NEXT_PUBLIC_CLARITY_ID || "sc218vcedl"}
         />
         <DisableRightClick />
         <ThemeProvider attribute="class" defaultTheme="light">
-          <Navbar categories={categories} />
-          <main className="min-h-screen">{children}</main>
-          <Footer categories={categories} />
+          <ShortlistProvider>
+            <Navbar categories={categories} />
+            <main className="min-h-screen">{children}</main>
+            <Footer categories={categories} />
+            <ShortlistDrawer />
+            <ShortlistBar />
+          </ShortlistProvider>
           <CookieConsent />
-          <B2BDisclaimerModal />
           <Toaster />
         </ThemeProvider>
       </body>

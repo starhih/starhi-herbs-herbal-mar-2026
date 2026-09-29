@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import NextImage, { ImageProps as NextImageProps } from 'next/image';
+import { useEffect, useState } from 'react';
+import NextImage, { ImageProps as NextImageProps, ImageLoaderProps } from 'next/image';
 
 const IMAGEKIT_URL = process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/pon54xoks';
 
@@ -19,160 +19,94 @@ function isPayloadMediaUrl(url: string): boolean {
   return url.includes('/api/media/');
 }
 
+function isImageKitUrl(url: string): boolean {
+  return url.startsWith('https://ik.imagekit.io/');
+}
+
 /**
  * Derive the alternate source for an image:
- * - If src is a Payload media URL → generate ImageKit URL from the imageUrl pattern
- * - If src is an ImageKit URL → it will be used directly, Payload URL is the alt
- * - If src is a relative path like /images/... → generate ImageKit URL
+ * - If src is a Payload media URL → no alternate
+ * - If src is an ImageKit URL → no alternate
+ * - If src is a relative path like /images/... → the same file on ImageKit
  */
 function getAlternateSource(src: string): string | null {
-  // Payload media URL → can't derive an ImageKit path from it
   if (isPayloadMediaUrl(src)) return null;
-
-  // Already an ImageKit URL → no alternate needed
   if (src.includes(IMAGEKIT_URL)) return null;
-
-  // Relative path like /images/products/xxx.jpg → make ImageKit URL
-  if (src.startsWith('/')) {
-    return `${IMAGEKIT_URL}${src}`;
-  }
-
+  if (src.startsWith('/')) return `${IMAGEKIT_URL}${src}`;
   return null;
 }
 
 /**
- * Race image URLs — resolve with whichever loads first.
+ * ImageKit resizes and compresses on its CDN (format is negotiated automatically, WebP/AVIF),
+ * so these images skip the Next.js optimizer. SVGs are rasterised to PNG at the requested
+ * width: several brand logos are SVGs with embedded photos weighing 700KB+.
  */
-function raceImageUrls(urls: string[], signal?: AbortSignal): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (signal?.aborted) { reject(new DOMException('Aborted', 'AbortError')); return; }
-    let settled = false;
-    let failCount = 0;
-    const imgs: HTMLImageElement[] = [];
-
-    const cleanup = () => { imgs.forEach(img => { img.src = ''; }); };
-
-    signal?.addEventListener('abort', () => {
-      if (!settled) { settled = true; cleanup(); reject(new DOMException('Aborted', 'AbortError')); }
-    });
-
-    urls.forEach(url => {
-      const img = new window.Image();
-      imgs.push(img);
-      img.onload = () => { if (!settled) { settled = true; cleanup(); resolve(url); } };
-      img.onerror = () => {
-        failCount++;
-        if (!settled && failCount >= urls.length) {
-          settled = true; cleanup(); reject(new Error('All image sources failed'));
-        }
-      };
-      img.src = url;
-    });
-  });
+function imageKitLoader({ src, width, quality }: ImageLoaderProps): string {
+  const isSvg = /\.svg($|\?)/i.test(src);
+  const transforms = [`w-${width}`, `q-${quality || 75}`, ...(isSvg ? ['f-png'] : [])].join(',');
+  return `${src}${src.includes('?') ? '&' : '?'}tr=${transforms}`;
 }
-
-
 
 export interface ImageProps extends Omit<NextImageProps, 'src'> {
   src: string;
-  /** Optional second image source — whichever loads first will be displayed */
+  /** Optional second image source, used if the first one fails to load */
   fallbackSrc?: string;
 }
 
 /**
- * Custom Image component that supports dual sources.
- * - If both `src` and `fallbackSrc` are provided, races them — fastest wins.
- * - If only `src` is provided but it's a relative path, auto-generates an ImageKit URL as alternate.
- * - External URLs skip the Next.js image optimizer to avoid server-side fetch timeouts.
- * - Automatically falls back to unoptimized image loading if Next.js image optimization fails.
+ * Image with a backup source.
+ * - Renders `src` straight away (so it is in the server HTML and can be the LCP image).
+ * - On error: first retries without the Next.js optimizer, then switches to `fallbackSrc`
+ *   (or, for relative paths, the same file on ImageKit).
  */
-export default function Image({
-  src,
-  fallbackSrc,
-  onError,
-  ...props
-}: ImageProps) {
-  // Compute the effective fallback (explicit prop or auto-derived)
+export default function Image({ src, fallbackSrc, onError, ...props }: ImageProps) {
   const effectiveFallback = fallbackSrc || getAlternateSource(src) || undefined;
 
   const [imageSrc, setImageSrc] = useState<string>(src);
   const [failed, setFailed] = useState(false);
   const [autoUnoptimized, setAutoUnoptimized] = useState(false);
-  const abortRef = useRef<AbortController | null>(null);
 
+  // Reset when the caller passes a different image
   useEffect(() => {
-    abortRef.current?.abort();
-
-    const sources = [src, effectiveFallback].filter(Boolean) as string[];
-    if (sources.length === 0) return;
-
-    // Single source — use directly
-    if (sources.length === 1) {
-      setImageSrc(sources[0]);
-      setFailed(false);
-      setAutoUnoptimized(false);
-      return;
-    }
-
-    // Race both sources
-    const controller = new AbortController();
-    abortRef.current = controller;
-
-    raceImageUrls(sources, controller.signal)
-      .then(winner => {
-        if (!controller.signal.aborted) {
-          setImageSrc(winner);
-          setFailed(false);
-          setAutoUnoptimized(false);
-        }
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) {
-          setImageSrc(src);
-          setFailed(true);
-          setAutoUnoptimized(false);
-        }
-      });
-
-    return () => { controller.abort(); };
-  }, [src, effectiveFallback]);
+    setImageSrc(src);
+    setFailed(false);
+    setAutoUnoptimized(false);
+  }, [src]);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const isUnoptimizedDisabled = props.unoptimized !== undefined ? props.unoptimized : false;
-    
-    // First fallback: If Next.js Image Optimization fails, try rendering it unoptimized directly
+
+    // First fallback: if optimization failed, try the original file directly
     if (!autoUnoptimized && !isUnoptimizedDisabled && isExternalUrl(imageSrc)) {
       setAutoUnoptimized(true);
-      return; // Stop here, try unoptimized
+      return;
     }
 
+    // Second fallback: the alternate source
     if (!failed && effectiveFallback && imageSrc !== effectiveFallback) {
       setImageSrc(effectiveFallback);
       setFailed(true);
       setAutoUnoptimized(false);
-    } else if (!failed && effectiveFallback && imageSrc !== src) {
-      setImageSrc(src);
-      setFailed(true);
-      setAutoUnoptimized(false);
     }
 
-    if (onError) {
-      onError(e);
-    }
+    onError?.(e);
   };
 
   if (!imageSrc) return null;
 
-  // Let Next.js optimize most external URLs now that it's configured in next.config.mjs.
-  // We bypass if explicitly set or if the initial optimization failed (autoUnoptimized).
   const useUnoptimized = props.unoptimized !== undefined ? props.unoptimized : autoUnoptimized;
+  const loader = !useUnoptimized && !props.loader && isImageKitUrl(imageSrc) ? imageKitLoader : undefined;
+  // Next 16's `priority`/`preload` only preloads the image; it does not raise its fetch priority
+  const fetchPriority = props.fetchPriority ?? (props.priority || props.preload ? 'high' : undefined);
 
   return (
     <NextImage
       src={imageSrc}
       onError={handleError}
       unoptimized={useUnoptimized}
+      {...(loader ? { loader } : {})}
       {...props}
+      fetchPriority={fetchPriority}
     />
   );
 }

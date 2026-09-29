@@ -85,14 +85,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ preview?: string }>;
 }) {
   const { slug } = await params;
-  const search = (await searchParams) || {};
-  let isDraft = search.preview === 'true';
+  // Drafts are shown only in draft mode (Payload preview). Reading search params here
+  // forced every visit to be rendered on the server instead of served pre-built.
+  let isDraft = false;
   try {
     const { draftMode } = await import('next/headers');
     const { isEnabled } = await draftMode();

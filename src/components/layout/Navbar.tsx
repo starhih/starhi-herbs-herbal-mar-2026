@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { navCategories } from "@/data/nav-categories";
+import ShortlistNavButton from "@/components/shortlist/ShortlistNavButton";
 
 // Pages with hero banners
 const pagesWithHero = [
@@ -203,7 +204,8 @@ export default function Navbar({ categories: initialCategories }: NavbarProps) {
           </nav>
 
           {/* Action Button (Desktop) */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex items-center gap-3">
+            <ShortlistNavButton className="nav-link" />
             <Button
               asChild
               className="cta-primary py-3 px-6 h-auto"
@@ -212,14 +214,16 @@ export default function Navbar({ categories: initialCategories }: NavbarProps) {
             </Button>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            aria-label="Toggle menu"
-            className={`lg:hidden ${isSticky || !hasHero ? 'text-[#214842]' : 'text-white'}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile shortlist + menu buttons */}
+          <div className={`lg:hidden flex items-center gap-2 ${isSticky || !hasHero ? 'text-[#214842]' : 'text-white'}`}>
+            <ShortlistNavButton />
+            <button
+              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 

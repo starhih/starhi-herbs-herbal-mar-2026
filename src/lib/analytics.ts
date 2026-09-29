@@ -146,6 +146,29 @@ export const analytics = {
   },
 };
 
+/**
+ * Lead conversion, fired once from the /thank-you page.
+ * Google Ads fires only when NEXT_PUBLIC_GOOGLE_ADS_ID (AW-XXXXXXXXX) and
+ * NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL are set; leadId dedupes the conversion in Ads.
+ */
+export const trackLeadConversion = (leadType: string, leadId: string) => {
+  const gtag = getGtag();
+  if (!gtag) return;
+
+  gtag('event', 'generate_lead', { lead_type: leadType, lead_id: leadId });
+
+  const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+  const adsLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL;
+  if (adsId && adsLabel) {
+    gtag('event', 'conversion', {
+      send_to: `${adsId}/${adsLabel}`,
+      transaction_id: leadId,
+    });
+  }
+
+  clarityTrack('lead_submitted');
+};
+
 // Microsoft Clarity specific tracking
 export const clarityTrack = (eventName: string, data?: Record<string, any>) => {
   if (typeof window === 'undefined') {

@@ -39,7 +39,6 @@ export default function AboutIntroSection() {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
-              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#214842]/20 to-transparent"></div>
           </div>

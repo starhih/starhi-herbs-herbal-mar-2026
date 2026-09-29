@@ -1,15 +1,14 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
-import Turnstile, { TurnstileRef } from '@/components/Turnstile';
+import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 import { analytics } from '@/lib/analytics';
 
 export default function SubscribeForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
-  const turnstileRef = useRef<TurnstileRef>(null);
+  const turnstile = useTurnstile();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,24 +28,21 @@ export default function SubscribeForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ firstName, email, turnstileToken, website_hp }),
+        body: JSON.stringify({ firstName, email, turnstileToken: turnstile.token, website_hp }),
       });
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
         throw new Error(data.error || 'Failed to subscribe to newsletter');
       }
 
       analytics.trackNewsletterSubscribe();
       setStatus('success');
-      turnstileRef.current?.reset();
-      setTurnstileToken('');
+      turnstile.reset();
     } catch (error: any) {
-      turnstileRef.current?.reset();
-      setTurnstileToken('');
+      // Tokens are single-use; fetch a fresh one for the next attempt
+      turnstile.reset();
       console.error('Subscription error:', error);
       setStatus('error');
       setErrorMessage(error.message || 'Something went wrong. Please try again.');
@@ -99,7 +95,7 @@ export default function SubscribeForm() {
           />
           <button
             type="submit"
-            disabled={status === 'loading'}
+            disabled={status === 'loading' || !turnstile.ready}
             className="bg-[#214842] text-white px-8 py-3 rounded-lg hover:bg-[#258F67] transition-colors font-medium whitespace-nowrap disabled:opacity-70 flex items-center justify-center"
           >
             {status === 'loading' ? (
@@ -114,13 +110,9 @@ export default function SubscribeForm() {
         </div>
 
         {/* Cloudflare Turnstile */}
-        <div className="flex justify-center">
-          <Turnstile
-            ref={turnstileRef}
-            action="subscribe"
-            onVerify={setTurnstileToken}
-            onExpire={() => setTurnstileToken('')}
-          />
+        <div className="flex flex-col items-center gap-1">
+          <Turnstile {...turnstile.widgetProps} action="subscribe" />
+          <TurnstileStatus ready={turnstile.ready} failed={turnstile.failed} />
         </div>
       </form>
       

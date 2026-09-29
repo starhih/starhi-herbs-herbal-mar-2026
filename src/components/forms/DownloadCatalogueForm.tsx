@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -11,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { handleError, logError } from '@/utils/error-handling';
 import { Download } from 'lucide-react';
 import { analytics } from '@/lib/analytics';
-import Turnstile, { TurnstileRef } from '@/components/Turnstile';
+import { markLeadSubmitted, thankYouUrl } from '@/lib/lead-success';
+import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 
 // Form validation schema
 const formSchema = z.object({
@@ -29,15 +31,13 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function DownloadCatalogueForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
-  const turnstileRef = useRef<TurnstileRef>(null);
+  const turnstile = useTurnstile();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors },
   } = useForm<FormData>({
@@ -63,46 +63,29 @@ export default function DownloadCatalogueForm() {
       const { sendCatalogueRequestEmail } = await import('@/lib/email-service');
 
       // Send the email with Turnstile token
-      const result = await sendCatalogueRequestEmail({ ...data, turnstileToken });
+      const result = await sendCatalogueRequestEmail({ ...data, turnstileToken: turnstile.token });
 
       if (result.success) {
         // Success
         analytics.trackCatalogueSubmit();
-        setSubmitSuccess(true);
-        reset();
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
-
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setSubmitSuccess(false);
-        }, 5000);
+        markLeadSubmitted('catalogue');
+        router.push(thankYouUrl('catalogue'));
+        return;
       } else {
-        turnstileRef.current?.reset();
-        setTurnstileToken('');
         throw new Error(result.error || 'Failed to submit the form');
       }
     } catch (error) {
-      turnstileRef.current?.reset();
-      setTurnstileToken('');
+      // Tokens are single-use; fetch a fresh one for the next attempt
+      turnstile.reset();
       const errorMessage = handleError(error, 'Failed to submit the form. Please try again.');
       setSubmitError(errorMessage);
       logError(errorMessage, 'DownloadCatalogueForm', error);
-    } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Success message */}
-      {submitSuccess && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6">
-          <p className="font-medium">Thank you for your interest!</p>
-          <p>Your download should begin automatically. If it doesn&apos;t, <a href="#" className="underline font-medium">click here</a> to download.</p>
-        </div>
-      )}
-
       {/* Error message */}
       {submitError && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
@@ -268,18 +251,14 @@ export default function DownloadCatalogueForm() {
       </div>
 
       {/* Cloudflare Turnstile */}
-      <Turnstile
-        ref={turnstileRef}
-        action="catalogue"
-        onVerify={setTurnstileToken}
-        onExpire={() => setTurnstileToken('')}
-      />
+      <Turnstile {...turnstile.widgetProps} action="catalogue" />
+      <TurnstileStatus ready={turnstile.ready} failed={turnstile.failed} />
 
       {/* Submit Button */}
       <Button
         type="submit"
         className="w-full bg-[#214842] hover:bg-[#1a3a35] text-white"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !turnstile.ready}
       >
         {isSubmitting ? (
           <span className="flex items-center">

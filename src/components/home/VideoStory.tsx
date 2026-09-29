@@ -38,8 +38,8 @@ export default function VideoStory() {
                 <Image src="/images/team-hassan-unit-starhiherbs.png"
                   alt="Video thumbnail"
                   fill
+                  sizes="(max-width: 896px) 100vw, 896px"
                   className="object-cover -z-10"
-                  priority
                 />
               </div>
             ) : (

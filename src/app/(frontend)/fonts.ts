@@ -7,27 +7,27 @@ import localFont from 'next/font/local';
 export const montserrat = localFont({
   src: [
     {
-      path: '../../../public/fonts/montserrat/Montserrat-Regular.ttf',
+      path: '../../../public/fonts/montserrat/Montserrat-Regular.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/montserrat/Montserrat-Medium.ttf',
+      path: '../../../public/fonts/montserrat/Montserrat-Medium.woff2',
       weight: '500',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/montserrat/Montserrat-SemiBold.ttf',
+      path: '../../../public/fonts/montserrat/Montserrat-SemiBold.woff2',
       weight: '600',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/montserrat/Montserrat-Bold.ttf',
+      path: '../../../public/fonts/montserrat/Montserrat-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/montserrat/Montserrat-Italic.ttf',
+      path: '../../../public/fonts/montserrat/Montserrat-Italic.woff2',
       weight: '400',
       style: 'italic',
     },
@@ -44,22 +44,22 @@ export const montserrat = localFont({
 export const nunitoSans = localFont({
   src: [
     {
-      path: '../../../public/fonts/nunito-sans/NunitoSans-Regular.ttf',
+      path: '../../../public/fonts/nunito-sans/NunitoSans-Regular.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/nunito-sans/NunitoSans-SemiBold.ttf',
+      path: '../../../public/fonts/nunito-sans/NunitoSans-SemiBold.woff2',
       weight: '600',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/nunito-sans/NunitoSans-Bold.ttf',
+      path: '../../../public/fonts/nunito-sans/NunitoSans-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
     {
-      path: '../../../public/fonts/nunito-sans/NunitoSans-Italic.ttf',
+      path: '../../../public/fonts/nunito-sans/NunitoSans-Italic.woff2',
       weight: '400',
       style: 'italic',
     },

@@ -7,7 +7,9 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: ({ req: { user } }) => Boolean(user),
-    create: () => true,
+    // Only signed-in admins can add users. The very first account is created through
+    // Payload's /admin/create-first-user flow, which does not use this check.
+    create: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
   },

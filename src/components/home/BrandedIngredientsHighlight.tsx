@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from '@/components/ui/image';
 
 const brandedIngredients = [
   { name: 'Turmimax', imageUrl: 'https://ik.imagekit.io/pon54xoks/Turmimax-bio-1.png', url: 'https://turmimax.com/' },
@@ -40,12 +41,16 @@ export default function BrandedIngredientsHighlight() {
                 className="group relative bg-white rounded-2xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-[#258F67]/20 flex items-center justify-center h-28 md:h-36"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[#258F67]/0 to-[#258F67]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.imageUrl}
-                  alt={`${item.name} Logo`}
-                  className="w-full h-full object-contain scale-95 group-hover:scale-105 transition-transform duration-500 ease-out"
-                />
+                {/* The SVG originals embed photos (~1.7MB each); the ImageKit loader serves a small raster */}
+                <div className="relative w-full h-full">
+                  <Image
+                    src={item.imageUrl}
+                    alt={`${item.name} Logo`}
+                    fill
+                    sizes="(min-width: 768px) 25vw, 50vw"
+                    className="object-contain scale-95 group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                </div>
               </a>
             );
           })}

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import RequestSampleForm from '@/components/forms/RequestSampleForm';
+import ShortlistRequestForm from '@/components/forms/ShortlistRequestForm';
 import Image from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
 import { Package, FileCheck, FileText, HeadphonesIcon, Lightbulb, AlertCircle } from 'lucide-react';
@@ -50,7 +50,7 @@ export default function RequestSamplePage() {
           <div className="max-w-2xl">
             <h1 className="mb-4 text-shadow-sm">Request a Sample</h1>
             <p className="text-xl text-white text-shadow-sm">
-              Fill out the form below and we&apos;ll process your sample request promptly.
+              Request samples of several products at once. Anything you shortlisted is already filled in.
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function RequestSamplePage() {
           <div className="grid lg:grid-cols-[1fr_380px] gap-10 items-start">
             {/* Left: Form */}
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <RequestSampleForm />
+              <ShortlistRequestForm defaultRequest="sample" />
             </div>
 
             {/* Right: Info Sidebar */}

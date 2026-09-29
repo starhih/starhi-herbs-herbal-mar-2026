@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { forwardToCrm } from '@/lib/crm-leads';
+import { saveLead } from '@/lib/leads';
 import { getPayloadClient } from '@/lib/payload';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 import { emailRateLimiter } from '@/lib/rate-limit';
@@ -51,6 +52,11 @@ export async function POST(request: NextRequest) {
         { status: 403 },
       );
     }
+
+    // Honeypot fields are empty for real visitors; keep them out of the email and stored lead
+    delete data.honeypot;
+    delete data.company_fax;
+    delete data.website_hp;
 
     let recipientEmail = process.env.RESEND_TO_EMAIL || 'starhi@starhiherbs.com';
     const fromEmail = customFrom || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
@@ -112,6 +118,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Store the lead before sending email so it is kept even if delivery fails
+    await saveLead(formType, data, request.headers.get('referer'));
+
     // Build a clean HTML email body from the form data
     const htmlContent = buildEmailHtml(formType, data);
     const textContent = buildEmailText(formType, data);
@@ -163,6 +172,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function buildEmailHtml(formType: string, data: Record<string, any>): string {
   const rows = Object.entries(data)
     .map(([key, value]) => {
@@ -176,14 +194,14 @@ function buildEmailHtml(formType: string, data: Record<string, any>): string {
         value = value ? 'Yes' : 'No';
       }
 
-      return `<tr><td style="padding:8px 12px;font-weight:600;color:#214842;border-bottom:1px solid #e5e7eb;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">${String(value ?? '').replace(/\n/g, '<br>')}</td></tr>`;
+      return `<tr><td style="padding:8px 12px;font-weight:600;color:#214842;border-bottom:1px solid #e5e7eb;white-space:nowrap;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">${escapeHtml(String(value ?? '')).replace(/\n/g, '<br>')}</td></tr>`;
     })
     .join('');
 
   return `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
       <div style="background:#214842;color:white;padding:20px 24px;border-radius:8px 8px 0 0;">
-        <h2 style="margin:0;font-size:20px;">${formType}</h2>
+        <h2 style="margin:0;font-size:20px;">${escapeHtml(formType)}</h2>
       </div>
       <table style="width:100%;border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;">
         ${rows}

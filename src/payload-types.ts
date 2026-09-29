@@ -80,6 +80,7 @@ export interface Config {
     jobs: Job;
     news: News;
     awards: Award;
+    leads: Lead;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     jobs: JobsSelect<false> | JobsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     awards: AwardsSelect<false> | AwardsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -647,6 +649,46 @@ export interface Award {
   createdAt: string;
 }
 /**
+ * Every lead submitted through the website forms.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  formType: string;
+  status?: ('new' | 'contacted' | 'qualified' | 'won' | 'lost' | 'spam') | null;
+  sourcePage?: string | null;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  company?: string | null;
+  country?: string | null;
+  /**
+   * Products, standardization and quantities requested
+   */
+  products?: string | null;
+  message?: string | null;
+  /**
+   * Full submission as received
+   */
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Internal follow-up notes
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -721,6 +763,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'awards';
         value: number | Award;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1152,6 +1198,26 @@ export interface AwardsSelect<T extends boolean = true> {
   description?: T;
   image?: T;
   imageUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  formType?: T;
+  status?: T;
+  sourcePage?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  company?: T;
+  country?: T;
+  products?: T;
+  message?: T;
+  data?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

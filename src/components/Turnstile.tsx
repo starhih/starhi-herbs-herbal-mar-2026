@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useCallback, useEffect, useRef, useImperativeHandle, useState, forwardRef } from 'react';
 
 declare global {
   interface Window {
@@ -14,6 +14,7 @@ declare global {
           callback?: (token: string) => void;
           'error-callback'?: (code: string) => void;
           'expired-callback'?: () => void;
+          'timeout-callback'?: () => void;
           theme?: 'light' | 'dark' | 'auto';
           size?: 'normal' | 'compact' | 'flexible';
           retry?: 'auto' | 'never';
@@ -155,7 +156,8 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
             action,
             theme,
             size,
-            retry: 'never',
+            // Let Cloudflare retry transient failures itself instead of leaving the widget stuck
+            retry: 'auto',
             'refresh-expired': 'auto',
             callback: (token: string) => {
               if (isMounted) {
@@ -171,6 +173,14 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
             'expired-callback': () => {
               if (isMounted && onExpireRef.current) {
                 onExpireRef.current();
+              }
+            },
+            // An interactive challenge left unsolved times out; start a fresh one
+            'timeout-callback': () => {
+              if (!isMounted) return;
+              onExpireRef.current?.();
+              if (widgetIdRef.current && window.turnstile) {
+                window.turnstile.reset(widgetIdRef.current);
               }
             },
           });
@@ -202,5 +212,49 @@ export const Turnstile = forwardRef<TurnstileRef, TurnstileProps>(
 );
 
 Turnstile.displayName = 'Turnstile';
+
+/**
+ * Token state for a form's Turnstile widget. Spread `widgetProps` onto <Turnstile>,
+ * keep the submit button disabled until `ready`, and call `reset()` once after every
+ * request that reached the server (tokens are single-use).
+ */
+export function useTurnstile() {
+  const ref = useRef<TurnstileRef>(null);
+  const [token, setToken] = useState('');
+  const [failed, setFailed] = useState(false);
+
+  const reset = useCallback(() => {
+    setToken('');
+    setFailed(false);
+    ref.current?.reset();
+  }, []);
+
+  const widgetProps = {
+    ref,
+    onVerify: (value: string) => {
+      setToken(value);
+      setFailed(false);
+    },
+    onExpire: () => setToken(''),
+    onError: () => {
+      setToken('');
+      setFailed(true);
+    },
+  };
+
+  return { token, ready: token.length > 0, failed, reset, widgetProps };
+}
+
+/** Small status line shown under the widget while the check is pending or failing. */
+export function TurnstileStatus({ ready, failed }: { ready: boolean; failed: boolean }) {
+  if (ready) return null;
+  return (
+    <p className={`text-xs ${failed ? 'text-red-600' : 'text-gray-500'}`} role="status">
+      {failed
+        ? 'Security check failed. It will retry automatically; if this persists, please refresh the page.'
+        : 'Completing security check… the submit button unlocks once it is done.'}
+    </p>
+  );
+}
 
 export default Turnstile;

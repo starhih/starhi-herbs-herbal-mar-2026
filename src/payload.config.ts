@@ -20,6 +20,7 @@ import { Events } from './collections/Events'
 import { Jobs } from './collections/Jobs'
 import { News } from './collections/News'
 import { Awards } from './collections/Awards'
+import { Leads } from './collections/Leads'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -78,6 +79,7 @@ export default buildConfig({
     Jobs,
     News,
     Awards,
+    Leads,
   ],
   globals: [SiteSettings],
   editor: lexicalEditor(),

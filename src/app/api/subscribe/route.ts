@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 import { subscribeRateLimiter } from '@/lib/rate-limit';
+import { saveLead } from '@/lib/leads';
 
 // Initialize Resend
 // Note: You must set RESEND_API_KEY in your .env file
@@ -55,6 +56,8 @@ export async function POST(request: NextRequest) {
     // You need to set RESEND_AUDIENCE_ID in your environment variables
     // You can get this from the Resend dashboard under "Audiences"
     const audienceId = process.env.RESEND_AUDIENCE_ID;
+
+    await saveLead('Newsletter', { firstName, email }, request.headers.get('referer'));
 
     if (!process.env.RESEND_API_KEY) {
       // For local development without Resend configured, pretend it succeeded

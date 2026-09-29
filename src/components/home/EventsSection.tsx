@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from '@/components/ui/image';
+import { useIsVisible } from '@/hooks/use-is-visible';
 import Link from 'next/link';
 import { Calendar, MapPin, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, compareAsc } from 'date-fns';
@@ -34,6 +35,8 @@ export default function EventsSection({ events }: EventsSectionProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isVisible = useIsVisible(sectionRef);
 
   // Sort upcoming events by date (closest first)
   const upcomingEvents = events
@@ -80,8 +83,10 @@ export default function EventsSection({ events }: EventsSectionProps) {
     setTimeout(() => setIsAnimating(false), 500);
   }, [isAnimating, maxIndex]);
 
-  // Auto-scroll effect
+  // Auto-scroll effect (only while the carousel is on screen)
   useEffect(() => {
+    if (!isVisible) return;
+
     const startAutoScroll = () => {
       if (autoScrollIntervalRef.current) {
         clearInterval(autoScrollIntervalRef.current);
@@ -101,12 +106,12 @@ export default function EventsSection({ events }: EventsSectionProps) {
         clearInterval(autoScrollIntervalRef.current);
       }
     };
-  }, [next, isPaused, totalSlides, visibleCount]);
+  }, [next, isPaused, totalSlides, visibleCount, isVisible]);
 
   if (upcomingEvents.length === 0) return null;
 
   return (
-    <section className="section-padding bg-gray-50 overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gray-50 overflow-hidden">
       <div className="container-custom">
         <div className="text-center mb-12">
           <h6 className="text-[#258F67] uppercase tracking-wider mb-2 font-medium">Meet Us</h6>
