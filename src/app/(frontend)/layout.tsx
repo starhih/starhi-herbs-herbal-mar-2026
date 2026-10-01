@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/layout/Navbar';
@@ -197,6 +198,8 @@ export default async function RootLayout({
           <CookieConsent />
           <Toaster />
         </ThemeProvider>
+        <div id="starbot" data-api="https://chat.starhiherbs.com" />
+        <Script src="https://chat.starhiherbs.com/starbot-widget.js" strategy="afterInteractive" />
       </body>
     </html>
   );
