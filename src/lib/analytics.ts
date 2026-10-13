@@ -46,19 +46,10 @@ export const trackPageView = (url: string, title?: string) => {
   const gtag = getGtag();
   if (!gtag) return;
 
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  if (gaId) {
-    gtag('config', gaId, {
-      page_title: title || (typeof document !== 'undefined' ? document.title : ''),
-      page_location: typeof window !== 'undefined' ? window.location.href : url,
-      page_path: url,
-    });
-  }
-
+  // No page_path: GA4 appends page_location's query string to it, doubling the query
   gtag('event', 'page_view', {
     page_title: title || (typeof document !== 'undefined' ? document.title : ''),
     page_location: typeof window !== 'undefined' ? window.location.href : url,
-    page_path: url,
   });
 };
 
@@ -69,8 +60,9 @@ export const analytics = {
     trackEvent('form_submit', 'engagement', formName);
   },
 
-  trackQuoteSubmit: () => {
-    trackEvent('request_quote_submit', 'lead', 'Request Quote Form');
+  // A combined quote + sample request is one quote lead, tagged lead_type 'quote-sample'
+  trackQuoteSubmit: (leadType: 'quote' | 'quote-sample' = 'quote') => {
+    trackEvent('request_quote_submit', 'lead', 'Request Quote Form', undefined, { lead_type: leadType });
   },
 
   trackSampleSubmit: () => {
@@ -148,14 +140,14 @@ export const analytics = {
 
 /**
  * Lead conversion, fired once from the /thank-you page.
+ * GA4 counts leads from the per-form *_submit events and the /thank-you page view, so no
+ * separate generate_lead event is sent.
  * Google Ads fires only when NEXT_PUBLIC_GOOGLE_ADS_ID (AW-XXXXXXXXX) and
  * NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL are set; leadId dedupes the conversion in Ads.
  */
 export const trackLeadConversion = (leadType: string, leadId: string) => {
   const gtag = getGtag();
   if (!gtag) return;
-
-  gtag('event', 'generate_lead', { lead_type: leadType, lead_id: leadId });
 
   const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
   const adsLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL;

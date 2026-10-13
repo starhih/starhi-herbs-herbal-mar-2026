@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { handleError, logError } from '@/utils/error-handling';
 import { Download } from 'lucide-react';
 import { analytics } from '@/lib/analytics';
+import { getAttribution } from '@/lib/attribution';
 import { markLeadSubmitted, thankYouUrl } from '@/lib/lead-success';
 import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 
@@ -63,7 +64,7 @@ export default function DownloadCatalogueForm() {
       const { sendCatalogueRequestEmail } = await import('@/lib/email-service');
 
       // Send the email with Turnstile token
-      const result = await sendCatalogueRequestEmail({ ...data, turnstileToken: turnstile.token });
+      const result = await sendCatalogueRequestEmail({ ...data, ...getAttribution(), turnstileToken: turnstile.token });
 
       if (result.success) {
         // Success

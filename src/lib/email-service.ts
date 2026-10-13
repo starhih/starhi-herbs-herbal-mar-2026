@@ -9,6 +9,8 @@
  * 4. Verify your sending domain in Resend (or use onboarding@resend.dev for testing)
  */
 
+import type { Attribution } from '@/lib/attribution';
+
 // Function to send an email via the server-side API route
 export async function sendEmail(
   formType: string,
@@ -54,6 +56,8 @@ export async function sendContactEmail(data: {
   subject: string;
   message: string;
   website_hp?: string;
+  /** UTM tags and gclid from the visitor's ad click */
+  attribution?: Attribution;
   turnstileToken?: string;
 }) {
   return sendEmail('Contact Form', {
@@ -64,6 +68,7 @@ export async function sendContactEmail(data: {
     subject: data.subject,
     message: data.message,
     website_hp: data.website_hp,
+    ...data.attribution,
   }, {
     subject: `[Contact] ${data.subject}`,
     fromEmail: 'Star Hi Herbs Contact <contact@starhiherbs.com>',

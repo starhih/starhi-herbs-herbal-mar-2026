@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
 import { analytics } from '@/lib/analytics';
+import { getAttribution } from '@/lib/attribution';
 import { markLeadSubmitted, thankYouUrl } from '@/lib/lead-success';
 import { MapPin, Phone, Mail, Clock, FileText, FlaskConical, CalendarDays, ShoppingBag, ShieldCheck, Users, Download, ChevronRight } from 'lucide-react';
 import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
@@ -35,6 +36,7 @@ export default function ContactPage() {
         subject: formData.get('subject') as string,
         message: formData.get('message') as string,
         website_hp: formData.get('website_hp') as string,
+        attribution: getAttribution(),
         turnstileToken: turnstile.token,
       };
 

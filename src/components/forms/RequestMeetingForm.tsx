@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
+import { getAttribution } from '@/lib/attribution';
 import { markLeadSubmitted, thankYouUrl } from '@/lib/lead-success';
 import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 
@@ -109,6 +110,7 @@ export default function RequestMeetingForm({ events }: RequestMeetingFormProps) 
         eventDates: selectedEventDetails ?
           `${new Date(selectedEventDetails.startDate).toLocaleDateString()} - ${new Date(selectedEventDetails.endDate).toLocaleDateString()}` :
           'Unknown Dates',
+        ...getAttribution(),
         turnstileToken: turnstile.token,
       };
 

@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { handleError, logError } from '@/utils/error-handling';
 import { analytics } from '@/lib/analytics';
+import { getAttribution } from '@/lib/attribution';
 import { markLeadSubmitted, thankYouUrl, type LeadType } from '@/lib/lead-success';
 import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 import ShortlistItemEditor from '@/components/shortlist/ShortlistItemEditor';
@@ -194,6 +195,7 @@ export default function ShortlistRequestForm({ defaultRequest }: ShortlistReques
           : { streetAddress: undefined, streetAddress2: undefined, city: undefined, postalCode: undefined }),
         termsAccepted,
         website_hp,
+        ...getAttribution(),
         turnstileToken: turnstile.token,
       };
 
@@ -201,9 +203,10 @@ export default function ShortlistRequestForm({ defaultRequest }: ShortlistReques
       const result = await send(payload);
       if (!result.success) throw new Error(result.error || 'Failed to submit the form');
 
-      if (hasQuote) analytics.trackQuoteSubmit();
-      if (hasSample) analytics.trackSampleSubmit();
       const leadType: LeadType = hasQuote && hasSample ? 'quote-sample' : hasSample ? 'sample' : 'quote';
+      // One event per submission: a combined request is a quote tagged lead_type 'quote-sample'
+      if (leadType === 'sample') analytics.trackSampleSubmit();
+      else analytics.trackQuoteSubmit(leadType);
       markLeadSubmitted(leadType);
       clear();
       router.push(thankYouUrl(leadType));
