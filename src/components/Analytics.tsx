@@ -18,7 +18,11 @@ function PageViewTracker({
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const isFirstLoad = useRef(true);
+  // Last address counted; null until the first load. Repeats of the same address (React's
+  // dev double-run, re-renders) must not send another page_view.
+  const lastUrl = useRef<string | null>(null);
+  // Title of the last page counted, to tell when the new page's title has arrived
+  const lastTitle = useRef('');
 
   useEffect(() => {
     if (!pathname || typeof window === 'undefined') return;
@@ -28,21 +32,43 @@ function PageViewTracker({
 
     captureAttribution(searchParams);
 
+    if (lastUrl.current === url) return;
+    const firstLoad = lastUrl.current === null;
+    lastUrl.current = url;
+
     // 1. Google Analytics SPA Page View Tracking.
     // The initial load is already counted by gtag('config') in the loader script, and a
     // 'config' call here would send a second page_view, so only client-side navigations
     // send one explicit event. No page_path: GA4 appends page_location's query string to it,
     // which recorded /thank-you?type=quote as /thank-you?type=quote?type=quote.
-    const firstLoad = isFirstLoad.current;
-    isFirstLoad.current = false;
-    if (googleAnalyticsId && !firstLoad) {
-      window.dataLayer = window.dataLayer || [];
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'page_view', {
-          page_location: window.location.href,
-          page_title: document.title,
-        });
-      }
+    //
+    // Next.js sets the new title 100-300 ms after the URL changes, so the event waits for it
+    // (up to 2 s). Sent straight away it carried the previous page's title or none, which
+    // filed /thank-you views under "Request a Quote" in GA4.
+    // GA4's own "page changes based on browser history events" (Enhanced measurement) must
+    // stay off, or every client-side navigation, including /thank-you, counts twice.
+    let titleTimer: ReturnType<typeof setTimeout> | undefined;
+    if (firstLoad) {
+      lastTitle.current = document.title;
+    } else if (googleAnalyticsId) {
+      const previousTitle = lastTitle.current;
+      const pageLocation = window.location.href;
+      const startedAt = Date.now();
+      const sendWhenTitled = () => {
+        const title = document.title;
+        if ((!title || title === previousTitle) && Date.now() - startedAt < 2000) {
+          titleTimer = setTimeout(sendWhenTitled, 50);
+          return;
+        }
+        lastTitle.current = title;
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'page_view', {
+            page_location: pageLocation,
+            page_title: title,
+          });
+        }
+      };
+      sendWhenTitled();
     }
 
     // 2. Microsoft Clarity SPA Page Tracking
@@ -53,6 +79,8 @@ function PageViewTracker({
         console.error('Clarity page error:', e);
       }
     }
+
+    return () => clearTimeout(titleTimer);
   }, [pathname, searchParams, googleAnalyticsId]);
 
   return null;
