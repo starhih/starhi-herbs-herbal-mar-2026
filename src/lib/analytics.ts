@@ -93,6 +93,11 @@ export const analytics = {
     trackEvent('newsletter_subscribe', 'engagement', 'Newsletter Subscription');
   },
 
+  // Floating shortlist bar: opening the list vs going straight to the request form
+  trackShortlistBar: (action: 'view_list' | 'request') => {
+    trackEvent(`shortlist_bar_${action}`, 'engagement', 'Shortlist Bar');
+  },
+
   // Track button clicks
   trackButtonClick: (buttonName: string, location?: string) => {
     trackEvent('click', 'engagement', `${buttonName}${location ? `_${location}` : ''}`);

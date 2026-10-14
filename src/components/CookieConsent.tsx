@@ -1,73 +1,96 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { updateAnalyticsConsent } from "@/lib/analytics";
+import { useShortlist } from "@/components/shortlist/ShortlistProvider";
+
+// Request flow pages: the notice would sit over the form, so it waits for the next page
+const HIDDEN_ON = ["/request-quote", "/request-sample", "/thank-you"];
+
+/** Height of the visible notice, read by ShortlistBar to sit above it */
+const OFFSET_VAR = "--cookie-notice-offset";
 
 export default function CookieConsent() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [needsConsent, setNeedsConsent] = useState(false);
+  const { isOpen: shortlistOpen } = useShortlist();
+  const pathname = usePathname();
+  const noticeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
     if (!consent) {
-      setIsVisible(true);
+      setNeedsConsent(true);
     }
   }, []);
 
-  const acceptCookies = () => {
-    localStorage.setItem("cookie-consent", "accepted");
-    updateAnalyticsConsent(true);
-    // Dispatch custom event to notify analytics component
-    window.dispatchEvent(new CustomEvent('consent-updated'));
-    setIsVisible(false);
-  };
+  const isVisible = needsConsent && !shortlistOpen && !HIDDEN_ON.includes(pathname ?? "");
 
-  const declineCookies = () => {
-    localStorage.setItem("cookie-consent", "declined");
-    updateAnalyticsConsent(false);
+  // Publish the notice height so the shortlist bar can move up instead of being covered
+  useEffect(() => {
+    const root = document.documentElement;
+    const notice = noticeRef.current;
+    if (!isVisible || !notice) {
+      root.style.removeProperty(OFFSET_VAR);
+      return;
+    }
+    const observer = new ResizeObserver(() => {
+      root.style.setProperty(OFFSET_VAR, `${notice.offsetHeight}px`);
+    });
+    observer.observe(notice);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty(OFFSET_VAR);
+    };
+  }, [isVisible]);
+
+  const saveChoice = (choice: "accepted" | "declined") => {
+    localStorage.setItem("cookie-consent", choice);
+    updateAnalyticsConsent(choice === "accepted");
     // Dispatch custom event to notify analytics component
     window.dispatchEvent(new CustomEvent('consent-updated'));
-    setIsVisible(false);
+    setNeedsConsent(false);
   };
 
   if (!isVisible) return null;
 
+  // Mobile: slim strip along the bottom. Desktop: small card in the bottom-left corner,
+  // clear of the chat bubble on the right. z-30 keeps it behind the shortlist bar (z-40)
+  // and drawer (z-50), so it never covers a Request button.
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-50 border-t border-gray-200 dark:border-gray-700 animate-slide-up">
-      <div className="container-custom py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex-1">
-          <h4 className="text-base font-medium mb-1">This website uses cookies</h4>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            We use cookies to improve your experience on our site, show you personalized content, and analyze our traffic.
-            This includes Google Analytics and Microsoft Clarity for website analytics and user experience improvements.
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={declineCookies}
-            className="text-sm"
+    <div
+      ref={noticeRef}
+      role="region"
+      aria-label="Cookie notice"
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200 bg-white px-4 py-3 shadow-lg animate-slide-up dark:border-gray-700 dark:bg-gray-900 md:bottom-4 md:left-4 md:right-auto md:max-w-sm md:rounded-xl md:border md:p-4"
+    >
+      <div className="flex items-center gap-3 md:flex-col md:items-stretch">
+        <p className="flex-1 text-xs leading-snug text-gray-600 dark:text-gray-300 md:text-sm">
+          We use cookies for analytics to improve our site.{" "}
+          <Link href="/privacy-policy" className="underline text-[#214842] dark:text-gray-100">
+            Privacy policy
+          </Link>
+        </p>
+        <div className="flex shrink-0 gap-2 md:justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => saveChoice("declined")}
+            className="h-8 px-3 text-xs md:text-sm"
           >
             Decline
           </Button>
-          <Button 
-            variant="default" 
-            size="sm" 
-            onClick={acceptCookies}
-            className="bg-[#214842] hover:bg-[#258F67] text-sm"
+          <Button
+            variant="default"
+            size="sm"
+            onClick={() => saveChoice("accepted")}
+            className="h-8 px-3 bg-[#214842] hover:bg-[#258F67] text-xs md:text-sm"
           >
-            Accept All Cookies
+            Accept
           </Button>
         </div>
-        <button 
-          onClick={declineCookies} 
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          aria-label="Close cookie consent"
-        >
-          <X size={18} />
-        </button>
       </div>
     </div>
   );

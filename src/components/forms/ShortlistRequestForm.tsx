@@ -17,6 +17,7 @@ import { markLeadSubmitted, thankYouUrl, type LeadType } from '@/lib/lead-succes
 import Turnstile, { TurnstileStatus, useTurnstile } from '@/components/Turnstile';
 import ShortlistItemEditor from '@/components/shortlist/ShortlistItemEditor';
 import ProductSearchAdd from '@/components/shortlist/ProductSearchAdd';
+import RequestSteps from '@/components/shortlist/RequestSteps';
 import {
   describeQuantity,
   describeStandardization,
@@ -231,6 +232,8 @@ export default function ShortlistRequestForm({ defaultRequest }: ShortlistReques
       className="space-y-6"
       noValidate
     >
+      <RequestSteps current={items.length > 0 ? 2 : 1} />
+
       {submitError && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded" role="alert">
           <p>{submitError}</p>

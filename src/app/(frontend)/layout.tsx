@@ -194,8 +194,8 @@ export default async function RootLayout({
             <Footer categories={categories} />
             <ShortlistDrawer />
             <ShortlistBar />
+            <CookieConsent />
           </ShortlistProvider>
-          <CookieConsent />
           <Toaster />
         </ThemeProvider>
         <div id="starbot" data-api="https://chat.starhiherbs.com" />

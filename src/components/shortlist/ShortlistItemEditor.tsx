@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { parseStandardizationOptions } from '@/lib/standardization';
 import {
@@ -38,6 +38,8 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
   const problem = showErrors ? itemProblem(item) : null;
   const options = parseStandardizationOptions(item.listedStandardization);
   const mode = effectiveStandardizationMode(item);
+  // Shown before any submit attempt, so the buyer sees what is still needed without an error
+  const needsStandardization = !problem && mode === 'unset';
   const selectValue =
     mode === 'listed' ? `listed:${options.includes(item.listedChoice ?? '') ? item.listedChoice : options[0]}` : mode;
 
@@ -52,8 +54,9 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
 
   return (
     <div
+      data-shortlist-item={item.id}
       className={cn(
-        'rounded-lg border bg-white p-4 shadow-sm',
+        'rounded-lg border bg-white p-4 shadow-sm scroll-mt-4',
         problem ? 'border-red-300' : 'border-gray-200',
       )}
     >
@@ -83,7 +86,10 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
       </div>
 
       {/* What the buyer wants for this product */}
-      <div className="flex flex-wrap gap-1.5 mb-3" role="radiogroup" aria-label={`Request type for ${item.name}`}>
+      <p id={fieldId('need')} className="text-xs font-medium text-gray-700 mb-1.5">
+        What do you need?
+      </p>
+      <div className="flex flex-wrap gap-1.5 mb-4" role="radiogroup" aria-labelledby={fieldId('need')}>
         {REQUEST_OPTIONS.map((option) => (
           <button
             key={option.value}
@@ -92,18 +98,19 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
             aria-checked={item.request === option.value}
             onClick={() => update(item.id, { request: option.value })}
             className={cn(
-              'rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+              'flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
               item.request === option.value
-                ? 'border-[#214842] bg-[#214842] text-white'
-                : 'border-gray-300 text-gray-600 hover:border-[#214842] hover:text-[#214842]',
+                ? 'border-[#214842] bg-[#214842] text-white shadow-sm'
+                : 'border-gray-300 bg-white text-gray-600 hover:border-[#214842] hover:text-[#214842]',
             )}
           >
+            {item.request === option.value && <Check size={12} strokeWidth={3} aria-hidden="true" />}
             {option.label}
           </button>
         ))}
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 border-t border-gray-100 pt-3">
         <div className="space-y-1 sm:col-span-2">
           <label htmlFor={fieldId('std')} className="text-xs font-medium text-gray-700">
             Standardization required <span className="text-red-500">*</span>
@@ -112,7 +119,12 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
             id={fieldId('std')}
             value={selectValue}
             onChange={(e) => onStandardizationChange(e.target.value)}
-            className={cn(fieldClass, problem && mode === 'unset' && 'border-red-400')}
+            aria-describedby={needsStandardization ? fieldId('std-hint') : undefined}
+            className={cn(
+              fieldClass,
+              problem && mode === 'unset' && 'border-red-400',
+              needsStandardization && 'border-amber-400 bg-amber-50/40',
+            )}
           >
             {mode === 'unset' && <option value="unset">Select…</option>}
             {options.map((option) => (
@@ -123,6 +135,11 @@ export default function ShortlistItemEditor({ item, showErrors = false, onNaviga
             <option value="custom">Custom standardization…</option>
             <option value="none">Not required</option>
           </select>
+          {needsStandardization && (
+            <p id={fieldId('std-hint')} className="text-xs text-amber-700">
+              Please choose one, or pick &quot;Not required&quot;
+            </p>
+          )}
           {item.standardizationMode === 'custom' && (
             <input
               aria-label={`Custom standardization for ${item.name}`}
