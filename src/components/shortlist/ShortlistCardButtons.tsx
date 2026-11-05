@@ -63,7 +63,8 @@ export default function ShortlistCardButtons({ name, slug, productType, category
           )}
         >
           {added ? <Check size={14} /> : <Plus size={14} />}
-          {added ? `${label} added` : label}
+          {/* Keyed span: React swaps the whole element, so a translated label still updates */}
+          <span key={added ? 'added' : 'add'}>{added ? `${label} added` : label}</span>
         </button>
       ))}
     </div>

@@ -49,16 +49,17 @@ export default function ProductActionButtons({
         onClick={() => handle('quote')}
         className="flex-1 cta-primary flex items-center justify-center h-12 text-sm font-semibold rounded-lg shadow-sm hover:shadow transition-all"
       >
+        {/* Text sits in keyed spans so browser translation can't break the swap */}
         {quoteAdded ? (
-          <>
+          <span key="quote-added" className="flex items-center">
             <Check size={16} className="mr-2" />
-            Added for Quote · View
-          </>
+            <span>Added for Quote · View</span>
+          </span>
         ) : (
-          <>
-            Request Quote
+          <span key="quote-add" className="flex items-center">
+            <span>Request Quote</span>
             <ArrowRight size={16} className="ml-2 animate-pulse" />
-          </>
+          </span>
         )}
       </Button>
       <Button
@@ -67,15 +68,15 @@ export default function ProductActionButtons({
         className="flex-1 border-[#214842] text-[#214842] hover:bg-[#214842] hover:text-white flex items-center justify-center h-12 text-sm font-semibold rounded-lg transition-all"
       >
         {sampleAdded ? (
-          <>
+          <span key="sample-added" className="flex items-center">
             <Check size={16} className="mr-2" />
-            Added for Sample · View
-          </>
+            <span>Added for Sample · View</span>
+          </span>
         ) : (
-          <>
-            Request Sample
+          <span key="sample-add" className="flex items-center">
+            <span>Request Sample</span>
             <ArrowRight size={16} className="ml-2" />
-          </>
+          </span>
         )}
       </Button>
     </div>

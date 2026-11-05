@@ -169,6 +169,16 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${montserrat.variable} ${nunitoSans.variable}`}>
       <head>
+        {/* Must run before React hydrates. Browser translation (Chrome "Translate this page")
+            and some extensions replace text nodes React still tracks; React's next insert or
+            remove then throws "Failed to execute 'insertBefore' on 'Node'" and the page stops
+            responding. This skips those mismatched calls instead of crashing.
+            See https://github.com/facebook/react/issues/11538 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(typeof Node!=='function'||!Node.prototype)return;var r=Node.prototype.removeChild;Node.prototype.removeChild=function(c){if(c.parentNode!==this)return c;return r.apply(this,arguments)};var i=Node.prototype.insertBefore;Node.prototype.insertBefore=function(n,ref){if(ref&&ref.parentNode!==this)return n;return i.apply(this,arguments)}})();`,
+          }}
+        />
         {/* Preconnect and dns-prefetch to critical CDNs for LCP optimization */}
         <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.youtube.com" />
@@ -185,6 +195,7 @@ export default async function RootLayout({
           googleAnalyticsId={process.env.NEXT_PUBLIC_GA_ID}
           googleAdsId={process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}
           microsoftClarityId={process.env.NEXT_PUBLIC_CLARITY_ID || "sc218vcedl"}
+          linkedinPartnerId={process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID || "10011554"}
         />
         <DisableRightClick />
         <ThemeProvider attribute="class" defaultTheme="light">

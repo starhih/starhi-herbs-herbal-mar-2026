@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
             {/* Last Updated */}
             <div className="bg-gray-50 p-6 rounded-lg mb-8">
               <p className="text-sm text-gray-600">
-                <strong>Last Updated:</strong> January 1, 2025
+                <strong>Last Updated:</strong> November 5, 2026
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 This Privacy Policy explains how Star Hi Herbs Pvt Ltd (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, and protects your information when you visit our website or use our services.
@@ -185,6 +185,27 @@ export default function PrivacyPolicyPage() {
                   <li><strong>Marketing Cookies:</strong> To deliver relevant advertisements</li>
                   <li><strong>Preference Cookies:</strong> To remember your settings and preferences</li>
                 </ul>
+                <p className="text-gray-600 mb-4">
+                  <strong>LinkedIn Insight Tag:</strong> We use the LinkedIn Insight Tag, a tracking code provided by LinkedIn Corporation, to measure the performance of our LinkedIn advertising campaigns, to understand how visitors from LinkedIn use our website, and to show relevant ads to people who have visited our site (retargeting). The tag places cookies in your browser and collects data such as the URL of the page you visit, the referring URL, your IP address, device and browser characteristics, and a timestamp. LinkedIn does not share personal data that identifies you with us; we only see aggregated reports about website audiences and ad performance. You can opt out of LinkedIn retargeting in your{" "}
+                  <a
+                    href="https://www.linkedin.com/psettings/guest-controls/retargeting-opt-out"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#258F67] hover:text-[#214842] underline"
+                  >
+                    LinkedIn settings
+                  </a>
+                  . For more information, see the{" "}
+                  <a
+                    href="https://www.linkedin.com/legal/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#258F67] hover:text-[#214842] underline"
+                  >
+                    LinkedIn Privacy Policy
+                  </a>
+                  .
+                </p>
                 <p className="text-gray-600 mb-6">
                   You can control cookie settings through your browser preferences. However, disabling certain cookies may affect website functionality.
                 </p>
@@ -242,6 +263,10 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <ul className="list-disc pl-6 text-gray-600 mb-6 space-y-2">
                   <li>Google Analytics for website analytics</li>
+                  <li>Google Ads for advertising measurement and conversion tracking</li>
+                  <li>Microsoft Clarity for understanding how visitors use our site, through heatmaps and session recordings</li>
+                  <li>Ahrefs Web Analytics for website traffic analytics</li>
+                  <li>LinkedIn Insight Tag for advertising measurement and retargeting</li>
                   <li>Email marketing platforms</li>
                   <li>Social media platforms</li>
                   <li>Customer support tools</li>
